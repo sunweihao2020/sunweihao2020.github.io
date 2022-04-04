@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>常用命令</title>
+    <link href="/2022/04/04/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+    <url>/2022/04/04/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    
+    <content type="html"><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><figure class="highlight html"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&#x27;color:red;background:white;font-size:20;font-family:楷体;&#x27;</span>&gt;</span>文字<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br></code></pre></td></tr></table></figure><h2 id="挂载nas"><a href="#挂载nas" class="headerlink" title="挂载nas"></a>挂载nas</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo mount -o username=admin,password=19970130SWh //192.168.3.106/data1 data1/<br>sudo mount -o username=admin,password=19970130SWh //192.168.3.106/cesm_output cesm_output/<br>sudo mount -o username=admin,password=19970130SWh //192.168.3.106/qomo-data /home/sun/qomo-data/<br>sudo mount -o username=admin,password=19970130SWh //192.168.3.106/mydown /home/sun/mydown/<br></code></pre></td></tr></table></figure><h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">rsync -v -p -a -t -r -z ./ 2019swh@172.16.0.72:/data5/2019swh/model_data/<br>rsync -v -p -a -t -r -z 2019swh@172.16.0.72:/data5/2019swh/data/ /home/sun/qomo-data/<br>rsync -v -p -a -t -r -z /home/sun/qomo-data/ 2019swh@172.16.0.72:/data5/2019swh/data/<br>rsync -v -p -a -t -r -z /home/sun/mycode/ 2019swh@172.16.0.72:/data5/2019swh/mycode/<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">同步山西服务器上的输出</span><br>rsync -v -p -a -t -r -z wgx@192.168.30.236:/public1/home/wgx/swh/cesm2.1.3/archive/ /mnt/g/cesm_output/<br></code></pre></td></tr></table></figure><h2 id="wget下载所有文件"><a href="#wget下载所有文件" class="headerlink" title="wget下载所有文件"></a>wget下载所有文件</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">wget -c -r -np -k -L -<span class="hljs-selector-tag">p</span> <span class="hljs-attr">--no-check-certificate</span><br></code></pre></td></tr></table></figure><h2 id="去掉所有文件的可执行权限"><a href="#去掉所有文件的可执行权限" class="headerlink" title="去掉所有文件的可执行权限"></a>去掉所有文件的可执行权限</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">find . -type f -exec chmod -x &#123;&#125; \;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>linux command</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="/2022/04/04/hello-world/"/>
+    <url>/2022/04/04/hello-world/</url>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  
+</search>
