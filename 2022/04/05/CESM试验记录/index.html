@@ -23,16 +23,16 @@
 <meta property="og:site_name" content="Sun Weihao&#39;s Blog">
 <meta property="og:description" content="CESM2试验记录2021&#x2F;9&#x2F;1将中南半岛地形设置为1m 1234567891011.&#x2F;create_newcase --case topo_indo_1m_intel --res f09_g17 --compset FHIST --run-unsupported --compiler intel --mach oneapicd topo_indo_1m_intel.&#x2F;xml">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="c:/Users/nuist/AppData/Roaming/Typora/typora-user-images/image-20210906105857784.png">
-<meta property="og:image" content="c:/Users/nuist/AppData/Roaming/Typora/typora-user-images/image-20220327200136190.png">
-<meta property="og:image" content="c:/Users/nuist/AppData/Roaming/Typora/typora-user-images/image-20220328094233889.png">
-<meta property="og:image" content="c:/Users/nuist/AppData/Roaming/Typora/typora-user-images/image-20220328102820622.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20210906105857784.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20220327200136190.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20220328094233889.png">
+<meta property="og:image" content="https://s1.ax1x.com/2022/04/05/qLGp7R.png">
 <meta property="article:published_time" content="2022-04-05T00:52:08.000Z">
-<meta property="article:modified_time" content="2022-04-05T00:53:36.959Z">
+<meta property="article:modified_time" content="2022-04-05T01:27:36.119Z">
 <meta property="article:author" content="SWH">
 <meta property="article:tag" content="CESM">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="c:/Users/nuist/AppData/Roaming/Typora/typora-user-images/image-20210906105857784.png">
+<meta name="twitter:image" content="https://z4a.net/images/2022/04/05/image-20210906105857784.png">
   
   
   <title>CESM试验记录 - Sun Weihao&#39;s Blog</title>
@@ -251,7 +251,7 @@
 <h2 id="去除高原大地形"><a href="#去除高原大地形" class="headerlink" title="去除高原大地形"></a>去除高原大地形</h2><h3 id="2021-x2F-9-x2F-6"><a href="#2021-x2F-9-x2F-6" class="headerlink" title="2021&#x2F;9&#x2F;6"></a>2021&#x2F;9&#x2F;6</h3><ol>
 <li>在第一次实验中，将青藏高原和伊朗高原都去除，地形设置为200m</li>
 </ol>
-<p><img src="C:\Users\nuist\AppData\Roaming\Typora\typora-user-images\image-20210906105857784.png" srcset="/img/loading.gif" lazyload alt="image-20210906105857784"></p>
+<p><a target="_blank" rel="noopener" href="https://z4a.net/image/2H9VET"><img src="https://z4a.net/images/2022/04/05/image-20210906105857784.png" srcset="/img/loading.gif" lazyload alt="image-20210906105857784.png"></a></p>
 <h4 id="试验记录"><a href="#试验记录" class="headerlink" title="试验记录"></a>试验记录</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs shell">./create_newcase --case topo_indo_no_plateau --res f09_g17 --compset FHIST --run-unsupported --compiler intel --mach oneapi<br>cd topo_indo_no_plateau<br>./xmlchange NTASKS=-24 <br>./xmlchange STOP_OPTION=nyears<br>./xmlchange STOP_N=5<br>./xmlchange RESUBMIT=4<br>./xmlchange REST_N=5<br>./xmlchange REST_OPTION=nyears<br>./case.setup <br>cp ../topo_all_1m_intel2/user_nl_cam .<br>cp ../topo_all_1m_intel2/sbatch1.sh .<br></code></pre></td></tr></table></figure>
 
 
@@ -270,19 +270,14 @@
 
 <p>报错</p>
 <p>这里试试使用官方的格点文件排查一下可能的错误</p>
-<p><img src="C:\Users\nuist\AppData\Roaming\Typora\typora-user-images\image-20220327200136190.png" srcset="/img/loading.gif" lazyload alt="image-20220327200136190"></p>
+<p><a target="_blank" rel="noopener" href="https://z4a.net/image/2H9jiv"><img src="https://z4a.net/images/2022/04/05/image-20220327200136190.png" srcset="/img/loading.gif" lazyload alt="image-20220327200136190.png"></a></p>
 <p>还是不行</p>
 <p>调查&#x2F;public1&#x2F;home&#x2F;wgx&#x2F;swh&#x2F;cesm2.1.3&#x2F;cime&#x2F;tools&#x2F;mapping&#x2F;gen_mapping_files下的PET0.RegridWeightGen.Log文件</p>
-<p><img src="C:\Users\nuist\AppData\Roaming\Typora\typora-user-images\image-20220328094233889.png" srcset="/img/loading.gif" lazyload alt="image-20220328094233889"></p>
+<p><a target="_blank" rel="noopener" href="https://z4a.net/image/2H9yzn"><img src="https://z4a.net/images/2022/04/05/image-20220328094233889.png" srcset="/img/loading.gif" lazyload alt="image-20220328094233889.png"></a></p>
 <p><font color='red'>显示似乎是NETCDF模块的问题</font></p>
 <p>尝试重新安装ESMF，这里参考知乎上的教程</p>
 <p>第二次安装时候的设置</p>
-<img src="C:\Users\nuist\AppData\Roaming\Typora\typora-user-images\image-20220328102820622.png" srcset="/img/loading.gif" lazyload alt="image-20220328102820622" style="zoom:50%;" />
-
-
-
-
-
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/qLGp7R"><img src="https://s1.ax1x.com/2022/04/05/qLGp7R.png" srcset="/img/loading.gif" lazyload alt="qLGp7R.png"></a></p>
 <p>以上设置在make地阶段就坏了，这里只是把编译器换成intel的试了试</p>
 <p><font color='red'>使用intel的编译器安装倒是成功了，但还是显示上述问题，看来依然需要在编译的时候出了问题</font></p>
 <p>那就，重装吧</p>
