@@ -1,0 +1,718 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="SWH">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="python知识码python的slice函数  关于波浪线 ~ 它的作用起到了一个补码的作用 波浪线  lambda函数匿名函数  关于一个插值实现的记录对于零散的nan值怎么进行插值处理，这里的做法是把所有非nan的数据抽出来组成没有缺测的数组，然后再插入到原来的网格中，妙  python保存为PDF文件 Python中的绘图(论文中保存成PDF不失真) - helloHKTK - 博客园 (">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python learning">
+<meta property="og:url" content="http://example.com/2022/04/05/python-learning/index.html">
+<meta property="og:site_name" content="Sun Weihao&#39;s Blog">
+<meta property="og:description" content="python知识码python的slice函数  关于波浪线 ~ 它的作用起到了一个补码的作用 波浪线  lambda函数匿名函数  关于一个插值实现的记录对于零散的nan值怎么进行插值处理，这里的做法是把所有非nan的数据抽出来组成没有缺测的数组，然后再插入到原来的网格中，妙  python保存为PDF文件 Python中的绘图(论文中保存成PDF不失真) - helloHKTK - 博客园 (">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20210831170356576.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20210906164823478.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20210921145438951.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20211115092534567.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20211115211956868.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20211124142236875.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20211228152302834.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20220309161441953.png">
+<meta property="article:published_time" content="2022-04-05T02:39:02.000Z">
+<meta property="article:modified_time" content="2022-04-05T02:46:42.029Z">
+<meta property="article:author" content="SWH">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://z4a.net/images/2022/04/05/image-20210831170356576.png">
+  
+  
+  <title>python learning - Sun Weihao&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 50vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Sun Weihao</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="python learning">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-05 10:39" pubdate>
+        2022年4月5日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      15k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      128 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">python learning</h1>
+            
+            <div class="markdown-body">
+              <h1 id="python知识码"><a href="#python知识码" class="headerlink" title="python知识码"></a>python知识码</h1><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/509211/understanding-slice-notation">python的slice函数</a></p>
+<hr>
+<p>关于波浪线 ~</p>
+<p>它的作用起到了一个补码的作用</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lanchunhui/article/details/51746477">波浪线</a></p>
+<hr>
+<h3 id="lambda函数"><a href="#lambda函数" class="headerlink" title="lambda函数"></a>lambda函数</h3><p><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017451447842528">匿名函数</a></p>
+<hr>
+<h3 id="关于一个插值实现的记录"><a href="#关于一个插值实现的记录" class="headerlink" title="关于一个插值实现的记录"></a>关于一个插值实现的记录</h3><p>对于零散的nan值怎么进行插值处理，这里的做法是把所有非nan的数据抽出来组成没有缺测的数组，然后再插入到原来的网格中，妙</p>
+<hr>
+<p>python保存为PDF文件</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/helloHKTK/p/12483478.html">Python中的绘图(论文中保存成PDF不失真) - helloHKTK - 博客园 (cnblogs.com)</a></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><hr>
+<h3 id="关于隐循环"><a href="#关于隐循环" class="headerlink" title="关于隐循环"></a>关于隐循环</h3><figure class="highlight python"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs python">file_prect    =  [x <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> file1 <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;PRECT-&quot;</span> <span class="hljs-keyword">in</span> x)]<br></code></pre></td></tr></table></figure>
+
+<p>一个例子，假如我要挑选在某个列表里满足条件的文件</p>
+<h2 id="cartopy一个教程"><a href="#cartopy一个教程" class="headerlink" title="cartopy一个教程"></a>cartopy一个教程</h2><p><a target="_blank" rel="noopener" href="https://zhajiman.github.io/post/cartopy_introduction/">https://zhajiman.github.io/post/cartopy_introduction/</a></p>
+<h2 id="还有这种赋值方法"><a href="#还有这种赋值方法" class="headerlink" title="还有这种赋值方法"></a>还有这种赋值方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">lonmin,lonmax,latmin,latmax = <span class="hljs-number">30</span>,<span class="hljs-number">120</span>,-<span class="hljs-number">10</span>,<span class="hljs-number">30</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="python在字符串前面加u"><a href="#python在字符串前面加u" class="headerlink" title="python在字符串前面加u"></a>python在字符串前面加u</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/CherryChanccc/article/details/82428220">python字符串前面加u_Honghong的博客-CSDN博客_python字符串前加u</a></p>
+<h2 id="打出上下标的方法"><a href="#打出上下标的方法" class="headerlink" title="打出上下标的方法"></a>打出上下标的方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.plot(x_data, x_data**<span class="hljs-number">3</span>, label = <span class="hljs-string">&#x27;$x^3$&#x27;</span>)<br>n=<span class="hljs-string">&quot;x\u00b2&quot;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h1 id="python中的科学计算"><a href="#python中的科学计算" class="headerlink" title="python中的科学计算"></a>python中的科学计算</h1><h3 id="关于使用xarray来截取时间的操作"><a href="#关于使用xarray来截取时间的操作" class="headerlink" title="关于使用xarray来截取时间的操作"></a>关于使用xarray来截取时间的操作</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">file  =  xr.open_dataset(path+<span class="hljs-string">&quot;HadISST_sst.nc&quot;</span>)<br>start_time = <span class="hljs-string">&#x27;1980-01-01&#x27;</span><br>end_time   = <span class="hljs-string">&#x27;2019-12-31&#x27;</span><br>time_slice = <span class="hljs-built_in">slice</span>(start_time, end_time)<br>sst   =  file[<span class="hljs-string">&quot;sst&quot;</span>].sel(time=time_slice)<br></code></pre></td></tr></table></figure>
+
+<p>这里start和end_time中和dataset里面的时间并不对应，但是却可以把分割出我想要的时间段</p>
+<p>dataset里面的时间长这样：</p>
+<p><img src="https://z4a.net/images/2022/04/05/image-20210831170356576.png" srcset="/img/loading.gif" lazyload alt="image-20210831170356576.png"></p>
+<p>总之这样是可以的，很神奇，嗯</p>
+<hr>
+<p>使用xarray来对dimension进行查看</p>
+<p><img src="https://z4a.net/images/2022/04/05/image-20210906164823478.png" srcset="/img/loading.gif" lazyload alt="image-20210906164823478.png"></p>
+<p>可以使用f2.nj来看，也是直接跟名字就好，但是基本上这类不过是自然数的累加而已</p>
+<h2 id="numpy-interp"><a href="#numpy-interp" class="headerlink" title="numpy.interp"></a>numpy.interp</h2><p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.interp.html#numpy-interp">参考网站</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/6518811/interpolate-nan-values-in-a-numpy-array">Interpolate NaN values in a numpy array</a></p>
+<h2 id="numpy中的引用问题"><a href="#numpy中的引用问题" class="headerlink" title="numpy中的引用问题"></a>numpy中的引用问题</h2><p>有时候多维数组，但我只想固定某一维度，其余的不想输了，要不要把所有的：,都加上</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">a.shape<br>&gt; (<span class="hljs-number">12</span>, <span class="hljs-number">37</span>, <span class="hljs-number">192</span>, <span class="hljs-number">288</span>)<br>a[<span class="hljs-number">11</span>].shape<br>&gt; (<span class="hljs-number">37</span>, <span class="hljs-number">192</span>, <span class="hljs-number">288</span>)<br>a[:,<span class="hljs-number">11</span>].shape<br>&gt; (<span class="hljs-number">12</span>, <span class="hljs-number">192</span>, <span class="hljs-number">288</span>)<br>a[<span class="hljs-number">10</span>,:].shape<br>&gt; (<span class="hljs-number">37</span>, <span class="hljs-number">192</span>, <span class="hljs-number">288</span>)<br></code></pre></td></tr></table></figure>
+
+<p>以上为一些例子</p>
+<h2 id="跳点取值"><a href="#跳点取值" class="headerlink" title="跳点取值"></a>跳点取值</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">u.lon.data[::<span class="hljs-number">20</span>]<br></code></pre></td></tr></table></figure>
+
+<p>结果是每隔20个取一个</p>
+<h2 id="取消科学记数法"><a href="#取消科学记数法" class="headerlink" title="取消科学记数法"></a>取消科学记数法</h2><p>np.set_printoptions(suppress&#x3D;True)</p>
+<h2 id="矩阵内只对符合条件的数据进行运算"><a href="#矩阵内只对符合条件的数据进行运算" class="headerlink" title="矩阵内只对符合条件的数据进行运算"></a>矩阵内只对符合条件的数据进行运算</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python">&gt;&gt;<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br>&gt;&gt;arr = np.random.rand(<span class="hljs-number">5</span>,<span class="hljs-number">5</span>) <span class="hljs-comment"># 5x5的随机数组</span><br>&gt;&gt;arr<br>array([[ <span class="hljs-number">0.36401504</span>,  <span class="hljs-number">0.87729325</span>,  <span class="hljs-number">0.53453396</span>,  <span class="hljs-number">0.5031851</span> ,  <span class="hljs-number">0.90744627</span>],<br>       [ <span class="hljs-number">0.44607108</span>,  <span class="hljs-number">0.22673265</span>,  <span class="hljs-number">0.77539262</span>,  <span class="hljs-number">0.84064101</span>,  <span class="hljs-number">0.41774629</span>],<br>       [ <span class="hljs-number">0.91686641</span>,  <span class="hljs-number">0.71480639</span>,  <span class="hljs-number">0.09617148</span>,  <span class="hljs-number">0.41535823</span>,  <span class="hljs-number">0.4175782</span> ],<br>       [ <span class="hljs-number">0.25753864</span>,  <span class="hljs-number">0.73196495</span>,  <span class="hljs-number">0.43557823</span>,  <span class="hljs-number">0.97497112</span>,  <span class="hljs-number">0.54451645</span>],<br>       [ <span class="hljs-number">0.58167148</span>,  <span class="hljs-number">0.50382906</span>,  <span class="hljs-number">0.88490307</span>,  <span class="hljs-number">0.77238085</span>,  <span class="hljs-number">0.17427672</span>]])<br>&gt;&gt;mask = arr&gt;<span class="hljs-number">0.5</span> <span class="hljs-comment"># 选取数组中元素大于0.5的元素的bool数组</span><br>&gt;&gt;mask<br>array([[<span class="hljs-literal">False</span>,  <span class="hljs-literal">True</span>,  <span class="hljs-literal">True</span>,  <span class="hljs-literal">True</span>,  <span class="hljs-literal">True</span>],<br>       [<span class="hljs-literal">False</span>, <span class="hljs-literal">False</span>,  <span class="hljs-literal">True</span>,  <span class="hljs-literal">True</span>, <span class="hljs-literal">False</span>],<br>       [ <span class="hljs-literal">True</span>,  <span class="hljs-literal">True</span>, <span class="hljs-literal">False</span>, <span class="hljs-literal">False</span>, <span class="hljs-literal">False</span>],<br>       [<span class="hljs-literal">False</span>,  <span class="hljs-literal">True</span>, <span class="hljs-literal">False</span>,  <span class="hljs-literal">True</span>,  <span class="hljs-literal">True</span>],<br>       [ <span class="hljs-literal">True</span>,  <span class="hljs-literal">True</span>,  <span class="hljs-literal">True</span>,  <span class="hljs-literal">True</span>, <span class="hljs-literal">False</span>]], dtype=<span class="hljs-built_in">bool</span>)<br>&gt;&gt;arr[mask] = <span class="hljs-number">0</span> <span class="hljs-comment"># 将数组中大于0.5的值设为0</span><br>&gt;&gt;arr<br>array([[ <span class="hljs-number">0.36401504</span>,  <span class="hljs-number">0.</span>        ,  <span class="hljs-number">0.</span>        ,  <span class="hljs-number">0.</span>        ,  <span class="hljs-number">0.</span>        ],<br>       [ <span class="hljs-number">0.44607108</span>,  <span class="hljs-number">0.22673265</span>,  <span class="hljs-number">0.</span>        ,  <span class="hljs-number">0.</span>        ,  <span class="hljs-number">0.41774629</span>],<br>       [ <span class="hljs-number">0.</span>        ,  <span class="hljs-number">0.</span>        ,  <span class="hljs-number">0.09617148</span>,  <span class="hljs-number">0.41535823</span>,  <span class="hljs-number">0.4175782</span> ],<br>       [ <span class="hljs-number">0.25753864</span>,  <span class="hljs-number">0.</span>        ,  <span class="hljs-number">0.43557823</span>,  <span class="hljs-number">0.</span>        ,  <span class="hljs-number">0.</span>        ],<br>       [ <span class="hljs-number">0.</span>        ,  <span class="hljs-number">0.</span>        ,  <span class="hljs-number">0.</span>        ,  <span class="hljs-number">0.</span>        ,  <span class="hljs-number">0.17427672</span>]])<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="模式后处理的插值函数"><a href="#模式后处理的插值函数" class="headerlink" title="模式后处理的插值函数"></a>模式后处理的插值函数</h2><p>注意虽然没有缺测，但是位势高度会出现负值，这点需要特别注意</p>
+<h2 id="python滤波平滑教程"><a href="#python滤波平滑教程" class="headerlink" title="python滤波平滑教程"></a>python滤波平滑教程</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42782150/article/details/107176500">https://blog.csdn.net/weixin_42782150/article/details/107176500</a></p>
+<p>滑动平均：</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/13728392/moving-average-or-running-mean">https://stackoverflow.com/questions/13728392/moving-average-or-running-mean</a></p>
+<h2 id="python中对包含nan值的函数"><a href="#python中对包含nan值的函数" class="headerlink" title="python中对包含nan值的函数"></a>python中对包含nan值的函数</h2><p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.nanmean.html">https://numpy.org/doc/stable/reference/generated/numpy.nanmean.html</a></p>
+<h2 id="计数numpy中符合条件元素的个数"><a href="#计数numpy中符合条件元素的个数" class="headerlink" title="计数numpy中符合条件元素的个数"></a>计数numpy中符合条件元素的个数</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_18351157/article/details/107448247">https://blog.csdn.net/qq_18351157/article/details/107448247</a></p>
+<p>思想是先生成一个bool的数组再用np.count_nonzero()</p>
+<h2 id="isel的用法"><a href="#isel的用法" class="headerlink" title="isel的用法"></a>isel的用法</h2><p>xarray中isel的用法是针对位置来进行选择的，这里给出一个例子</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">april  =  [x*<span class="hljs-number">12</span>+<span class="hljs-number">3</span> <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>,<span class="hljs-number">120</span>)]<br>f  =  xr.open_dataset(<span class="hljs-string">&quot;/home/sun/data/HadISST_sst.nc&quot;</span>).isel(time=april)<br></code></pre></td></tr></table></figure>
+
+<p>如是便可以把每年的四月挑出来了</p>
+<h1 id="matplotlib"><a href="#matplotlib" class="headerlink" title="matplotlib"></a>matplotlib</h1><h2 id="plot绘制2d图样式"><a href="#plot绘制2d图样式" class="headerlink" title="plot绘制2d图样式"></a>plot绘制2d图样式</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot">matplotlib.pyplot.plot — Matplotlib 3.4.3 documentation</a></p>
+<p>一个是关于markers，一个是关于line style</p>
+<h2 id="设置线段样式"><a href="#设置线段样式" class="headerlink" title="设置线段样式"></a>设置线段样式</h2><p>设置线段样式的三种方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.plot(x, y, linewidth=<span class="hljs-number">2.0</span>)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">line, = plt.plot(x, y, <span class="hljs-string">&#x27;-&#x27;</span>)<br>line.set_antialiased(<span class="hljs-literal">False</span>) <span class="hljs-comment"># turn off antialiasing</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">lines = plt.plot(x1, y1, x2, y2)<br><span class="hljs-comment"># use keyword args</span><br>plt.setp(lines, color=<span class="hljs-string">&#x27;r&#x27;</span>, linewidth=<span class="hljs-number">2.0</span>)<br><span class="hljs-comment"># or MATLAB style string value pairs</span><br>plt.setp(lines, <span class="hljs-string">&#x27;color&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>, <span class="hljs-string">&#x27;linewidth&#x27;</span>, <span class="hljs-number">2.0</span>)<br></code></pre></td></tr></table></figure>
+
+<p>官网网址关于点线虚线什么的</p>
+<p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/lines_bars_and_markers/linestyles.html">https://matplotlib.org/stable/gallery/lines_bars_and_markers/linestyles.html</a></p>
+<h2 id="生成多个figure和subpolt"><a href="#生成多个figure和subpolt" class="headerlink" title="生成多个figure和subpolt"></a>生成多个figure和subpolt</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br>plt.figure(<span class="hljs-number">1</span>)                <span class="hljs-comment"># the first figure</span><br>plt.subplot(<span class="hljs-number">211</span>)             <span class="hljs-comment"># the first subplot in the first figure</span><br>plt.plot([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])<br>plt.subplot(<span class="hljs-number">212</span>)             <span class="hljs-comment"># the second subplot in the first figure</span><br>plt.plot([<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>])<br><br><br>plt.figure(<span class="hljs-number">2</span>)                <span class="hljs-comment"># a second figure</span><br>plt.plot([<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>])          <span class="hljs-comment"># creates a subplot() by default</span><br><br>plt.figure(<span class="hljs-number">1</span>)                <span class="hljs-comment"># figure 1 current; subplot(212) still current</span><br>plt.subplot(<span class="hljs-number">211</span>)             <span class="hljs-comment"># make subplot(211) in figure1 current</span><br>plt.title(<span class="hljs-string">&#x27;Easy as 1, 2, 3&#x27;</span>) <span class="hljs-comment"># subplot 211 title</span><br></code></pre></td></tr></table></figure>
+
+<p>这里注意从figure2调到figure1需要执行命令，此时指向figure1中的subpolt(212),因此还得再指向plt.subplot(211)</p>
+<p><span style='color:red;background:white;font-size:16;font-family:楷体;'>小结：在画图之前你需要指定在哪个figure，有axes还需指定在哪个subplot</span></p>
+<hr>
+<h2 id="任意设置子图在指定位置"><a href="#任意设置子图在指定位置" class="headerlink" title="任意设置子图在指定位置"></a>任意设置子图在指定位置</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/subplots_axes_and_figures/axes_demo.html">Axes Demo — Matplotlib 3.4.3 documentation</a></p>
+<hr>
+<h2 id="直方图"><a href="#直方图" class="headerlink" title="直方图"></a>直方图</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.hist.html#matplotlib.pyplot.hist">matplotlib.pyplot.hist — Matplotlib 3.4.3 documentation</a></p>
+<h2 id="在python里面打数学公式"><a href="#在python里面打数学公式" class="headerlink" title="在python里面打数学公式"></a>在python里面打数学公式</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/tutorials/text/mathtext.html">Writing mathematical expressions — Matplotlib 3.4.3 documentation</a></p>
+<h2 id="调整子图的教程"><a href="#调整子图的教程" class="headerlink" title="调整子图的教程"></a>调整子图的教程</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/tutorials/intermediate/gridspec.html">https://matplotlib.org/stable/tutorials/intermediate/gridspec.html</a></p>
+<h2 id="Constrained-Layout-的用法"><a href="#Constrained-Layout-的用法" class="headerlink" title="Constrained Layout 的用法"></a>Constrained Layout 的用法</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/MTandHJ/article/details/90272935">https://blog.csdn.net/MTandHJ/article/details/90272935</a></p>
+<h2 id="contour等值线合集"><a href="#contour等值线合集" class="headerlink" title="contour等值线合集"></a>contour等值线合集</h2><h3 id="官方contour教程"><a href="#官方contour教程" class="headerlink" title="官方contour教程"></a>官方contour教程</h3><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/images_contours_and_fields/contour_demo.html">https://matplotlib.org/stable/gallery/images_contours_and_fields/contour_demo.html</a></p>
+<h3 id="contour设置"><a href="#contour设置" class="headerlink" title="contour设置"></a>contour设置</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">im   =  ax.contour(f1.lon,f1.level,avg_theta,np.linspace(-<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">15</span>),linewidth=<span class="hljs-number">0.9</span>,colors=<span class="hljs-string">&#x27;b&#x27;</span>,negative_linestyle=<span class="hljs-string">&#x27;dashed&#x27;</span>)<br>negative_linestyle=<span class="hljs-string">&#x27;dashed&#x27;</span> <span class="hljs-comment"># 设置负数的线段样式</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="调整坐标轴标签和刻度之间的距离"><a href="#调整坐标轴标签和刻度之间的距离" class="headerlink" title="调整坐标轴标签和刻度之间的距离"></a>调整坐标轴标签和刻度之间的距离</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">ax.tick_params(pad=<span class="hljs-number">0.2</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="使用预定义的刻度设置"><a href="#使用预定义的刻度设置" class="headerlink" title="使用预定义的刻度设置"></a>使用预定义的刻度设置</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/ticks_and_spines/tick-formatters.html">https://matplotlib.org/stable/gallery/ticks_and_spines/tick-formatters.html</a></p>
+<h2 id="设置绘图的范围"><a href="#设置绘图的范围" class="headerlink" title="设置绘图的范围"></a>设置绘图的范围</h2><p>需求：比如我只想在原图的基础上只画某个范围内的图像，只需要对x轴进行设置就好。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.xlim(xmin=<span class="hljs-number">60</span>,xmax=<span class="hljs-number">130</span>)<br>plt.ylim(ymin=-<span class="hljs-number">0.5</span>,ymax=<span class="hljs-number">0.5</span>)<br><br><span class="hljs-comment">#ax的方法</span><br>ax.set_xlim(xmin=<span class="hljs-number">60</span>,xmax=<span class="hljs-number">200</span>)<br>ax.set_ylim(ymin=-<span class="hljs-number">0.5</span>,ymax=<span class="hljs-number">1.5</span>)<br></code></pre></td></tr></table></figure>
+
+<p>在这个范围之外的就不会再有了</p>
+<h2 id="设置x轴y轴标题"><a href="#设置x轴y轴标题" class="headerlink" title="设置x轴y轴标题"></a>设置x轴y轴标题</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">ax1.set_xlabel(<span class="hljs-string">&#x27;time&#x27;</span>)<br>ax1.set_ylabel(<span class="hljs-string">&#x27;s1 and s2&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="关于刻度"><a href="#关于刻度" class="headerlink" title="关于刻度"></a>关于刻度</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&#x27;&#x27;&#x27;这条命令定义了两个major刻度之间分成多少份&#x27;&#x27;&#x27;</span><br>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="hljs-number">10</span>))<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="设置coutour等值线的label有一个单独的函数"><a href="#设置coutour等值线的label有一个单独的函数" class="headerlink" title="设置coutour等值线的label有一个单独的函数"></a>设置coutour等值线的label有一个单独的函数</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.clabel.html">https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.clabel.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/contour_api.html?highlight=inline#matplotlib.contour.ContourLabeler.calc_label_rot_and_inline">https://matplotlib.org/stable/api/contour_api.html?highlight=inline#matplotlib.contour.ContourLabeler.calc_label_rot_and_inline</a></p>
+<h2 id="双y轴"><a href="#双y轴" class="headerlink" title="双y轴"></a>双y轴</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/atanisi/p/8530693.html">https://www.cnblogs.com/atanisi/p/8530693.html</a></p>
+<h2 id="倒转y轴"><a href="#倒转y轴" class="headerlink" title="倒转y轴"></a>倒转y轴</h2><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/2051744/reverse-y-axis-in-pyplot">https://stackoverflow.com/questions/2051744/reverse-y-axis-in-pyplot</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.gca().invert_yaxis()<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="histgram-教程"><a href="#histgram-教程" class="headerlink" title="histgram 教程"></a>histgram 教程</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/statistics/hist.html">https://matplotlib.org/stable/gallery/statistics/hist.html</a></p>
+<h2 id="绘制bar图"><a href="#绘制bar图" class="headerlink" title="绘制bar图"></a>绘制bar图</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/47dfbe43dae1">https://www.jianshu.com/p/47dfbe43dae1</a> 讲调整柱子颜色的</p>
+<h2 id="matplotlib-颜色列表"><a href="#matplotlib-颜色列表" class="headerlink" title="matplotlib 颜色列表"></a>matplotlib 颜色列表</h2><p><a target="_blank" rel="noopener" href="https://finthon.com/matplotlib-color-list/">https://finthon.com/matplotlib-color-list/</a></p>
+<h2 id="colormap参考列表"><a href="#colormap参考列表" class="headerlink" title="colormap参考列表"></a>colormap参考列表</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/color/colormap_reference.html">https://matplotlib.org/stable/gallery/color/colormap_reference.html</a></p>
+<h2 id="调整视图的长宽比"><a href="#调整视图的长宽比" class="headerlink" title="调整视图的长宽比"></a>调整视图的长宽比</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">axs.<span class="hljs-built_in">set</span>(aspect=<span class="hljs-number">0.5</span>)<br></code></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://jdhao.github.io/2017/06/03/change-aspect-ratio-in-mpl/">https://jdhao.github.io/2017/06/03/change-aspect-ratio-in-mpl/</a></p>
+<h2 id="像素图"><a href="#像素图" class="headerlink" title="像素图"></a>像素图</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/images_contours_and_fields/contour_image.html#sphx-glr-gallery-images-contours-and-fields-contour-image-py">https://matplotlib.org/stable/gallery/images_contours_and_fields/contour_image.html#sphx-glr-gallery-images-contours-and-fields-contour-image-py</a></p>
+<h2 id="colormap的设置教程"><a href="#colormap的设置教程" class="headerlink" title="colormap的设置教程"></a>colormap的设置教程</h2><ol>
+<li><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/tutorials/colors/colormap-manipulation.html">Creating Colormaps in Matplotlib — Matplotlib 3.5.1 documentation</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">viridis = cm.get_cmap(<span class="hljs-string">&#x27;viridis&#x27;</span>, <span class="hljs-number">256</span>)<br>newcolors = viridis(np.linspace(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">256</span>))<br>pink = np.array([<span class="hljs-number">248</span>/<span class="hljs-number">256</span>, <span class="hljs-number">24</span>/<span class="hljs-number">256</span>, <span class="hljs-number">148</span>/<span class="hljs-number">256</span>, <span class="hljs-number">1</span>])<br>newcolors[:<span class="hljs-number">25</span>, :] = pink<br>newcmp = ListedColormap(newcolors)  <span class="hljs-comment">#注意这最后一步是把一堆rgb array生成一个数组</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/tutorials/colors/colorbar_only.html">Customized Colorbars Tutorial — Matplotlib 3.5.1 documentation</a></p>
+<p>这里面主要是看extend两边的颜色设置</p>
+</li>
+</ol>
+<h2 id="关于边框（xy轴）的设置（粗细、颜色）"><a href="#关于边框（xy轴）的设置（粗细、颜色）" class="headerlink" title="关于边框（xy轴）的设置（粗细、颜色）"></a>关于边框（xy轴）的设置（粗细、颜色）</h2><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4761623/how-to-change-the-color-of-the-axis-ticks-and-labels-for-a-plot-in-matplotlib">https://stackoverflow.com/questions/4761623/how-to-change-the-color-of-the-axis-ticks-and-labels-for-a-plot-in-matplotlib</a></p>
+<h2 id="CMAP教程"><a href="#CMAP教程" class="headerlink" title="CMAP教程"></a>CMAP教程</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/tutorials/colors/colormaps.html">https://matplotlib.org/stable/tutorials/colors/colormaps.html</a></p>
+<h3 id="cmap名字后面加r等于反过来"><a href="#cmap名字后面加r等于反过来" class="headerlink" title="cmap名字后面加r等于反过来"></a>cmap名字后面加r等于反过来</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">cmap = <span class="hljs-string">&#x27;Blues&#x27;</span><br>cmap = <span class="hljs-string">&#x27;Blues_r&#x27;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="第三方cmap库"><a href="#第三方cmap库" class="headerlink" title="第三方cmap库"></a>第三方cmap库</h3><p><a target="_blank" rel="noopener" href="https://jiffyclub.github.io/palettable/">Palettable (jiffyclub.github.io)</a></p>
+<h2 id="流线中的箭头样式设置"><a href="#流线中的箭头样式设置" class="headerlink" title="流线中的箭头样式设置"></a>流线中的箭头样式设置</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.patches.FancyArrowPatch.html#matplotlib.patches.FancyArrowPatch">https://matplotlib.org/stable/api/_as_gen/matplotlib.patches.FancyArrowPatch.html#matplotlib.patches.FancyArrowPatch</a></p>
+<p>注意，对于’&lt;-‘这种箭头，方向是反着的</p>
+<h2 id="绘制streamplot的例子"><a href="#绘制streamplot的例子" class="headerlink" title="绘制streamplot的例子"></a>绘制streamplot的例子</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/images_contours_and_fields/plot_streamplot.html">https://matplotlib.org/stable/gallery/images_contours_and_fields/plot_streamplot.html</a></p>
+<h2 id="添加文本"><a href="#添加文本" class="headerlink" title="添加文本"></a>添加文本</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_21478261/article/details/108290310">(9条消息) Python可视化31|matplotlib-图添加文本(text)及注释(annotate)_pythonic生物人的博客-CSDN博客</a></p>
+<h2 id="Unidata中的各种例子"><a href="#Unidata中的各种例子" class="headerlink" title="Unidata中的各种例子"></a>Unidata中的各种例子</h2><p><a target="_blank" rel="noopener" href="https://unidata.github.io/python-training/gallery/gallery-home/">https://unidata.github.io/python-training/gallery/gallery-home/</a></p>
+<h2 id="文本框的样式实例"><a href="#文本框的样式实例" class="headerlink" title="文本框的样式实例"></a>文本框的样式实例</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/3.1.1/gallery/pyplots/whats_new_98_4_fancy.html#sphx-glr-gallery-pyplots-whats-new-98-4-fancy-py">https://matplotlib.org/3.1.1/gallery/pyplots/whats_new_98_4_fancy.html#sphx-glr-gallery-pyplots-whats-new-98-4-fancy-py</a></p>
+<h2 id="matplotlib里面有一个很多教程的集合网站"><a href="#matplotlib里面有一个很多教程的集合网站" class="headerlink" title="matplotlib里面有一个很多教程的集合网站"></a>matplotlib里面有一个很多教程的集合网站</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/tutorials/">Tutorials — Matplotlib 3.5.0 documentation</a></p>
+<p>点进去在左边框</p>
+<h2 id="第三方colorbar库"><a href="#第三方colorbar库" class="headerlink" title="第三方colorbar库"></a>第三方colorbar库</h2><p><a target="_blank" rel="noopener" href="https://jiffyclub.github.io/palettable/">Palettable (jiffyclub.github.io)</a></p>
+<h2 id="给等值线添加图例"><a href="#给等值线添加图例" class="headerlink" title="给等值线添加图例"></a>给等值线添加图例</h2><p><a target="_blank" rel="noopener" href="https://github.com/matplotlib/matplotlib/issues/11134">https://github.com/matplotlib/matplotlib/issues/11134</a></p>
+<h2 id="关于刻度label的大小设置"><a href="#关于刻度label的大小设置" class="headerlink" title="关于刻度label的大小设置"></a>关于刻度label的大小设置</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">ax.tick_params(labelsize=labelsize)<br></code></pre></td></tr></table></figure>
+
+<p>参考网站</p>
+<p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.tick_params.html">https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.tick_params.html</a></p>
+<p>labelsize一个是可以设置具体值，还有就是设置字符串</p>
+<p>字符串选项xx-small, x-small, small, medium, large, x-large, xx-large, larger, smaller</p>
+<h2 id="给刻度线加上label"><a href="#给刻度线加上label" class="headerlink" title="给刻度线加上label"></a>给刻度线加上label</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">ax.clabel(im2, np.linspace(<span class="hljs-number">2</span>,<span class="hljs-number">12</span>,<span class="hljs-number">6</span>), inline=<span class="hljs-literal">True</span>, fontsize=<span class="hljs-number">12</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="设置-自我总结"><a href="#设置-自我总结" class="headerlink" title="设置-自我总结"></a>设置-自我总结</h2><ol>
+<li><p>关于相互重叠啊，跑出去了啊等等问题</p>
+<p>加plt.tight_layout()让它自己调整</p>
+</li>
+<li><p>range()也是不包含尾端的</p>
+</li>
+<li><p>在绘制等值线图的时候，关闭extend &#x3D; both，超过的值不会画，会造成有白斑出现</p>
+</li>
+</ol>
+<h3 id="打出°的上标"><a href="#打出°的上标" class="headerlink" title="打出°的上标"></a>打出°的上标</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">u&#x27;&#x27;</span> + <span class="hljs-built_in">str</span>(xxxx) + <span class="hljs-string">&quot;\N&#123;DEGREE SIGN&#125;&quot;</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="上标下标的教程"><a href="#上标下标的教程" class="headerlink" title="上标下标的教程"></a>上标下标的教程</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_38314865/article/details/89392911?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-1.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-1.nonecase">python为字体添加上下标_Mr.horse的博客-CSDN博客_python怎么打上角标</a></p>
+<h3 id="pad参数调整子图之间的距离"><a href="#pad参数调整子图之间的距离" class="headerlink" title="pad参数调整子图之间的距离"></a>pad参数调整子图之间的距离</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">ig1, axes = plt.subplots(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,figsize = (<span class="hljs-number">16</span>,<span class="hljs-number">7</span>))<br>fig1.tight_layout(pad = <span class="hljs-number">1</span>) <span class="hljs-comment">#pad参数设置子图之间的间隔 </span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>label不一定要是文本，数字也可以</p>
+<h3 id="contour中的线段设置问题"><a href="#contour中的线段设置问题" class="headerlink" title="contour中的线段设置问题"></a>contour中的线段设置问题</h3><p>设置了cmap后再设置negative_linestyle无法呈现负值对应虚线的效果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">im   =  ax.contour(f1.lon,f1.level,avg_theta,np.linspace(-<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">15</span>),linewidth=<span class="hljs-number">0.9</span>,cmap=<span class="hljs-string">&#x27;Blues&#x27;</span>,negative_linestyle=<span class="hljs-string">&#x27;dashed&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="调整矢量图的箭头稀疏程度"><a href="#调整矢量图的箭头稀疏程度" class="headerlink" title="调整矢量图的箭头稀疏程度"></a>调整矢量图的箭头稀疏程度</h3><p>目前没找到现成的函数，我发现可以跳点画</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">q  =  ax.quiver(f2.lon[::<span class="hljs-number">4</span>], f2.level[::<span class="hljs-number">2</span>], uwind[::<span class="hljs-number">2</span>,::<span class="hljs-number">4</span>], omega[::<span class="hljs-number">2</span>,::<span class="hljs-number">4</span>], <br>                angles=<span class="hljs-string">&#x27;uv&#x27;</span>,<span class="hljs-comment"># regrid_shape这个参数越小，是两门就越稀疏</span><br>                scale_units=<span class="hljs-string">&#x27;xy&#x27;</span>, scale=<span class="hljs-number">1.5</span>,        <span class="hljs-comment"># scale是参考矢量，所以取得越大画出来的箭头就越短</span><br>                units=<span class="hljs-string">&#x27;xy&#x27;</span>, width=<span class="hljs-number">2</span>,<br>                color=<span class="hljs-string">&#x27;b&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><h2 id="matplotlib-axes-Axes-pcolormesh"><a href="#matplotlib-axes-Axes-pcolormesh" class="headerlink" title="matplotlib.axes.Axes.pcolormesh"></a>matplotlib.axes.Axes.pcolormesh</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.pcolormesh.html">https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.pcolormesh.html</a></p>
+<h2 id="matplotlib-pyplot-colorbar"><a href="#matplotlib-pyplot-colorbar" class="headerlink" title="matplotlib.pyplot.colorbar"></a>matplotlib.pyplot.colorbar</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html#matplotlib.pyplot.colorbar">https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html#matplotlib.pyplot.colorbar</a></p>
+<h2 id="numpy-average"><a href="#numpy-average" class="headerlink" title="numpy.average"></a>numpy.average</h2><p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.average.html">numpy.average — NumPy v1.21 Manual</a></p>
+<h2 id="matplotlib-patches-Circle"><a href="#matplotlib-patches-Circle" class="headerlink" title="matplotlib.patches.Circle"></a>matplotlib.patches.Circle</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.patches.Circle.html">https://matplotlib.org/stable/api/_as_gen/matplotlib.patches.Circle.html</a></p>
+<h2 id="isinstance函数"><a href="#isinstance函数" class="headerlink" title="isinstance函数"></a>isinstance函数</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wanglei_storage/article/details/52849081">https://blog.csdn.net/wanglei_storage/article/details/52849081</a></p>
+<h2 id="matplotlib中的流线函数"><a href="#matplotlib中的流线函数" class="headerlink" title="matplotlib中的流线函数"></a>matplotlib中的流线函数</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.streamplot.html#matplotlib.axes.Axes.streamplot">https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.streamplot.html#matplotlib.axes.Axes.streamplot</a></p>
+<h2 id="strip函数"><a href="#strip函数" class="headerlink" title="strip函数"></a>strip函数</h2><p>用来去掉字符串头尾的特殊字符，比如换行符</p>
+<h2 id="在pycharm中设置运行断点"><a href="#在pycharm中设置运行断点" class="headerlink" title="在pycharm中设置运行断点"></a>在pycharm中设置运行断点</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># %%</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="xarray读取era数据存在的问题"><a href="#xarray读取era数据存在的问题" class="headerlink" title="xarray读取era数据存在的问题"></a>xarray读取era数据存在的问题</h3><p>似乎无法处理short类型数据，无法获取factor和offset这些量</p>
+<h1 id="debug"><a href="#debug" class="headerlink" title="debug"></a>debug</h1><h2 id="cartopy设置与添加水平线"><a href="#cartopy设置与添加水平线" class="headerlink" title="cartopy设置与添加水平线"></a>cartopy设置与添加水平线</h2><p>添加水平线用到的函数hlines()给的是xmin和xmax</p>
+<p>但是在实际操作中并不能对上，需要进行调整，原因目前还没搞清</p>
+<h2 id="jupyterlab中的设置密码问题"><a href="#jupyterlab中的设置密码问题" class="headerlink" title="jupyterlab中的设置密码问题"></a>jupyterlab中的设置密码问题</h2><p>网上给的教程有问题，真正的教程在jupyterlab的config文件里面可以找到</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> jupyter_server.auth <span class="hljs-keyword">import</span> passwd; passwd()<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="cartopy加载地图信息显示下载失败"><a href="#cartopy加载地图信息显示下载失败" class="headerlink" title="cartopy加载地图信息显示下载失败"></a>cartopy加载地图信息显示下载失败</h2><p>[(7条消息) Cartopy加载地图信息报错 TimeoutError: <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_50569998/article/details/108814321">WinError 10060]_会计师-CSDN博客</a></p>
+<p>地图信息储存的服务器有问题，下载github里面的资料再放进去</p>
+<h2 id="cartopy地图只画出来一半"><a href="#cartopy地图只画出来一半" class="headerlink" title="cartopy地图只画出来一半"></a>cartopy地图只画出来一半</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python">f   =  plt.figure(figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">5</span>))<br>ax  =  f.add_subplot(<br>    <span class="hljs-number">111</span>,<br>    projection=ccrs.PlateCarree()<br>)<br>ax.streamplot(<br>    u.lon,u.lat,<br>    u1,v1,<br>    transform=ccrs.PlateCarree()<br>)<br>ax.coastlines()<br>plt.show()<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://z4a.net/images/2022/04/05/image-20210921145438951.png" srcset="/img/loading.gif" lazyload alt="image-20210921145438951.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">f   =  plt.figure(figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">5</span>))<br>ax  =  f.add_subplot(<br>    <span class="hljs-number">111</span>,<br>    projection=ccrs.PlateCarree(central_longitude=<span class="hljs-number">0</span>)<br>)<br>ax.streamplot(<br>    u.lon,u.lat,<br>    u1,v1,<br>    transform=ccrs.PlateCarree()<br>)<br>ax.coastlines()<br>plt.show()<br></code></pre></td></tr></table></figure>
+
+<p>加了一个central的设置后就好了，原因目前不明</p>
+<h1 id="cartopy"><a href="#cartopy" class="headerlink" title="cartopy"></a>cartopy</h1><h2 id="设置边界线的粗细"><a href="#设置边界线的粗细" class="headerlink" title="设置边界线的粗细"></a>设置边界线的粗细</h2><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">ax.<span class="hljs-keyword">add_feature(cf.COASTLINE, </span><span class="hljs-keyword">lw=2) </span><span class="hljs-comment">#lw参数</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="matplotlib画图总结"><a href="#matplotlib画图总结" class="headerlink" title="matplotlib画图总结"></a>matplotlib画图总结</h1><h2 id="2021-x2F-11-x2F-15-时间序列"><a href="#2021-x2F-11-x2F-15-时间序列" class="headerlink" title="2021&#x2F;11&#x2F;15 时间序列"></a>2021&#x2F;11&#x2F;15 时间序列</h2><p><img src="https://z4a.net/images/2022/04/05/image-20211115092534567.png" srcset="/img/loading.gif" lazyload alt="image-20211115092534567.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python">fig,axs  =  plt.subplots(tight_layout=<span class="hljs-literal">True</span>)<br><br><span class="hljs-comment"># axs.set_yticks(np.arange(90, 160,10))</span><br><br>axs.bar(year,day-<span class="hljs-number">120</span>,width=<span class="hljs-number">1</span>,color=color_list,edgecolor=<span class="hljs-string">&#x27;black&#x27;</span>) <span class="hljs-comment"># 使用自定义的柱的颜色 定义边缘的颜色</span><br><span class="hljs-comment"># 刻度设置</span><br>axs.set_xlim(<span class="hljs-number">1979</span>,<span class="hljs-number">2020</span>)<br>axs.xaxis.set_major_locator(MultipleLocator(<span class="hljs-number">5</span>))  <span class="hljs-comment"># 设置大刻度和小刻度</span><br>axs.xaxis.set_minor_locator(MultipleLocator(<span class="hljs-number">1</span>))  <span class="hljs-comment"># 注意只设置小刻度是出不来的，得先设置大刻度</span><br><br>axs.set_yticks(np.arange(-<span class="hljs-number">20</span>,<span class="hljs-number">25</span>,<span class="hljs-number">5</span>))<br>axs.set_yticklabels(y_label)<br><br>axs.plot([<span class="hljs-number">1979</span>,<span class="hljs-number">2020</span>],[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>],color=<span class="hljs-string">&#x27;black&#x27;</span>)<br>axs.plot([<span class="hljs-number">1979</span>,<span class="hljs-number">2020</span>],[np.ceil(np.mean(day)-np.std(day))-<span class="hljs-number">120</span>,np.ceil(np.mean(day)-np.std(day))-<span class="hljs-number">120</span>],color=<span class="hljs-string">&#x27;k&#x27;</span>,linestyle=<span class="hljs-string">&#x27;dashed&#x27;</span>)<br>axs.plot([<span class="hljs-number">1979</span>,<span class="hljs-number">2020</span>],[np.floor(np.mean(day)+np.std(day))-<span class="hljs-number">120</span>,np.floor(np.mean(day)+np.std(day))-<span class="hljs-number">120</span>],color=<span class="hljs-string">&#x27;k&#x27;</span>,linestyle=<span class="hljs-string">&#x27;dashed&#x27;</span>)<br><br>axs.set_aspect(<span class="hljs-number">0.5</span>)  <span class="hljs-comment"># 调整图像的长宽比</span><br><br>plt.savefig(<span class="hljs-string">&#x27;/home/sun/paint/lunwen/bob_time_seris.pdf&#x27;</span>,dpi=<span class="hljs-number">350</span>)<br><br>plt.show()<br><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="矢量图绘制"><a href="#矢量图绘制" class="headerlink" title="矢量图绘制"></a>矢量图绘制</h2><p><img src="https://z4a.net/images/2022/04/05/image-20211115211956868.png" srcset="/img/loading.gif" lazyload alt="image-20211115211956868.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python">lonmin,lonmax,latmin,latmax  =  <span class="hljs-number">30</span>,<span class="hljs-number">120</span>,-<span class="hljs-number">10</span>,<span class="hljs-number">30</span><br>extent     =  [lonmin,lonmax,latmin,latmax]<br><br>proj = ccrs.PlateCarree()<br>fig  = plt.figure()<br>ax   = fig.add_subplot(<span class="hljs-number">111</span>, projection=proj)<br><br>set_map_ticks(ax, dx=<span class="hljs-number">10</span>, dy=<span class="hljs-number">10</span>, nx=<span class="hljs-number">1</span>, ny=<span class="hljs-number">1</span>, labelsize=<span class="hljs-string">&#x27;small&#x27;</span>)<br>ax.set_extent(extent, crs=proj)<br>ax.coastlines(resolution=<span class="hljs-string">&#x27;10m&#x27;</span>,lw=<span class="hljs-number">1</span>)<br><br>ax.plot([<span class="hljs-number">30</span>,<span class="hljs-number">120</span>],[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>],linestyle=<span class="hljs-string">&#x27;dashed&#x27;</span>,color=<span class="hljs-string">&#x27;grey&#x27;</span>)<br><br>im  =  ax.contourf(f3.lon,f3.lat,late_prect,levels=np.linspace(<span class="hljs-number">2</span>,<span class="hljs-number">18</span>,<span class="hljs-number">9</span>),cmap=<span class="hljs-string">&#x27;Blues&#x27;</span>,alpha=<span class="hljs-number">1</span>,extend=<span class="hljs-string">&#x27;both&#x27;</span>)<br><br>q  =  ax.quiver(lon, lat, <br>                  late_u, late_v, <br>          regrid_shape=<span class="hljs-number">15</span>, angles=<span class="hljs-string">&#x27;uv&#x27;</span>,   <span class="hljs-comment"># regrid_shape这个参数越小，是两门就越稀疏</span><br>        scale_units=<span class="hljs-string">&#x27;xy&#x27;</span>, scale=<span class="hljs-number">1</span>,        <span class="hljs-comment"># scale是参考矢量，所以取得越大画出来的箭头就越短</span><br>        units=<span class="hljs-string">&#x27;xy&#x27;</span>, width=<span class="hljs-number">0.25</span>,<br>        transform=proj,<br>                  color=<span class="hljs-string">&#x27;k&#x27;</span>,linewidth=<span class="hljs-number">1.2</span>,headlength = <span class="hljs-number">5</span>, headaxislength = <span class="hljs-number">4</span>, headwidth = <span class="hljs-number">5</span><br>)<br><br>rect = mpl.patches.Rectangle(<br>        (<span class="hljs-number">0.88</span>, <span class="hljs-number">0.8</span>), <span class="hljs-number">0.12</span>, <span class="hljs-number">0.2</span>, transform=ax.transAxes,    <span class="hljs-comment"># 这个能辟出来一块区域，第一个参数是最左下角点的坐标，后面是矩形的长和宽</span><br>        fc=<span class="hljs-string">&#x27;white&#x27;</span>, ec=<span class="hljs-string">&#x27;k&#x27;</span>, lw=<span class="hljs-number">0.5</span>, zorder=<span class="hljs-number">1.1</span><br>    )<br>ax.add_patch(rect)<br><br>qk = ax.quiverkey(<br>        q, X=<span class="hljs-number">0.94</span>, Y=<span class="hljs-number">0.93</span>, U=<span class="hljs-number">5</span>,<br>        label=<span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;<span class="hljs-number">5</span>&#125;</span> m/s&#x27;</span>, labelpos=<span class="hljs-string">&#x27;S&#x27;</span>, labelsep=<span class="hljs-number">0.08</span>,<br>    )<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="多张子图共用一个colorbar"><a href="#多张子图共用一个colorbar" class="headerlink" title="多张子图共用一个colorbar"></a>多张子图共用一个colorbar</h2><p><img src="https://z4a.net/images/2022/04/05/image-20211124142236875.png" srcset="/img/loading.gif" lazyload alt="image-20211124142236875.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs python">dates  =  [-<span class="hljs-number">12</span>,-<span class="hljs-number">9</span>,-<span class="hljs-number">6</span>,-<span class="hljs-number">3</span>,<span class="hljs-number">0</span>,<span class="hljs-number">3</span>] <span class="hljs-comment">#总共6张图</span><br>date   =  [<span class="hljs-number">18</span>,<span class="hljs-number">21</span>,<span class="hljs-number">24</span>,<span class="hljs-number">27</span>,<span class="hljs-number">30</span>,<span class="hljs-number">33</span>]<br>props = <span class="hljs-built_in">dict</span>(boxstyle=<span class="hljs-string">&#x27;square&#x27;</span>, edgecolor=<span class="hljs-string">&#x27;white&#x27;</span>, facecolor=<span class="hljs-string">&#x27;white&#x27;</span>, alpha=<span class="hljs-number">1</span>)<br><br>proj    =  ccrs.PlateCarree()<br>fig1    =  plt.figure(figsize=(<span class="hljs-number">14</span>,<span class="hljs-number">12</span>))<br>    <br><span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-number">6</span>,<span class="hljs-number">2</span>):<br>    ax = fig1.add_subplot(<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,j,projection=proj)  <span class="hljs-comment">#这里添加子图的方式是（行，列，index）默认是从左往右，所以想从上往下要处理一下</span><br>    ax.coastlines(resolution=<span class="hljs-string">&#x27;110m&#x27;</span>,lw=<span class="hljs-number">1</span>)<br>    <span class="hljs-comment"># 设置经纬度刻度.</span><br>    set_map_ticks(ax, dx=<span class="hljs-number">10</span>, dy=<span class="hljs-number">10</span>, nx=<span class="hljs-number">1</span>, ny=<span class="hljs-number">1</span>, labelsize=<span class="hljs-string">&#x27;small&#x27;</span>)<br>    ax.set_extent(extent, crs=proj)<br>    <br>    ax.plot([<span class="hljs-number">40</span>,<span class="hljs-number">120</span>],[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>],<span class="hljs-string">&#x27;k--&#x27;</span>)<br>    im  =  ax.contourf(f2.lon,f2.lat,f2.T2M.data[date[<span class="hljs-built_in">int</span>((j-<span class="hljs-number">1</span>)/<span class="hljs-number">2</span>)],:],levels=np.linspace(<span class="hljs-number">280</span>,<span class="hljs-number">310</span>,<span class="hljs-number">16</span>),cmap=<span class="hljs-string">&#x27;coolwarm&#x27;</span>,alpha=<span class="hljs-number">1</span>,extend=<span class="hljs-string">&#x27;both&#x27;</span>)<br>    <span class="hljs-keyword">if</span> dates[<span class="hljs-built_in">int</span>((j-<span class="hljs-number">1</span>)/<span class="hljs-number">2</span>)] &lt;= <span class="hljs-number">0</span>:<br>        ax.text(<span class="hljs-number">0.825</span>,<span class="hljs-number">0.825</span>,<span class="hljs-string">&quot;D&quot;</span>+<span class="hljs-built_in">str</span>(dates[<span class="hljs-built_in">int</span>((j-<span class="hljs-number">1</span>)/<span class="hljs-number">2</span>)]),transform=ax.transAxes,bbox=props,fontsize=<span class="hljs-number">15</span>)<br>    <span class="hljs-keyword">else</span>:<br>        ax.text(<span class="hljs-number">0.825</span>,<span class="hljs-number">0.825</span>,<span class="hljs-string">&quot;D+&quot;</span>+<span class="hljs-built_in">str</span>(dates[<span class="hljs-built_in">int</span>((j-<span class="hljs-number">1</span>)/<span class="hljs-number">2</span>)]),transform=ax.transAxes,bbox=props,fontsize=<span class="hljs-number">15</span>)<br>        <br><span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>,<span class="hljs-number">7</span>,<span class="hljs-number">2</span>):<br>    ax = fig1.add_subplot(<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,j,projection=proj)<br>    ax.coastlines(resolution=<span class="hljs-string">&#x27;110m&#x27;</span>,lw=<span class="hljs-number">1</span>)<br>    <span class="hljs-comment"># 设置经纬度刻度.</span><br>    set_map_ticks(ax, dx=<span class="hljs-number">10</span>, dy=<span class="hljs-number">10</span>, nx=<span class="hljs-number">1</span>, ny=<span class="hljs-number">1</span>, labelsize=<span class="hljs-string">&#x27;small&#x27;</span>)<br>    ax.set_extent(extent, crs=proj)<br>    <br>    ax.plot([<span class="hljs-number">40</span>,<span class="hljs-number">120</span>],[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>],<span class="hljs-string">&#x27;k--&#x27;</span>)<br>    im  =  ax.contourf(f2.lon,f2.lat,f2.T2M.data[date[<span class="hljs-built_in">int</span>(j/<span class="hljs-number">2</span>+<span class="hljs-number">2</span>)],:],levels=np.linspace(<span class="hljs-number">280</span>,<span class="hljs-number">310</span>,<span class="hljs-number">16</span>),cmap=<span class="hljs-string">&#x27;coolwarm&#x27;</span>,alpha=<span class="hljs-number">1</span>,extend=<span class="hljs-string">&#x27;both&#x27;</span>)<br>    <span class="hljs-keyword">if</span> dates[<span class="hljs-built_in">int</span>(j/<span class="hljs-number">2</span>+<span class="hljs-number">2</span>)] &lt;= <span class="hljs-number">0</span>:<br>        ax.text(<span class="hljs-number">0.825</span>,<span class="hljs-number">0.825</span>,<span class="hljs-string">&quot;D&quot;</span>+<span class="hljs-built_in">str</span>(dates[<span class="hljs-built_in">int</span>(j/<span class="hljs-number">2</span>+<span class="hljs-number">2</span>)]),transform=ax.transAxes,bbox=props,fontsize=<span class="hljs-number">15</span>)<br>    <span class="hljs-keyword">else</span>:<br>        ax.text(<span class="hljs-number">0.825</span>,<span class="hljs-number">0.825</span>,<span class="hljs-string">&quot;D+&quot;</span>+<span class="hljs-built_in">str</span>(dates[<span class="hljs-built_in">int</span>(j/<span class="hljs-number">2</span>+<span class="hljs-number">2</span>)]),transform=ax.transAxes,bbox=props,fontsize=<span class="hljs-number">15</span>)<br>            <br>       <br><br>fig1.subplots_adjust(top=<span class="hljs-number">0.8</span>) <span class="hljs-comment">#整体往上紧凑来给下面的colorbar增加空间</span><br><br>cbar_ax = fig1.add_axes([<span class="hljs-number">0.2</span>, <span class="hljs-number">0.05</span>, <span class="hljs-number">0.6</span>, <span class="hljs-number">0.03</span>])  <span class="hljs-comment">#依次是左端 下端 宽度 高度</span><br>fig1.colorbar(im, cax=cbar_ax, shrink=<span class="hljs-number">0.5</span>, pad=<span class="hljs-number">0.2</span>, orientation=<span class="hljs-string">&#x27;horizontal&#x27;</span>) <span class="hljs-comment">#这样画就可以了</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="2021-x2F-12-x2F-28-垂直流场、等值线、等值填色"><a href="#2021-x2F-12-x2F-28-垂直流场、等值线、等值填色" class="headerlink" title="2021&#x2F;12&#x2F;28 垂直流场、等值线、等值填色"></a>2021&#x2F;12&#x2F;28 垂直流场、等值线、等值填色</h2><p><img src="https://z4a.net/images/2022/04/05/image-20211228152302834.png" srcset="/img/loading.gif" lazyload alt="image-20211228152302834.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 创建画布</span><br>fig  =  plt.figure()<br>ax   =  fig.add_subplot()<br>ax.invert_yaxis()<br><br><span class="hljs-comment"># 绘制等值线</span><br>im1   =  ax.contour(f1.lon,f1.level,avg_theta,np.linspace(-<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">13</span>),linewidth=<span class="hljs-number">0.9</span>,colors=<span class="hljs-string">&#x27;grey&#x27;</span>,negative_linestyle=<span class="hljs-string">&#x27;dashed&#x27;</span>)<br>im2   =  ax.contourf(f4.lon,f4.level,div,<span class="hljs-number">10</span>,cmap=<span class="hljs-string">&#x27;seismic&#x27;</span>,extend=<span class="hljs-string">&#x27;both&#x27;</span>)<br>q  =  ax.quiver(f2.lon[::<span class="hljs-number">4</span>], f2.level[::<span class="hljs-number">2</span>], uwind[::<span class="hljs-number">2</span>,::<span class="hljs-number">4</span>], omega[::<span class="hljs-number">2</span>,::<span class="hljs-number">4</span>], <br>                angles=<span class="hljs-string">&#x27;uv&#x27;</span>,<span class="hljs-comment"># regrid_shape这个参数越小，是两门就越稀疏</span><br>                scale_units=<span class="hljs-string">&#x27;xy&#x27;</span>, scale=<span class="hljs-number">1.5</span>,        <span class="hljs-comment"># scale是参考矢量，所以取得越大画出来的箭头就越短</span><br>                units=<span class="hljs-string">&#x27;xy&#x27;</span>, width=<span class="hljs-number">2</span>,<br>                color=<span class="hljs-string">&#x27;k&#x27;</span>)<br>fig.colorbar(im2,label=<span class="hljs-string">&#x27;divergence units: $&#123;10^6&#125;$ $&#123;s^-1&#125;$&#x27;</span>) <span class="hljs-comment"># 注意这里怎么加上标</span><br><br><span class="hljs-comment"># 添加地形</span><br>ax2  =  ax.twinx()<br>ax2.set_ylim((<span class="hljs-number">0</span>,<span class="hljs-number">4.5</span>))<br><span class="hljs-comment">#ax2.set_yticks(np.arange(0,21,1))</span><br>ax2.plot(f5.lon.data,topo/<span class="hljs-number">1000</span>,color=<span class="hljs-string">&#x27;k&#x27;</span>)<br>ax2.fill_between(f5.lon.data,<span class="hljs-number">0</span>,topo/<span class="hljs-number">1000</span>,where=topo&gt;<span class="hljs-number">0</span>,color=<span class="hljs-string">&#x27;k&#x27;</span>)<br><br>ax2.set_yticklabels([])  <span class="hljs-comment"># 这里把刻度设置成无</span><br>ax2.set_yticks([])<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="关于自制colormap与配合uigradient"><a href="#关于自制colormap与配合uigradient" class="headerlink" title="关于自制colormap与配合uigradient"></a>关于自制colormap与配合uigradient</h2><p>uigradient网址</p>
+<p><a target="_blank" rel="noopener" href="https://uigradients.com/#WeddingDayBlues">uiGradients - Beautiful colored gradients</a></p>
+<p><img src="https://z4a.net/images/2022/04/05/image-20220309161441953.png" srcset="/img/loading.gif" lazyload alt="image-20220309161441953.png"></p>
+<p>直接复制了粘贴进puthon里即可，python是认这玩意儿的</p>
+<p>自制colormap例子</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pylab <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> matplotlib.colors <span class="hljs-keyword">import</span> ListedColormap,LinearSegmentedColormap<br>clist=[<span class="hljs-string">&#x27;#40E0D0&#x27;</span>,<span class="hljs-string">&#x27;#FF8C00&#x27;</span>,<span class="hljs-string">&#x27;#FF0080&#x27;</span>]<br><br>newcmp = LinearSegmentedColormap.from_list(<span class="hljs-string">&#x27;chaos&#x27;</span>,clist)<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="numpy计算总结"><a href="#numpy计算总结" class="headerlink" title="numpy计算总结"></a>numpy计算总结</h1><h3 id="函数返回值问题"><a href="#函数返回值问题" class="headerlink" title="函数返回值问题"></a>函数返回值问题</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_flist</span>(<span class="hljs-params">path,var</span>):<br>    list1  =  [x <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> os.listdir(path) <span class="hljs-keyword">if</span> (var+<span class="hljs-string">&quot;-&quot;</span> <span class="hljs-keyword">in</span> x)]<br>    <span class="hljs-keyword">return</span> list1.sort()<br><br><span class="hljs-built_in">id</span>  =  get_flist(path_id,<span class="hljs-string">&quot;V&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>注意，返回值是.sort()的话最后结果什么也没有，必须要sort完再返回</p>
+<h2 id="xarray中的slice问题"><a href="#xarray中的slice问题" class="headerlink" title="xarray中的slice问题"></a>xarray中的slice问题</h2><p>注意使用slice挑选的时候是需要考虑顺序的，不是说可以反过来在这个范围内即可</p>
+<h2 id="利用隐循环计算pentad平均"><a href="#利用隐循环计算pentad平均" class="headerlink" title="利用隐循环计算pentad平均"></a>利用隐循环计算pentad平均</h2><h2 id="交换象限"><a href="#交换象限" class="headerlink" title="交换象限"></a>交换象限</h2><p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.swapaxes.html">https://numpy.org/doc/stable/reference/generated/numpy.swapaxes.html</a></p>
+<h1 id="python资源网址记录"><a href="#python资源网址记录" class="headerlink" title="python资源网址记录"></a>python资源网址记录</h1><h2 id="Iris-一个处理地球科学数据的软件包"><a href="#Iris-一个处理地球科学数据的软件包" class="headerlink" title="Iris 一个处理地球科学数据的软件包"></a>Iris 一个处理地球科学数据的软件包</h2><p><a target="_blank" rel="noopener" href="https://scitools-iris.readthedocs.io/en/latest/generated/gallery/index.html#sphx-glr-generated-gallery">https://scitools-iris.readthedocs.io/en/latest/generated/gallery/index.html#sphx-glr-generated-gallery</a></p>
+<h2 id="matplotlib官网的gallery，记载着很多种例子加代码"><a href="#matplotlib官网的gallery，记载着很多种例子加代码" class="headerlink" title="matplotlib官网的gallery，记载着很多种例子加代码"></a>matplotlib官网的gallery，记载着很多种例子加代码</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/images_contours_and_fields/contour_label_demo.html">https://matplotlib.org/stable/gallery/images_contours_and_fields/contour_label_demo.html</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/computer/">computer</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/python/">python</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/05/CESM-learning/">
+                        <span class="hidden-mobile">CESM learning</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
