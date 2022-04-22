@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>日常记录</title>
+    <link href="/2022/04/22/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/"/>
+    <url>/2022/04/22/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/</url>
+    
+    <content type="html"><![CDATA[<h1 id="2022-x2F-4-x2F-22"><a href="#2022-x2F-4-x2F-22" class="headerlink" title="2022&#x2F;4&#x2F;22"></a>2022&#x2F;4&#x2F;22</h1><p>处理了一些数据，还差同时去除印度大陆和中南半岛的实验数据没有跑出来。我打开服务器一看，好家伙两个都停掉了，估计是服务器重启了吧？不过这倒是给了我重新开始实验的实践机会，我注意到如果是一次跑两年的，在第二年的时候断了的话，continue run还是从第一年开始跑，即便已经生成了第二年的initial文件。</p><p>下午读了一篇文献，关于CESM2来做季节内预测的，我感觉很有意思，目前还没有读完，不过里面的设置确实是很繁琐，如果我能移过来做季风爆发的预测，那确实是一个了不起的工作。</p><blockquote><p> Richter J H, Glanville A A, Edwards J, et al. Subseasonal Earth system prediction with CESM2[J]. Weather and Forecasting, 2022.</p></blockquote><p>最近几天不知道为什么好累，我需要好好休息。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>日记</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Linux知识</title>
     <link href="/2022/04/20/Linux%E7%9F%A5%E8%AF%86/"/>
     <url>/2022/04/20/Linux%E7%9F%A5%E8%AF%86/</url>
