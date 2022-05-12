@@ -25,6 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20210831170356576.png">
 <meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20210906164823478.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/27/-2022-04-27-211751.md.png">
 <meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20210921145438951.png">
 <meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20211115092534567.png">
 <meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20211115211956868.png">
@@ -32,7 +33,7 @@
 <meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20211228152302834.png">
 <meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20220309161441953.png">
 <meta property="article:published_time" content="2022-04-05T02:39:02.000Z">
-<meta property="article:modified_time" content="2022-04-15T01:19:26.502Z">
+<meta property="article:modified_time" content="2022-05-06T01:44:21.034Z">
 <meta property="article:author" content="SWH">
 <meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary_large_image">
@@ -206,7 +207,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      16k 字
+      18k 字
     </span>
   
 
@@ -215,7 +216,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      130 分钟
+      150 分钟
     </span>
   
 
@@ -335,17 +336,17 @@
 <h2 id="调整子图的教程"><a href="#调整子图的教程" class="headerlink" title="调整子图的教程"></a>调整子图的教程</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/tutorials/intermediate/gridspec.html">https://matplotlib.org/stable/tutorials/intermediate/gridspec.html</a></p>
 <h2 id="Constrained-Layout-的用法"><a href="#Constrained-Layout-的用法" class="headerlink" title="Constrained Layout 的用法"></a>Constrained Layout 的用法</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/MTandHJ/article/details/90272935">https://blog.csdn.net/MTandHJ/article/details/90272935</a></p>
 <h2 id="contour等值线合集"><a href="#contour等值线合集" class="headerlink" title="contour等值线合集"></a>contour等值线合集</h2><h3 id="官方contour教程"><a href="#官方contour教程" class="headerlink" title="官方contour教程"></a>官方contour教程</h3><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/images_contours_and_fields/contour_demo.html">https://matplotlib.org/stable/gallery/images_contours_and_fields/contour_demo.html</a></p>
-<h3 id="contour设置"><a href="#contour设置" class="headerlink" title="contour设置"></a>contour设置</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">im   =  ax.contour(f1.lon,f1.level,avg_theta,np.linspace(-<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">15</span>),linewidth=<span class="hljs-number">0.9</span>,colors=<span class="hljs-string">&#x27;b&#x27;</span>,negative_linestyle=<span class="hljs-string">&#x27;dashed&#x27;</span>)<br>negative_linestyle=<span class="hljs-string">&#x27;dashed&#x27;</span> <span class="hljs-comment"># 设置负数的线段样式</span><br></code></pre></td></tr></table></figure>
+<h3 id="contour设置"><a href="#contour设置" class="headerlink" title="contour设置"></a>contour设置</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">im   =  ax.contour(f1.lon,f1.level,avg_theta,np.linspace(-<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">15</span>),linewidths=<span class="hljs-number">0.9</span>,colors=<span class="hljs-string">&#x27;b&#x27;</span>)<br>rcParams[<span class="hljs-string">&quot;contour.negative_linestyle&quot;</span>] = <span class="hljs-string">&#x27;solid&#x27;</span> <span class="hljs-comment"># 设置负数的线段样式</span><br></code></pre></td></tr></table></figure>
+
+<p>注意设置contour的负数样式并不能直接在contour函数里面搞，需要像第二行那样搞</p>
+<h2 id="Tick设置"><a href="#Tick设置" class="headerlink" title="Tick设置"></a>Tick设置</h2><h3 id="调整坐标轴标签和刻度之间的距离"><a href="#调整坐标轴标签和刻度之间的距离" class="headerlink" title="调整坐标轴标签和刻度之间的距离"></a>调整坐标轴标签和刻度之间的距离</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">ax.tick_params(pad=<span class="hljs-number">0.2</span>)<br></code></pre></td></tr></table></figure>
 
 
 
+<h3 id="使用预定义的刻度设置"><a href="#使用预定义的刻度设置" class="headerlink" title="使用预定义的刻度设置"></a>使用预定义的刻度设置</h3><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/ticks_and_spines/tick-formatters.html">https://matplotlib.org/stable/gallery/ticks_and_spines/tick-formatters.html</a></p>
+<h3 id="经纬度的ticklabel形式"><a href="#经纬度的ticklabel形式" class="headerlink" title="经纬度的ticklabel形式"></a>经纬度的ticklabel形式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 设置Formatter.</span><br><span class="hljs-keyword">if</span> xformatter <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>    xformatter = LongitudeFormatter()<br><span class="hljs-keyword">if</span> yformatter <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>    yformatter = LatitudeFormatter()<br>ax.xaxis.set_major_formatter(xformatter)<br>ax.yaxis.set_major_formatter(yformatter)<br></code></pre></td></tr></table></figure>
 
-
-<h2 id="调整坐标轴标签和刻度之间的距离"><a href="#调整坐标轴标签和刻度之间的距离" class="headerlink" title="调整坐标轴标签和刻度之间的距离"></a>调整坐标轴标签和刻度之间的距离</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">ax.tick_params(pad=<span class="hljs-number">0.2</span>)<br></code></pre></td></tr></table></figure>
-
-
-
-<h2 id="使用预定义的刻度设置"><a href="#使用预定义的刻度设置" class="headerlink" title="使用预定义的刻度设置"></a>使用预定义的刻度设置</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/ticks_and_spines/tick-formatters.html">https://matplotlib.org/stable/gallery/ticks_and_spines/tick-formatters.html</a></p>
+<p>这样的话会自动转换成经纬度形式的labels，不需要我再自己搞tick_labels了</p>
 <h2 id="设置绘图的范围"><a href="#设置绘图的范围" class="headerlink" title="设置绘图的范围"></a>设置绘图的范围</h2><p>需求：比如我只想在原图的基础上只画某个范围内的图像，只需要对x轴进行设置就好。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.xlim(xmin=<span class="hljs-number">60</span>,xmax=<span class="hljs-number">130</span>)<br>plt.ylim(ymin=-<span class="hljs-number">0.5</span>,ymax=<span class="hljs-number">0.5</span>)<br><br><span class="hljs-comment">#ax的方法</span><br>ax.set_xlim(xmin=<span class="hljs-number">60</span>,xmax=<span class="hljs-number">200</span>)<br>ax.set_ylim(ymin=-<span class="hljs-number">0.5</span>,ymax=<span class="hljs-number">1.5</span>)<br></code></pre></td></tr></table></figure>
 
@@ -410,6 +411,47 @@
 
 
 
+<h2 id="tick-params-对坐标轴刻度的设置"><a href="#tick-params-对坐标轴刻度的设置" class="headerlink" title="tick_params 对坐标轴刻度的设置"></a>tick_params 对坐标轴刻度的设置</h2><p>官方文档 <a target="_blank" rel="noopener" href="https://matplotlib.org/3.5.0/api/_as_gen/matplotlib.axes.Axes.tick_params.html">https://matplotlib.org/3.5.0/api/_as_gen/matplotlib.axes.Axes.tick_params.html</a></p>
+<p>这里以labelsize设置，如果只想设置x或者y轴的话</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">ax1.tick<span class="hljs-constructor">_params(<span class="hljs-params">axis</span>=&#x27;<span class="hljs-params">y</span>&#x27;, <span class="hljs-params">labelcolor</span>=<span class="hljs-params">color</span>)</span><br></code></pre></td></tr></table></figure>
+
+<p>在里面指定一下就好了</p>
+<h2 id="subplots与add-subplot之间的subplot-kw"><a href="#subplots与add-subplot之间的subplot-kw" class="headerlink" title="subplots与add_subplot之间的subplot_kw"></a>subplots与add_subplot之间的subplot_kw</h2><p>在使用cartopy画图的过程中，添加地图映射用的是这个语句</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">ax = fig1.add_subplot(projection=proj)<br></code></pre></td></tr></table></figure>
+
+<p>我很好奇那如果使用plt.subplots可以给添加地图映射么？</p>
+<p>在官网给出的例子里是这样的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">fig, axs = plt.subplots(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, subplot_kw=<span class="hljs-built_in">dict</span>(projection=<span class="hljs-string">&quot;polar&quot;</span>))<br></code></pre></td></tr></table></figure>
+
+<p>有了 subplot_kw 这个参数，关于这个参数的解释</p>
+<blockquote>
+<p><strong>subplot_kw</strong>dict, optional</p>
+<p>Dict with keywords passed to the <a target="_blank" rel="noopener" href="https://matplotlib.org/3.5.0/api/figure_api.html#matplotlib.figure.Figure.add_subplot"><code>add_subplot</code></a> call used to create each subplot.</p>
+</blockquote>
+<h2 id="关于colorbar的设置"><a href="#关于colorbar的设置" class="headerlink" title="关于colorbar的设置"></a>关于colorbar的设置</h2><p>起因是我想把colorbar下面的数字改大一点，参考资料：</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/23172282/how-to-change-font-properties-of-a-matplotlib-colorbar-label">https://stackoverflow.com/questions/23172282/how-to-change-font-properties-of-a-matplotlib-colorbar-label</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> matplotlib.pylab <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> numpy <span class="hljs-keyword">import</span> arange<br><br>pcolor(arange(<span class="hljs-number">20</span>).reshape(<span class="hljs-number">4</span>,<span class="hljs-number">5</span>))<br>cb = colorbar(label=<span class="hljs-string">&#x27;a label&#x27;</span>)<br>ax = cb.ax<br>text = ax.yaxis.label<br>font = matplotlib.font_manager.FontProperties(family=<span class="hljs-string">&#x27;times new roman&#x27;</span>, style=<span class="hljs-string">&#x27;italic&#x27;</span>, size=<span class="hljs-number">16</span>)<br>text.set_font_properties(font)<br>show()<br></code></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://z4a.net/image/2kXYfa"><img src="https://z4a.net/images/2022/04/27/-2022-04-27-211751.md.png" srcset="/img/loading.gif" lazyload alt="-2022-04-27-211751.md.png"></a></p>
+<p>从这里我们可以知道：</p>
+<ol>
+<li>cb &#x3D; colorbar(label&#x3D;’a label’) 这句话调用之后返回的是一个句柄，也就是后面的ax</li>
+<li>让我惊奇的是后面的text也是ax能够返回的对象，还有用这种方法来设置fontproperties，以及最后的set_font_properties</li>
+</ol>
+<p><strong>学习了学习了</strong></p>
+<p>关于对colorbar labelsize的设置：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">a = fig.colorbar(im,shrink=<span class="hljs-number">0.6</span>, pad=<span class="hljs-number">0.05</span>)<br>a.ax.tick_params(labelsize=<span class="hljs-number">8</span>)<br></code></pre></td></tr></table></figure>
+
+<p>跟上面一样，也是在返回的句柄上进行操作，这里注意tick_params这个函数</p>
+<p>文档：<a target="_blank" rel="noopener" href="https://matplotlib.org/3.5.0/api/_as_gen/matplotlib.axes.Axes.tick_params.html">https://matplotlib.org/3.5.0/api/_as_gen/matplotlib.axes.Axes.tick_params.html</a></p>
+<h2 id="legend"><a href="#legend" class="headerlink" title="legend"></a>legend</h2><h3 id="官方教程"><a href="#官方教程" class="headerlink" title="官方教程"></a>官方教程</h3><p><a target="_blank" rel="noopener" href="https://matplotlib.org/3.1.1/tutorials/intermediate/legend_guide.html">https://matplotlib.org/3.1.1/tutorials/intermediate/legend_guide.html</a></p>
+<h3 id="线图的legend控制label的颜色跟线的颜色一致"><a href="#线图的legend控制label的颜色跟线的颜色一致" class="headerlink" title="线图的legend控制label的颜色跟线的颜色一致"></a>线图的legend控制label的颜色跟线的颜色一致</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs py">labelcolor=<span class="hljs-string">&#x27;linecolor&#x27;</span><br><br>ax.legend(loc=<span class="hljs-string">&#x27;upper left&#x27;</span>,prop=&#123;<span class="hljs-string">&#x27;size&#x27;</span>: <span class="hljs-number">25</span>&#125;,labelcolor=<span class="hljs-string">&#x27;linecolor&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="关于画图过程中字典形式的传入参数"><a href="#关于画图过程中字典形式的传入参数" class="headerlink" title="关于画图过程中字典形式的传入参数"></a>关于画图过程中字典形式的传入参数</h2><p>举例、积累：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">ax.quiverkey(q, X=quiver_x, Y=quiver_y, U=speed,<br>                    label=<span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;speed&#125;</span> m/s&#x27;</span>, labelpos=<span class="hljs-string">&#x27;S&#x27;</span>, labelsep=<span class="hljs-number">0.1</span>,fontproperties=&#123;<span class="hljs-string">&#x27;size&#x27;</span>:<span class="hljs-number">18</span>&#125;)<br><br></code></pre></td></tr></table></figure>
+
 
 
 <h2 id="设置-自我总结"><a href="#设置-自我总结" class="headerlink" title="设置-自我总结"></a>设置-自我总结</h2><ol>
@@ -448,10 +490,12 @@
 <h2 id="isinstance函数"><a href="#isinstance函数" class="headerlink" title="isinstance函数"></a>isinstance函数</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wanglei_storage/article/details/52849081">https://blog.csdn.net/wanglei_storage/article/details/52849081</a></p>
 <h2 id="matplotlib中的流线函数"><a href="#matplotlib中的流线函数" class="headerlink" title="matplotlib中的流线函数"></a>matplotlib中的流线函数</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.streamplot.html#matplotlib.axes.Axes.streamplot">https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.streamplot.html#matplotlib.axes.Axes.streamplot</a></p>
 <h2 id="strip函数"><a href="#strip函数" class="headerlink" title="strip函数"></a>strip函数</h2><p>用来去掉字符串头尾的特殊字符，比如换行符</p>
+<h2 id="main函数"><a href="#main函数" class="headerlink" title="main函数"></a>main函数</h2><p>注意在main函数中我发现由于main函数里面的值是非全局变量，再调用外部函数的话，会因为无全局变量而不错，因此编写的外部函数要有传入参数</p>
 <h2 id="在pycharm中设置运行断点"><a href="#在pycharm中设置运行断点" class="headerlink" title="在pycharm中设置运行断点"></a>在pycharm中设置运行断点</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># %%</span><br></code></pre></td></tr></table></figure>
 
 
 
+<h2 id="函数中的参数问题"><a href="#函数中的参数问题" class="headerlink" title="函数中的参数问题"></a>函数中的参数问题</h2><p>没有指定函数值的参数要放在前面，指定了函数值的要放在后面，不能乱</p>
 <h3 id="xarray读取era数据存在的问题"><a href="#xarray读取era数据存在的问题" class="headerlink" title="xarray读取era数据存在的问题"></a>xarray读取era数据存在的问题</h3><p>似乎无法处理short类型数据，无法获取factor和offset这些量</p>
 <h1 id="debug"><a href="#debug" class="headerlink" title="debug"></a>debug</h1><h2 id="cartopy设置与添加水平线"><a href="#cartopy设置与添加水平线" class="headerlink" title="cartopy设置与添加水平线"></a>cartopy设置与添加水平线</h2><p>添加水平线用到的函数hlines()给的是xmin和xmax</p>
 <p>但是在实际操作中并不能对上，需要进行调整，原因目前还没搞清</p>
@@ -468,6 +512,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">f   =  plt.figure(figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">5</span>))<br>ax  =  f.add_subplot(<br>    <span class="hljs-number">111</span>,<br>    projection=ccrs.PlateCarree(central_longitude=<span class="hljs-number">0</span>)<br>)<br>ax.streamplot(<br>    u.lon,u.lat,<br>    u1,v1,<br>    transform=ccrs.PlateCarree()<br>)<br>ax.coastlines()<br>plt.show()<br></code></pre></td></tr></table></figure>
 
 <p>加了一个central的设置后就好了，原因目前不明</p>
+<h2 id="cartopy-中的set-extent"><a href="#cartopy-中的set-extent" class="headerlink" title="cartopy 中的set_extent"></a>cartopy 中的set_extent</h2><p>在设置刻度的时候可能会覆盖之前设置的ax.set_extent，所以这个语句要放在刻度设置的后面，覆盖回去</p>
 <h1 id="cartopy"><a href="#cartopy" class="headerlink" title="cartopy"></a>cartopy</h1><h2 id="设置边界线的粗细"><a href="#设置边界线的粗细" class="headerlink" title="设置边界线的粗细"></a>设置边界线的粗细</h2><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">ax.<span class="hljs-keyword">add_feature(cf.COASTLINE, </span><span class="hljs-keyword">lw=2) </span><span class="hljs-comment">#lw参数</span><br></code></pre></td></tr></table></figure>
 
 
@@ -508,8 +553,11 @@
 <p>注意，返回值是.sort()的话最后结果什么也没有，必须要sort完再返回</p>
 <h2 id="xarray中的slice问题"><a href="#xarray中的slice问题" class="headerlink" title="xarray中的slice问题"></a>xarray中的slice问题</h2><p>注意使用slice挑选的时候是需要考虑顺序的，不是说可以反过来在这个范围内即可</p>
 <h2 id="利用隐循环计算pentad平均"><a href="#利用隐循环计算pentad平均" class="headerlink" title="利用隐循环计算pentad平均"></a>利用隐循环计算pentad平均</h2><h2 id="交换象限"><a href="#交换象限" class="headerlink" title="交换象限"></a>交换象限</h2><p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.swapaxes.html">https://numpy.org/doc/stable/reference/generated/numpy.swapaxes.html</a></p>
+<h1 id="xarray"><a href="#xarray" class="headerlink" title="xarray"></a>xarray</h1><h2 id="关于获取dataarray-dataset一些属性的知识"><a href="#关于获取dataarray-dataset一些属性的知识" class="headerlink" title="关于获取dataarray dataset一些属性的知识"></a>关于获取dataarray dataset一些属性的知识</h2><p><a target="_blank" rel="noopener" href="https://docs.xarray.dev/en/stable/user-guide/data-structures.html">Data Structures (xarray.dev)</a></p>
 <h1 id="python资源网址记录"><a href="#python资源网址记录" class="headerlink" title="python资源网址记录"></a>python资源网址记录</h1><h2 id="Iris-一个处理地球科学数据的软件包"><a href="#Iris-一个处理地球科学数据的软件包" class="headerlink" title="Iris 一个处理地球科学数据的软件包"></a>Iris 一个处理地球科学数据的软件包</h2><p><a target="_blank" rel="noopener" href="https://scitools-iris.readthedocs.io/en/latest/generated/gallery/index.html#sphx-glr-generated-gallery">https://scitools-iris.readthedocs.io/en/latest/generated/gallery/index.html#sphx-glr-generated-gallery</a></p>
 <h2 id="matplotlib官网的gallery，记载着很多种例子加代码"><a href="#matplotlib官网的gallery，记载着很多种例子加代码" class="headerlink" title="matplotlib官网的gallery，记载着很多种例子加代码"></a>matplotlib官网的gallery，记载着很多种例子加代码</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/images_contours_and_fields/contour_label_demo.html">https://matplotlib.org/stable/gallery/images_contours_and_fields/contour_label_demo.html</a></p>
+<h2 id="一个教程，说的是关于python中main函数的"><a href="#一个教程，说的是关于python中main函数的" class="headerlink" title="一个教程，说的是关于python中main函数的"></a>一个教程，说的是关于python中main函数的</h2><p><a target="_blank" rel="noopener" href="https://realpython.com/python-main-function/">https://realpython.com/python-main-function/</a></p>
+<h2 id="real-python-一个python学习网站"><a href="#real-python-一个python学习网站" class="headerlink" title="real python 一个python学习网站"></a>real python 一个python学习网站</h2><p><a target="_blank" rel="noopener" href="https://realpython.com/">Python Tutorials – Real Python</a></p>
 
             </div>
             <hr>
