@@ -24,7 +24,7 @@
 <meta property="og:description" content="常用命令1&lt;span style&#x3D;&amp;#x27;color:red;background:white;font-size:20;font-family:楷体;&amp;#x27;&gt;文字&lt;&#x2F;span&gt;  挂载nas12345678sudo mount -o username&#x3D;admin,password&#x3D;19970130SWh &#x2F;&#x2F;192.168.3.106&#x2F;data1 data1&#x2F;s">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-04-04T13:11:45.000Z">
-<meta property="article:modified_time" content="2022-04-20T01:14:01.031Z">
+<meta property="article:modified_time" content="2022-06-29T07:50:53.980Z">
 <meta property="article:author" content="SWH">
 <meta property="article:tag" content="linux command">
 <meta name="twitter:card" content="summary_large_image">
@@ -197,7 +197,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.1k 字
+      1.3k 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10 分钟
+      11 分钟
     </span>
   
 
@@ -244,7 +244,7 @@
 
 
 
-<h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">rsync -v -p -a -t -r -z ./ 2019swh@172.16.0.72:/data5/2019swh/model_data/<br>rsync -v -p -a -t -r -z 2019swh@172.16.0.72:/data5/2019swh/data/ /home/sun/qomo-data/<br>rsync -v -p -a -t -r -z /home/sun/qomo-data/ 2019swh@172.16.0.72:/data5/2019swh/data/<br>rsync -v -p -a -t -r -z /home/sun/mycode/ 2019swh@172.16.0.72:/data5/2019swh/mycode/<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">同步山西服务器上的输出</span><br>rsync -v -p -a -t -r -z wgx@192.168.30.236:/public1/home/wgx/swh/cesm2.1.3/archive/ /mnt/g/cesm_output/<br></code></pre></td></tr></table></figure>
+<h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell">rsync -v -p -a -t -r -z ./ 2019swh@172.16.0.72:/data5/2019swh/model_data/<br>rsync -v -p -a -t -r -z 2019swh@172.16.0.72:/data5/2019swh/data/ /home/sun/qomo-data/<br>rsync -v -p -a -t -r -z /home/sun/qomo-data/ 2019swh@172.16.0.72:/data5/2019swh/data/<br>rsync -v -p -a -t -r -z /home/sun/mycode/ 2019swh@172.16.0.72:/data5/2019swh/mycode/<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">同步山西服务器上的输出</span><br>rsync -v -p -a -t -r -z wgx@192.168.30.236:/public1/home/wgx/swh/cesm2.1.3/archive/ /mnt/g/cesm_output/<br><br>rsync -v -p -a -t -r -z wgx@192.168.30.236:/public1/home/wgx/swh/output/ spinup/<br>rsync -v -p -a -t -r -z lym@192.168.30.236:/public1/home/lym/swh/output/ spinup/<br></code></pre></td></tr></table></figure>
 
 
 
