@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://z4a.net/images/2022/06/03/-2022-06-03-215629.png">
 <meta property="article:published_time" content="2022-06-03T10:13:26.000Z">
-<meta property="article:modified_time" content="2022-07-03T11:59:15.260Z">
+<meta property="article:modified_time" content="2022-07-06T02:42:59.046Z">
 <meta property="article:author" content="SWH">
 <meta property="article:tag" content="CESM">
 <meta name="twitter:card" content="summary_large_image">
@@ -199,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      18k 字
+      21k 字
     </span>
   
 
@@ -208,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      153 分钟
+      172 分钟
     </span>
   
 
@@ -294,7 +294,9 @@
 <p>2022-7-3: 笑死，branch后的第二年就崩了，重新hybrid吧。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs shell">./create_newcase --case b1850_global1m_o2_220703 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi<br>cd b1850_global1m_o2_220703<br>./xmlchange NTASKS=-36<br>./xmlchange RUN_REFCASE=b1850_global_1m_220620<br>./xmlchange RUN_REFDATE=0099-01-01<br>./xmlchange RUN_TYPE=hybrid<br>./xmlchange STOP_OPTION=nyears<br>./xmlchange STOP_N=2<br>./xmlchange RESUBMIT=26<br>./xmlchange REST_N=2<br>./xmlchange REST_OPTION=nyears<br>./case.setup<br>cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o1_220703/user_nl_cam .<br>cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o1_220703/sbatch1.sh .<br>cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o1_220703/user_nl_mom .<br>cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o1_220703/user_nl_cice .<br><br>./case.build --skip-provenance-check<br><br>cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o1_220703/run/*.r.* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/<br>cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o1_220703/run/*.rs.* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/<br>cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o1_220703/run/*rpo* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/<br>cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o1_220703/run/*.i.* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/<br></code></pre></td></tr></table></figure>
 
-
+<p>(3) indian experiment</p>
+<p><font color=red>Attention: previous experiment has interrupted, so the official experiment is hybrid reboot</font></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs shell">./create_newcase --case b1850_tx_indian_o1_220706 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi<br>cd b1850_tx_indian_o1_220706<br>./xmlchange NTASKS=-40<br>./xmlchange RUN_REFCASE=b1850_tx_indian_220627<br>./xmlchange RUN_REFDATE=0059-01-01<br>./xmlchange RUN_TYPE=hybrid<br>./xmlchange STOP_OPTION=nyears<br>./xmlchange STOP_N=2<br>./xmlchange RESUBMIT=27<br>./xmlchange REST_N=2<br>./xmlchange REST_OPTION=nyears<br>./case.setup<br>cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx_indian_220627/user_nl_cam .<br>cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx_indian_220627/sbatch1.sh .<br>cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx_indian_220627/user_nl_mom .<br>cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx_indian_220627/user_nl_cice .<br>./xmlchange ATM_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_noindian.220615.nc&#x27;<br>./xmlchange LND_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_noindian.220615.nc&#x27;<br>./xmlchange ICE_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_noindian.220615.nc&#x27;<br>./xmlchange OCN_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_noindian.220615.nc&#x27;<br>./xmlchange ATM2OCN_FMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_aave.220615.nc&#x27;<br>./xmlchange ATM2OCN_SMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_blin.220615.nc&#x27;<br>./xmlchange ATM2OCN_VMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_patc.220615.nc&#x27;<br>./xmlchange OCN2ATM_FMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_noindian_TO_fv09_125_aave.220615.nc&#x27;<br>./xmlchange OCN2ATM_SMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_noindian_TO_fv09_125_aave.220615.nc&#x27;<br>./case.build --skip-provenance-check<br><br>cp b1850_tx_indian_220627/run/*.r.* b1850_tx_indian_o1_220706/run/<br>cp b1850_tx_indian_220627/run/*.rs.* b1850_tx_indian_o1_220706/run/<br>cp b1850_tx_indian_220627/run/*rpo* b1850_tx_indian_o1_220706/run/<br>cp b1850_tx_indian_220627/run/*.i.* b1850_tx_indian_o1_220706/run/<br></code></pre></td></tr></table></figure>
 
 
 

@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://z4a.net/images/2022/06/10/-2022-06-10-115726.png">
 <meta property="og:image" content="https://z4a.net/images/2022/06/10/-2022-06-10-133445.png">
 <meta property="article:published_time" content="2022-05-24T01:48:18.000Z">
-<meta property="article:modified_time" content="2022-06-24T11:33:15.637Z">
+<meta property="article:modified_time" content="2022-07-06T06:33:24.207Z">
 <meta property="article:author" content="SWH">
 <meta property="article:tag" content="CESM">
 <meta name="twitter:card" content="summary_large_image">
@@ -205,7 +205,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      95k 字
+      96k 字
     </span>
   
 
@@ -214,7 +214,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      796 分钟
+      800 分钟
     </span>
   
 
@@ -622,6 +622,21 @@
 
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs shell">./create_newcase --case b1850_tx4_maritime_220624 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi<br>cd b1850_tx4_maritime_220624<br>./xmlchange NTASKS=-30<br>./xmlchange STOP_OPTION=nyears<br>./xmlchange STOP_N=2<br>./xmlchange RESUBMIT=75<br>./xmlchange REST_N=2<br>./xmlchange REST_OPTION=nyears<br>./case.setup<br>cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_tx2_maritime_220624/user_nl_cam .<br>cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_tx2_maritime_220624/sbatch1.sh .<br>cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_tx2_maritime_220624/user_nl_mom .<br>cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_tx2_maritime_220624/user_nl_cice .<br>./xmlchange ATM_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_maritime3.220624.nc&#x27;<br>./xmlchange LND_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_maritime3.220624.nc&#x27;<br>./xmlchange ICE_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_maritime3.220624.nc&#x27;<br>./xmlchange OCN_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_maritime3.220624.nc&#x27;<br>./xmlchange ATM2OCN_FMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_aave.220624.nc&#x27;<br>./xmlchange ATM2OCN_SMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_blin.220624.nc&#x27;<br>./xmlchange ATM2OCN_VMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_patc.220624.nc&#x27;<br>./xmlchange OCN2ATM_FMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_maritime3_TO_fv09_125_aave.220624.nc&#x27;<br>./xmlchange OCN2ATM_SMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_maritime3_TO_fv09_125_aave.220624.nc&#x27;<br>./case.build --skip-provenance-check<br></code></pre></td></tr></table></figure>
 
+
+
+<h1 id="试验记录日志"><a href="#试验记录日志" class="headerlink" title="试验记录日志"></a>试验记录日志</h1><h2 id="global-1m实验"><a href="#global-1m实验" class="headerlink" title="global_1m实验"></a>global_1m实验</h2><h3 id="spin-up"><a href="#spin-up" class="headerlink" title="spin-up"></a>spin-up</h3><p><font color=green>b1850_global_1m_220620</font>     spin文件时间长度21-98年  <font color=red>登记时间20220706</font></p>
+<h3 id="正式实验-1"><a href="#正式实验-1" class="headerlink" title="正式实验"></a>正式实验</h3><p><font color=green>b1850_global1m_o2_220703</font>    01-18年      <font color=red>2022-7-6</font></p>
+<h2 id="tx-indian实验"><a href="#tx-indian实验" class="headerlink" title="tx_indian实验"></a>tx_indian实验</h2><h3 id="spin-up-1"><a href="#spin-up-1" class="headerlink" title="spin-up"></a>spin-up</h3><p><font color=green>b1850_tx6_indian_220622</font>  41-60   <font color=red>2022-7-6</font></p>
+<p><font color=green>b1850_tx_indian_220627</font>    01-58   <font color=red>2022-7-6</font></p>
+<p>合计应该够了，可以开始正式实验（220706）</p>
+<h3 id="正式实验-2"><a href="#正式实验-2" class="headerlink" title="正式实验"></a>正式实验</h3><p><font color=green>b1850_tx_indian_o1_220706</font>           <font color=red>2022-7-6提交</font></p>
+<h2 id="control实验"><a href="#control实验" class="headerlink" title="control实验"></a>control实验</h2><h3 id="spin-up-2"><a href="#spin-up-2" class="headerlink" title="spin-up"></a>spin-up</h3><p><font color=green>b1850m_control3_220617</font>  01-52</p>
+<p><font color=green>b1850_control4_220624</font>  53-96</p>
+<p><font color=green>b1850_control_h1_220702</font> 01-03</p>
+<p><font color=red>reach 100years</font></p>
+<h3 id="正式实验-3"><a href="#正式实验-3" class="headerlink" title="正式实验"></a>正式实验</h3><p><font color=green> b1850_control_o1_220703</font> </p>
+<h2 id="maritime实验"><a href="#maritime实验" class="headerlink" title="maritime实验"></a>maritime实验</h2><h3 id="spin-up-3"><a href="#spin-up-3" class="headerlink" title="spin-up"></a>spin-up</h3><p><font color=green>b1850_tx4_maritime_220624</font> 01-26</p>
+<p><font color=green>b1850_tx_maritime_h1_220629</font> 01-26</p>
 
             </div>
             <hr>
