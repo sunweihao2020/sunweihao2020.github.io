@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://z4a.net/images/2022/06/03/-2022-06-03-215629.png">
 <meta property="article:published_time" content="2022-06-03T10:13:26.000Z">
-<meta property="article:modified_time" content="2022-07-06T02:42:59.046Z">
+<meta property="article:modified_time" content="2022-07-11T02:10:37.141Z">
 <meta property="article:author" content="SWH">
 <meta property="article:tag" content="CESM">
 <meta name="twitter:card" content="summary_large_image">
@@ -199,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      21k 字
+      22k 字
     </span>
   
 
@@ -208,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      172 分钟
+      183 分钟
     </span>
   
 
@@ -293,6 +293,15 @@
 <p><font color=red>这里我第一次RUN_REFDATE写错了，我直接改了这个值不需要.&#x2F;case.setup –reset和重新编译，直接提交就好了</font></p>
 <p>2022-7-3: 笑死，branch后的第二年就崩了，重新hybrid吧。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs shell">./create_newcase --case b1850_global1m_o2_220703 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi<br>cd b1850_global1m_o2_220703<br>./xmlchange NTASKS=-36<br>./xmlchange RUN_REFCASE=b1850_global_1m_220620<br>./xmlchange RUN_REFDATE=0099-01-01<br>./xmlchange RUN_TYPE=hybrid<br>./xmlchange STOP_OPTION=nyears<br>./xmlchange STOP_N=2<br>./xmlchange RESUBMIT=26<br>./xmlchange REST_N=2<br>./xmlchange REST_OPTION=nyears<br>./case.setup<br>cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o1_220703/user_nl_cam .<br>cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o1_220703/sbatch1.sh .<br>cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o1_220703/user_nl_mom .<br>cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o1_220703/user_nl_cice .<br><br>./case.build --skip-provenance-check<br><br>cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o1_220703/run/*.r.* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/<br>cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o1_220703/run/*.rs.* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/<br>cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o1_220703/run/*rpo* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/<br>cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o1_220703/run/*.i.* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/<br></code></pre></td></tr></table></figure>
+
+<p><font color=red>I do not know why it stop at 0029 years,here I need to restart it using branch run</font></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs shell">./create_newcase --case b1850_global1m_o3_220711 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi<br>cd b1850_global1m_o3_220711<br>./xmlchange NTASKS=-36<br>./xmlchange RUN_REFCASE=b1850_global1m_o2_220703<br>./xmlchange RUN_REFDATE=0029-01-01<br>./xmlchange RUN_TYPE=branch<br>./xmlchange STOP_OPTION=nyears<br>./xmlchange STOP_N=2<br>./xmlchange RESUBMIT=14<br>./xmlchange REST_N=2<br>./xmlchange REST_OPTION=nyears<br>./case.setup<br>cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o2_220703/user_nl_cam .<br>cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o2_220703/sbatch1.sh .<br>cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o2_220703/user_nl_mom .<br>cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o2_220703/user_nl_cice .<br><br>./case.build --skip-provenance-check<br><br>cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/*.r.* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o3_220711/run/<br>cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/*.rs.* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o3_220711/run/<br>cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/*.i.* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o3_220711/run/<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
 
 <p>(3) indian experiment</p>
 <p><font color=red>Attention: previous experiment has interrupted, so the official experiment is hybrid reboot</font></p>

@@ -16,15 +16,15 @@
   <meta name="author" content="SWH">
   <meta name="keywords" content="">
   
-    <meta name="description" content="常用命令1&lt;span style&#x3D;&amp;#x27;color:red;background:white;font-size:20;font-family:楷体;&amp;#x27;&gt;文字&lt;&#x2F;span&gt;  挂载nas12345678sudo mount -o username&#x3D;admin,password&#x3D;19970130SWh &#x2F;&#x2F;192.168.3.106&#x2F;data1 data1&#x2F;s">
+    <meta name="description" content="常用命令1&lt;span style&#x3D;&amp;#x27;color:red;background:white;font-size:20;font-family:楷体;&amp;#x27;&gt;文字&lt;&#x2F;span&gt;  挂载nas12345678sudo mount -o username&#x3D;admin,password&#x3D;19970130SWh &#x2F;&#x2F;192.168.50.118&#x2F;data1 data1&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="常用命令">
 <meta property="og:url" content="http://example.com/2022/04/04/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
 <meta property="og:site_name" content="Sun Weihao&#39;s Blog">
-<meta property="og:description" content="常用命令1&lt;span style&#x3D;&amp;#x27;color:red;background:white;font-size:20;font-family:楷体;&amp;#x27;&gt;文字&lt;&#x2F;span&gt;  挂载nas12345678sudo mount -o username&#x3D;admin,password&#x3D;19970130SWh &#x2F;&#x2F;192.168.3.106&#x2F;data1 data1&#x2F;s">
+<meta property="og:description" content="常用命令1&lt;span style&#x3D;&amp;#x27;color:red;background:white;font-size:20;font-family:楷体;&amp;#x27;&gt;文字&lt;&#x2F;span&gt;  挂载nas12345678sudo mount -o username&#x3D;admin,password&#x3D;19970130SWh &#x2F;&#x2F;192.168.50.118&#x2F;data1 data1&#x2F;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-04-04T13:11:45.000Z">
-<meta property="article:modified_time" content="2022-07-10T01:57:27.326Z">
+<meta property="article:modified_time" content="2022-07-11T06:39:48.153Z">
 <meta property="article:author" content="SWH">
 <meta property="article:tag" content="linux command">
 <meta name="twitter:card" content="summary_large_image">
@@ -240,7 +240,7 @@
             <div class="markdown-body">
               <h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><figure class="highlight html"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&#x27;color:red;background:white;font-size:20;font-family:楷体;&#x27;</span>&gt;</span>文字<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="挂载nas"><a href="#挂载nas" class="headerlink" title="挂载nas"></a>挂载nas</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo mount -o username=admin,password=19970130SWh //192.168.3.106/data1 data1/<br>sudo mount -o username=admin,password=19970130SWh //192.168.3.106/cesm_output cesm_output/<br>sudo mount -o username=admin,password=19970130SWh //192.168.3.106/qomo-data /home/sun/qomo-data/<br>sudo mount -o username=admin,password=19970130SWh //192.168.3.106/mydown /home/sun/mydown/<br>sudo mount -o username=admin,password=19970130SWh //192.168.50.118//model_output model_output/<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">查看某一ip下可挂载目录</span><br>showmount -e 192.168.3.106<br></code></pre></td></tr></table></figure>
+<h2 id="挂载nas"><a href="#挂载nas" class="headerlink" title="挂载nas"></a>挂载nas</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo mount -o username=admin,password=19970130SWh //192.168.50.118/data1 data1/<br>sudo mount -o username=admin,password=19970130SWh //192.168.50.118/cesm_output cesm_output/<br>sudo mount -o username=admin,password=19970130SWh //192.168.50.118/qomo-data /home/sun/qomo-data/<br>sudo mount -o username=admin,password=19970130SWh //192.168.50.118/mydown /home/sun/mydown/<br>sudo mount -o username=admin,password=19970130SWh //192.168.50.118/model_output model_output/<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">查看某一ip下可挂载目录</span><br>showmount -e 192.168.3.106<br></code></pre></td></tr></table></figure>
 
 
 

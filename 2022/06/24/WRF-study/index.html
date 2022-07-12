@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="c:/Users/nuist/AppData/Roaming/Typora/typora-user-images/image-20220701150653440.png">
 <meta property="article:published_time" content="2022-06-24T07:16:47.000Z">
-<meta property="article:modified_time" content="2022-07-05T03:14:18.147Z">
+<meta property="article:modified_time" content="2022-07-11T10:06:47.399Z">
 <meta property="article:author" content="SWH">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="c:/Users/nuist/AppData/Roaming/Typora/typora-user-images/image-20220701150653440.png">
@@ -198,7 +198,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      921 字
+      2.7k 字
     </span>
   
 
@@ -207,7 +207,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8 分钟
+      23 分钟
     </span>
   
 
@@ -242,11 +242,32 @@
               <blockquote>
 <p>The WRF system contains two dynamical solvers, referred to as the ARW (Advanced Research WRF) core and the NMM (Nonhydrostatic Mesoscale Model) core. The ARW has been developed in large part and is maintained by NCAR’s Mesoscale and Microscale Meteorology Laboratory, and its users’ page is: <a target="_blank" rel="noopener" href="http://www.mmm.ucar.edu/wrf/users/">WRF-ARW Users’ Page</a>. The NMM core was developed by the National Centers for Environmental Prediction (NCEP), and is currently used in their HWRF (Hurricane WRF) system.</p>
 </blockquote>
+<h1 id="WRF"><a href="#WRF" class="headerlink" title="WRF"></a>WRF</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compilation_tutorial.php">Compiling WRF (ucar.edu)</a></p>
+<h1 id="安装记录"><a href="#安装记录" class="headerlink" title="安装记录"></a>安装记录</h1><figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><pre><code class="hljs shell">export DIR=/home/sun/build_wrf/libraries<br>export CC=gcc<br>export CXX=g++<br>export FC=gfortran<br>export FCFLAGS=&quot;-m64&quot;<br>export F77=gfortran<br>export FFLAGS=&quot;-m64&quot;<br>export JASPERLIB=$DIR/grib2/lib<br>export JASPERINC=$DIR/grib2/include<br>export LDFLAGS=&quot;-L$DIR/grib2/lib&quot;<br>export CPPFLAGS=&quot;-I$DIR/grib2/include&quot;<br><br><br>export PATH=$DIR/netcdf/bin:$PATH<br>export NETCDF=$DIR/netcdf<br></code></pre></td></tr></table></figure>
+
+<p>在安装WRF .&#x2F;configure这一步会报错，有个warning</p>
+<p>根据提示输入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">export NETCDF_classic=1<br></code></pre></td></tr></table></figure>
+
+<p>重新.&#x2F;configure即可，但是报错了，显示编译器测试不通过。可是官网提供的例子我测试都是通过了的。也许我应该换个低版本的编译器再试试<font color=red>(220711)</font></p>
+<h3 id="安装220711记录"><a href="#安装220711记录" class="headerlink" title="安装220711记录"></a>安装220711记录</h3><p>使用github上的安装sh脚本成功安装，该库已fork，安装位置在</p>
+<p>&#x2F;home&#x2F;sun&#x2F;Build_WRF</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs shell">export DIR=/home/sun/app/gcc9.5_library<br>export CC=gcc<br>export CXX=g++<br>export FC=gfortran<br>export FCFLAGS=&quot;-m64&quot;<br>export F77=gfortran<br>export FFLAGS=&quot;-m64&quot;<br>export JASPERLIB=$DIR/grib2/lib<br>export JASPERINC=$DIR/grib2/include<br>export LDFLAGS=&quot;-L$DIR/grib2/lib&quot;<br>export CPPFLAGS=&quot;-I$DIR/grib2/include&quot;<br><br><br>export PATH=$DIR/netcdf/bin:$PATH<br>export NETCDF=$DIR/netcdf<br>export PATH=$DIR/mpich/bin:$PATH<br></code></pre></td></tr></table></figure>
+
+<p>上面使用gcc9.5来运行也会报错，报错信息</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs subunit"><span class="hljs-keyword">Error </span>Error Error NoahMP submodule files not populating WRF directories<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs shell">export DIR=/home/sun/app/oneapi_library<br>export CC=icc<br>export CXX=icpc<br>export FC=ifort<br>export FCFLAGS=&quot;-m64&quot;<br>export F77=ifort<br>export FFLAGS=&quot;-m64&quot;<br>export JASPERLIB=$DIR/grib2/lib<br>export JASPERINC=$DIR/grib2/include<br>export LDFLAGS=&quot;-L$DIR/grib2/lib&quot;<br>export CPPFLAGS=&quot;-I$DIR/grib2/include&quot;<br><br><br>export PATH=$DIR/netcdf/bin:$PATH<br>export NETCDF=$DIR/netcdf<br>export PATH=$DIR/mpich/bin:$PATH<br></code></pre></td></tr></table></figure>
+
+<p><font color=red>依然报错，但是官网给的测试例子是通过了，目前通过github上的脚本安装成功，但是我怀疑这可能是跟ubuntu22.04有关，脚本作者也说到新版本装wrf可能会出问题。以及过去在旧的版本ubuntu上是可以安装成功的</font></p>
 <h1 id="MPAS学习"><a href="#MPAS学习" class="headerlink" title="MPAS学习"></a>MPAS学习</h1><h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a target="_blank" rel="noopener" href="https://ufs-weather-model.readthedocs.io/_/downloads/en/latest/pdf/">UFS Weather Model Users Guide (ufs-weather-model.readthedocs.io)</a> 文档</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ol>
+<h2 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h2><ol>
 <li>在lym上安装所需要的库 p-cetcdf PIO</li>
 </ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><pre><code class="hljs shell">export CC=icc<br>export FC=ifort<br>export F77=ifort<br>export MPICC=mpiicc<br>export MPIF90=mpiifort<br>export MPIF77=mpiifort<br>export PNETCDF=/public1/home/lym/swh/app/intel/netcdf4<br><br></code></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">export CC=icc<br>export FC=ifort<br>export F77=ifort<br>export MPICC=mpiicc<br>export MPIF90=mpiifort<br>export MPIF77=mpiifort<br>export PNETCDF=/public1/home/lym/swh/app/intel/netcdf4<br><br></code></pre></td></tr></table></figure>
 
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">export MPIFC=mpiifort<br>export PNETCDF_PATH=$PNETCDF<br>export PIO=/public1/home/lym/swh/app/intel/netcdf<br>./configure --prefix=$PIO --disable-netcdf --disable-mpiio<br></code></pre></td></tr></table></figure>
 
@@ -261,6 +282,9 @@
 <p>2022-7-1进度</p>
 <p><img src="C:\Users\nuist\AppData\Roaming\Typora\typora-user-images\image-20220701150653440.png" srcset="/img/loading.gif" lazyload alt="image-20220701150653440"></p>
 <p>好像成功了？回头看看</p>
+<h2 id="2022-7-10安装记录"><a href="#2022-7-10安装记录" class="headerlink" title="2022-7-10安装记录"></a>2022-7-10安装记录</h2><p>netcdf-fortran没能安装成功orz</p>
+<p>d-30 d-20 d-10 slide 重画</p>
+<p>slide 7 </p>
 
             </div>
             <hr>
