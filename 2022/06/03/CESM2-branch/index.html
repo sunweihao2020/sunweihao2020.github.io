@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一个关于branch实验的记录基础实验1234567891011.&#x2F;create_newcase --case base_branch --res f09_g17 --compset FHIST --run-unsupported --compiler intel --mach oneapicd base_branch.&#x2F;xmlchange NTASKS&#x3D;-8.&#x2F;xmlchange STOP_OP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CESM2-branch">
+<meta property="og:url" content="http://example.com/2022/06/03/CESM2-branch/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一个关于branch实验的记录基础实验1234567891011.&#x2F;create_newcase --case base_branch --res f09_g17 --compset FHIST --run-unsupported --compiler intel --mach oneapicd base_branch.&#x2F;xmlchange NTASKS&#x3D;-8.&#x2F;xmlchange STOP_OP">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://z4a.net/images/2022/06/03/-2022-06-03-215629.png">
+<meta property="article:published_time" content="2022-06-03T10:13:26.000Z">
+<meta property="article:modified_time" content="2022-09-28T06:19:38.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CESM2">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://z4a.net/images/2022/06/03/-2022-06-03-215629.png">
+
+<link rel="canonical" href="http://example.com/2022/06/03/CESM2-branch/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CESM2-branch | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/03/CESM2-branch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CESM2-branch
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-03 18:13:26" itemprop="dateCreated datePublished" datetime="2022-06-03T18:13:26+08:00">2022-06-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-28 14:19:38" itemprop="dateModified" datetime="2022-09-28T14:19:38+08:00">2022-09-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/model/" itemprop="url" rel="index"><span itemprop="name">model</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一个关于branch实验的记录"><a href="#一个关于branch实验的记录" class="headerlink" title="一个关于branch实验的记录"></a>一个关于branch实验的记录</h1><h2 id="基础实验"><a href="#基础实验" class="headerlink" title="基础实验"></a>基础实验</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case base_branch --res f09_g17 --compset FHIST --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd base_branch</span><br><span class="line">./xmlchange NTASKS=-8</span><br><span class="line">./xmlchange STOP_OPTION=nmonths</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=2</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup </span><br><span class="line">cp ../replace_india8/user_nl_cam .</span><br><span class="line">cp ../replace_india8/sbatch1.sh .</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case base_branch2 --res f09_g17 --compset FHIST --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd base_branch2</span><br><span class="line">./xmlchange NTASKS=-8</span><br><span class="line">./xmlchange STOP_OPTION=nmonths</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=2</span><br><span class="line">./xmlchange REST_N=1</span><br><span class="line">./xmlchange REST_OPTION=nmonths</span><br><span class="line">./case.setup </span><br><span class="line">cp ../replace_india8/user_nl_cam .</span><br><span class="line">cp ../replace_india8/sbatch1.sh .</span><br></pre></td></tr></table></figure>
+
+<p>base2被我弄坏了，重新试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case base_branch3 --res f09_g17 --compset FHIST --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd base_branch3</span><br><span class="line">./xmlchange NTASKS=-8</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=1</span><br><span class="line">./xmlchange RESUBMIT=10</span><br><span class="line">./xmlchange REST_N=1</span><br><span class="line">./xmlchange REST_OPTION=ndays</span><br><span class="line">./case.setup </span><br><span class="line">cp ../replace_india8/user_nl_cam .</span><br><span class="line">cp ../replace_india8/sbatch1.sh .</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="branch测试"><a href="#branch测试" class="headerlink" title="branch测试"></a>branch测试</h2><p><font size=5.5>试试不修改其他的量能编译跑起来吗？</font></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case test_branch3 --res f09_g17 --compset FHIST --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd test_branch3</span><br><span class="line">./xmlchange RUN_REFCASE=base_branch3</span><br><span class="line">./xmlchange RUN_REFDATE=0001-01-03</span><br><span class="line">./xmlchange RUN_TYPE=branch</span><br><span class="line">./case.setup</span><br><span class="line">./case.build</span><br></pre></td></tr></table></figure>
+
+<p>没跑成功，查看log显示：</p>
+<p><a target="_blank" rel="noopener" href="https://z4a.net/image/2EJ8FN"><img src="https://z4a.net/images/2022/06/03/-2022-06-03-215629.png" alt="-2022-06-03-215629.png"></a></p>
+<p>这次修改一下核数再试试</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case test_branch4 --res f09_g17 --compset FHIST --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd test_branch4</span><br><span class="line">./xmlchange NTASKS=-8</span><br><span class="line">./xmlchange RUN_REFCASE=base_branch3</span><br><span class="line">./xmlchange RUN_REFDATE=0001-01-03</span><br><span class="line">./xmlchange RUN_TYPE=branch</span><br><span class="line">./case.setup</span><br><span class="line">cp ../replace_india8/user_nl_cam .</span><br><span class="line">cp ../replace_india8/sbatch1.sh .</span><br><span class="line">./case.build</span><br></pre></td></tr></table></figure>
+
+<p><font color=red>我猜应该是refdate设置错了</font></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case test_branch5 --res f09_g17 --compset FHIST --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd test_branch5</span><br><span class="line">./xmlchange NTASKS=-8</span><br><span class="line">./xmlchange RUN_REFCASE=base_branch3</span><br><span class="line">./xmlchange RUN_REFDATE=1979-01-03</span><br><span class="line">./xmlchange RUN_TYPE=branch</span><br><span class="line">./case.setup</span><br><span class="line">cp ../replace_india8/user_nl_cam .</span><br><span class="line">cp ../test_branch4/sbatch1.sh .</span><br><span class="line">./case.build</span><br></pre></td></tr></table></figure>
+
+<p>搞坏了。。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case test_branch6 --res f09_g17 --compset FHIST --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd test_branch6</span><br><span class="line">./xmlchange NTASKS=-8</span><br><span class="line">./xmlchange RUN_REFCASE=base_branch3</span><br><span class="line">./xmlchange RUN_REFDATE=1979-01-03</span><br><span class="line">./xmlchange RUN_TYPE=branch</span><br><span class="line">./case.setup</span><br><span class="line">cp ../replace_india8/user_nl_cam .</span><br><span class="line">cp ../test_branch4/sbatch1.sh .</span><br><span class="line">./case.build</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="耦合实验的branch测试"><a href="#耦合实验的branch测试" class="headerlink" title="耦合实验的branch测试"></a>耦合实验的branch测试</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_tx4_indian_220618 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_tx4_indian_220618</span><br><span class="line">./xmlchange NTASKS=-50</span><br><span class="line">./xmlchange RUN_REFCASE=b1850_tx4_indian_220616</span><br><span class="line">./xmlchange RUN_REFDATE=0011-01-01</span><br><span class="line">./xmlchange RUN_TYPE=branch</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=3</span><br><span class="line">./xmlchange RESUBMIT=60</span><br><span class="line">./xmlchange REST_N=3</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx4_indian_220616/user_nl_cam .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx4_indian_220616/sbatch1.sh .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx4_indian_220616/user_nl_mom .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx4_indian_220616/user_nl_cice .</span><br><span class="line">./xmlchange ATM_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange LND_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange ICE_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange OCN_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_FMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_aave.220615.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_SMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_blin.220615.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_VMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_patc.220615.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_FMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_noindian_TO_fv09_125_aave.220615.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_SMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_noindian_TO_fv09_125_aave.220615.nc&#x27;</span><br><span class="line">./case.build --skip-provenance-check</span><br><span class="line"></span><br><span class="line">cp b1850_tx4_indian_220616/run/*.r.* b1850_tx4_indian_220618/run/</span><br><span class="line">cp b1850_tx4_indian_220616/run/*.rs.* b1850_tx4_indian_220618/run/</span><br><span class="line">cp b1850_tx4_indian_220616/run/*rpo* b1850_tx4_indian_220618/run/</span><br></pre></td></tr></table></figure>
+
+<h2 id="中途修改了PHIS的branch测试"><a href="#中途修改了PHIS的branch测试" class="headerlink" title="中途修改了PHIS的branch测试"></a>中途修改了PHIS的branch测试</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_tx5_indian_220621 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_tx5_indian_220621</span><br><span class="line">./xmlchange NTASKS=-30</span><br><span class="line">./xmlchange RUN_REFCASE=b1850_tx4_indian_220618</span><br><span class="line">./xmlchange RUN_REFDATE=0038-01-01</span><br><span class="line">./xmlchange RUN_TYPE=branch</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=20</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx4_indian_220616/user_nl_cam .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx4_indian_220616/sbatch1.sh .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx4_indian_220616/user_nl_mom .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx4_indian_220616/user_nl_cice .</span><br><span class="line">./xmlchange ATM_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange LND_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange ICE_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange OCN_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_FMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_aave.220615.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_SMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_blin.220615.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_VMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_patc.220615.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_FMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_noindian_TO_fv09_125_aave.220615.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_SMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_noindian_TO_fv09_125_aave.220615.nc&#x27;</span><br><span class="line">./case.build --skip-provenance-check</span><br><span class="line"></span><br><span class="line">cp b1850_tx4_indian_220616/run/*.r.* b1850_tx4_indian_220618/run/</span><br><span class="line">cp b1850_tx4_indian_220616/run/*.rs.* b1850_tx4_indian_220618/run/</span><br><span class="line">cp b1850_tx4_indian_220616/run/*rpo* b1850_tx4_indian_220618/run/</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_tx6_indian_220622 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_tx6_indian_220622</span><br><span class="line">./xmlchange NTASKS=-50</span><br><span class="line">./xmlchange RUN_REFCASE=b1850_tx5_indian_220621</span><br><span class="line">./xmlchange RUN_REFDATE=0040-01-01</span><br><span class="line">./xmlchange RUN_TYPE=branch</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=3</span><br><span class="line">./xmlchange RESUBMIT=55</span><br><span class="line">./xmlchange REST_N=3</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx5_indian_220621/user_nl_cam .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx5_indian_220621/sbatch1.sh .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx5_indian_220621/user_nl_mom .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx5_indian_220621/user_nl_cice .</span><br><span class="line">./xmlchange ATM_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange LND_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange ICE_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange OCN_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_FMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_aave.220615.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_SMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_blin.220615.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_VMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_patc.220615.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_FMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_noindian_TO_fv09_125_aave.220615.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_SMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_noindian_TO_fv09_125_aave.220615.nc&#x27;</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_control4_220624 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_control4_220624</span><br><span class="line">./xmlchange NTASKS=-30</span><br><span class="line">./xmlchange RUN_REFCASE=b1850m_control3_220617</span><br><span class="line">./xmlchange RUN_REFDATE=0053-01-01</span><br><span class="line">./xmlchange RUN_TYPE=branch</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=55</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850m_control3_220617/sbatch1.sh .</span><br><span class="line">./case.build --skip-provenance-check</span><br><span class="line"></span><br><span class="line">cp b1850m_control3_220617/run/*.r.* b1850_control4_220624/run/</span><br><span class="line">cp b1850m_control3_220617/run/*.rs.* b1850_control4_220624/run/</span><br><span class="line">cp b1850m_control3_220617/run/*rpo* b1850_control4_220624/run/</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="hybrid"><a href="#hybrid" class="headerlink" title="hybrid"></a>hybrid</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_tx_indian_220627 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_tx_indian_220627</span><br><span class="line">./xmlchange NTASKS=-40</span><br><span class="line">./xmlchange RUN_REFCASE=b1850_tx6_indian_220622</span><br><span class="line">./xmlchange RUN_REFDATE=0061-01-01</span><br><span class="line">./xmlchange RUN_TYPE=hybrid</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=50</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx5_indian_220621/user_nl_cam .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx5_indian_220621/sbatch1.sh .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx5_indian_220621/user_nl_mom .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx5_indian_220621/user_nl_cice .</span><br><span class="line">./xmlchange ATM_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange LND_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange ICE_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange OCN_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_FMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_aave.220615.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_SMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_blin.220615.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_VMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_patc.220615.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_FMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_noindian_TO_fv09_125_aave.220615.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_SMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_noindian_TO_fv09_125_aave.220615.nc&#x27;</span><br><span class="line">./case.build --skip-provenance-check</span><br><span class="line"></span><br><span class="line">cp b1850_tx6_indian_220622/run/*.r.* b1850_tx_indian_220627/run/</span><br><span class="line">cp b1850_tx6_indian_220622/run/*.rs.* b1850_tx_indian_220627/run/</span><br><span class="line">cp b1850_tx6_indian_220622/run/*rpo* b1850_tx_indian_220627/run/</span><br><span class="line">cp b1850_tx6_indian_220622/run/*.i.* b1850_tx_indian_220627/run/</span><br></pre></td></tr></table></figure>
+
+<h2 id="（二）海洋性大陆实验重启"><a href="#（二）海洋性大陆实验重启" class="headerlink" title="（二）海洋性大陆实验重启"></a>（二）海洋性大陆实验重启</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_tx_maritime_h1_220629 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_tx_maritime_h1_220629</span><br><span class="line">./xmlchange NTASKS=-40</span><br><span class="line">./xmlchange RUN_REFCASE=b1850_tx4_maritime_220624</span><br><span class="line">./xmlchange RUN_REFDATE=0027-01-01</span><br><span class="line">./xmlchange RUN_TYPE=hybrid</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=50</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_tx4_maritime_220624/user_nl_cam .</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_tx4_maritime_220624/sbatch1.sh .</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_tx4_maritime_220624/user_nl_mom .</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_tx4_maritime_220624/user_nl_cice .</span><br><span class="line">./xmlchange ATM_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange LND_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange ICE_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange OCN_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_FMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_aave.220624.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_SMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_blin.220624.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_VMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_patc.220624.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_FMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_maritime3_TO_fv09_125_aave.220624.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_SMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_maritime3_TO_fv09_125_aave.220624.nc&#x27;</span><br><span class="line">./case.build --skip-provenance-check</span><br><span class="line"></span><br><span class="line">cp b1850_tx4_maritime_220624/run/*.r.* b1850_tx_maritime_h1_220629/run/</span><br><span class="line">cp b1850_tx4_maritime_220624/run/*.rs.* b1850_tx_maritime_h1_220629/run/</span><br><span class="line">cp b1850_tx4_maritime_220624/run/*rpo* b1850_tx_maritime_h1_220629/run/</span><br><span class="line">cp b1850_tx4_maritime_220624/run/*.i.* b1850_tx_maritime_h1_220629/run/</span><br></pre></td></tr></table></figure>
+
+<p>海洋性大陆实验重启h1 由于wgx服务器满了，这里转移到lym服务器上运行,由于是继续运行branch，所以依然命名为h1</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_tx_maritime_h1_220721 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_tx_maritime_h1_220721</span><br><span class="line">./xmlchange NTASKS=-36</span><br><span class="line">./xmlchange RUN_REFCASE=b1850_tx_maritime_h1_220629</span><br><span class="line">./xmlchange RUN_REFDATE=0041-01-01</span><br><span class="line">./xmlchange RUN_TYPE=branch</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=30</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_tx_maritime_h1_220629/user_nl_cam .</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_tx_maritime_h1_220629/sbatch1.sh .</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_tx_maritime_h1_220629/user_nl_mom .</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_tx_maritime_h1_220629/user_nl_cice .</span><br><span class="line">./xmlchange ATM_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange LND_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange ICE_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange OCN_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_FMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_aave.220624.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_SMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_blin.220624.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_VMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_patc.220624.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_FMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_maritime3_TO_fv09_125_aave.220624.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_SMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_maritime3_TO_fv09_125_aave.220624.nc&#x27;</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<p><font color=red>restart文件我给删了。。唉还是重新跑吧，虽然结果都有，但是免得未来还要用</font></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_tx_maritime_h0_220830 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_tx_maritime_h0_220830</span><br><span class="line">./xmlchange NTASKS=-30</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=50</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_tx_maritime_h1_220629/user_nl_cam .</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_tx_maritime_h1_220629/sbatch1.sh .</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_tx_maritime_h1_220629/user_nl_mom .</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_tx_maritime_h1_220629/user_nl_cice .</span><br><span class="line">./xmlchange ATM_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange LND_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange ICE_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange OCN_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_FMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_aave.220624.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_SMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_blin.220624.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_VMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_patc.220624.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_FMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_maritime3_TO_fv09_125_aave.220624.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_SMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_maritime3_TO_fv09_125_aave.220624.nc&#x27;</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="三-控制实验的重启"><a href="#三-控制实验的重启" class="headerlink" title="(三) 控制实验的重启"></a>(三) 控制实验的重启</h2><p>实验名 b1850_control4_220624 享年 0097</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_control_h1_220702 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_control_h1_220702</span><br><span class="line">./xmlchange NTASKS=-50</span><br><span class="line">./xmlchange RUN_REFCASE=b1850_control4_220624</span><br><span class="line">./xmlchange RUN_REFDATE=0097-01-01</span><br><span class="line">./xmlchange RUN_TYPE=hybrid</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=3</span><br><span class="line">./xmlchange REST_N=3</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_control4_220624/user_nl_cam .</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_control4_220624/sbatch1.sh .</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_control4_220624/user_nl_mom .</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_control4_220624/user_nl_cice .</span><br><span class="line"></span><br><span class="line">./case.build --skip-provenance-check</span><br><span class="line"></span><br><span class="line">cp b1850_control4_220624/run/*.r.* b1850_control_h1_220702/run/</span><br><span class="line">cp b1850_control4_220624/run/*.rs.* b1850_control_h1_220702/run/</span><br><span class="line">cp b1850_control4_220624/run/*rpo* b1850_control_h1_220702/run/</span><br><span class="line">cp b1850_control4_220624/run/*.i.* b1850_control_h1_220702/run/</span><br></pre></td></tr></table></figure>
+
+<h1 id="SPIN-UP-后的正式实验"><a href="#SPIN-UP-后的正式实验" class="headerlink" title="SPIN UP 后的正式实验"></a>SPIN UP 后的正式实验</h1><p>（1）control</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_control_o1_220703 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_control_o1_220703</span><br><span class="line">./xmlchange NTASKS=-32</span><br><span class="line">./xmlchange RUN_REFCASE=b1850_control_h1_220702</span><br><span class="line">./xmlchange RUN_REFDATE=0004-01-01</span><br><span class="line">./xmlchange RUN_TYPE=branch</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=25</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_control_h1_220702/user_nl_cam .</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_control_h1_220702/sbatch1.sh .</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_control_h1_220702/user_nl_mom .</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.2.0/cime/scripts/b1850_control_h1_220702/user_nl_cice .</span><br><span class="line"></span><br><span class="line">./case.build --skip-provenance-check</span><br><span class="line"></span><br><span class="line">cp b1850_control_h1_220702/run/*.r.* b1850_control_o1_220703/run/</span><br><span class="line">cp b1850_control_h1_220702/run/*.rs.* b1850_control_o1_220703/run/</span><br><span class="line">cp b1850_control_h1_220702/run/*rpo* b1850_control_o1_220703/run/</span><br><span class="line">cp b1850_control_h1_220702/run/*.i.* b1850_control_o1_220703/run/</span><br></pre></td></tr></table></figure>
+
+<p>(2)   global_1m</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_global1m_o1_220703 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_global1m_o1_220703</span><br><span class="line">./xmlchange NTASKS=-36</span><br><span class="line">./xmlchange RUN_REFCASE=b1850_global_1m_220620</span><br><span class="line">./xmlchange RUN_REFDATE=0099-01-01</span><br><span class="line">./xmlchange RUN_TYPE=branch</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=25</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global_1m_220620/user_nl_cam .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global_1m_220620/sbatch1.sh .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global_1m_220620/user_nl_mom .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global_1m_220620/user_nl_cice .</span><br><span class="line"></span><br><span class="line">./case.build --skip-provenance-check</span><br><span class="line"></span><br><span class="line">cp b1850_global_1m_220620/run/*.r.* b1850_global1m_o1_220703/run/</span><br><span class="line">cp b1850_global_1m_220620/run/*.rs.* b1850_global1m_o1_220703/run/</span><br><span class="line">cp b1850_global_1m_220620/run/*rpo* b1850_global1m_o1_220703/run/</span><br><span class="line">cp b1850_global_1m_220620/run/*.i.* b1850_global1m_o1_220703/run/</span><br></pre></td></tr></table></figure>
+
+<p><font color=red>这里我第一次RUN_REFDATE写错了，我直接改了这个值不需要.&#x2F;case.setup –reset和重新编译，直接提交就好了</font></p>
+<p>2022-7-3: 笑死，branch后的第二年就崩了，重新hybrid吧。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_global1m_o2_220703 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_global1m_o2_220703</span><br><span class="line">./xmlchange NTASKS=-36</span><br><span class="line">./xmlchange RUN_REFCASE=b1850_global_1m_220620</span><br><span class="line">./xmlchange RUN_REFDATE=0099-01-01</span><br><span class="line">./xmlchange RUN_TYPE=hybrid</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=26</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o1_220703/user_nl_cam .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o1_220703/sbatch1.sh .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o1_220703/user_nl_mom .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o1_220703/user_nl_cice .</span><br><span class="line"></span><br><span class="line">./case.build --skip-provenance-check</span><br><span class="line"></span><br><span class="line">cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o1_220703/run/*.r.* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/</span><br><span class="line">cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o1_220703/run/*.rs.* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/</span><br><span class="line">cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o1_220703/run/*rpo* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/</span><br><span class="line">cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o1_220703/run/*.i.* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/</span><br></pre></td></tr></table></figure>
+
+<p><font color=red>I do not know why it stop at 0029 years,here I need to restart it using branch run</font></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_global1m_o3_220711 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_global1m_o3_220711</span><br><span class="line">./xmlchange NTASKS=-36</span><br><span class="line">./xmlchange RUN_REFCASE=b1850_global1m_o2_220703</span><br><span class="line">./xmlchange RUN_REFDATE=0029-01-01</span><br><span class="line">./xmlchange RUN_TYPE=branch</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=14</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o2_220703/user_nl_cam .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o2_220703/sbatch1.sh .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o2_220703/user_nl_mom .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_global1m_o2_220703/user_nl_cice .</span><br><span class="line"></span><br><span class="line">./case.build --skip-provenance-check</span><br><span class="line"></span><br><span class="line">cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/*.r.* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o3_220711/run/</span><br><span class="line">cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/*.rs.* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o3_220711/run/</span><br><span class="line">cp /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o2_220703/run/*.i.* /public1/home/lym/swh/cesm2.1.3/scratch/b1850_global1m_o3_220711/run/</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>(3) indian experiment</p>
+<p><font color=red>Attention: previous experiment has interrupted, so the official experiment is hybrid reboot</font></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_tx_indian_o1_220706 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_tx_indian_o1_220706</span><br><span class="line">./xmlchange NTASKS=-40</span><br><span class="line">./xmlchange RUN_REFCASE=b1850_tx_indian_220627</span><br><span class="line">./xmlchange RUN_REFDATE=0059-01-01</span><br><span class="line">./xmlchange RUN_TYPE=hybrid</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=27</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx_indian_220627/user_nl_cam .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx_indian_220627/sbatch1.sh .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx_indian_220627/user_nl_mom .</span><br><span class="line">cp /public1/home/lym/swh/cesm2.2.0/cime/scripts/b1850_tx_indian_220627/user_nl_cice .</span><br><span class="line">./xmlchange ATM_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange LND_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange ICE_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange OCN_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_noindian.220615.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_FMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_aave.220615.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_SMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_blin.220615.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_VMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_noindian_patc.220615.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_FMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_noindian_TO_fv09_125_aave.220615.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_SMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_noindian_TO_fv09_125_aave.220615.nc&#x27;</span><br><span class="line">./case.build --skip-provenance-check</span><br><span class="line"></span><br><span class="line">cp b1850_tx_indian_220627/run/*.r.* b1850_tx_indian_o1_220706/run/</span><br><span class="line">cp b1850_tx_indian_220627/run/*.rs.* b1850_tx_indian_o1_220706/run/</span><br><span class="line">cp b1850_tx_indian_220627/run/*rpo* b1850_tx_indian_o1_220706/run/</span><br><span class="line">cp b1850_tx_indian_220627/run/*.i.* b1850_tx_indian_o1_220706/run/</span><br></pre></td></tr></table></figure>
+
+
+
+<p>(4) indochina experiment</p>
+<p>备注说明：spinup的实验名为 b1850_tx_inch_220811 已经跑到了九十多年，所以新建一个正式的实验，继续往后跑个七八十年即可</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_tx_inch_o1_220824 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_tx_inch_o1_220824</span><br><span class="line">./xmlchange NTASKS=-40</span><br><span class="line">./xmlchange RUN_REFCASE=b1850_tx_inch_220811</span><br><span class="line">./xmlchange RUN_REFDATE=0095-01-01</span><br><span class="line">./xmlchange RUN_TYPE=hybrid</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=30</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/lym/swh/cesm/cime/scripts/b1850_tx_inch_220811/user_nl_cam .</span><br><span class="line">cp /public1/home/lym/swh/cesm/cime/scripts/b1850_tx_inch_220811/sbatch1.sh .</span><br><span class="line">cp /public1/home/lym/swh/cesm/cime/scripts/b1850_tx_inch_220811/user_nl_mom .</span><br><span class="line">cp /public1/home/lym/swh/cesm/cime/scripts/b1850_tx_inch_220811/user_nl_cice .</span><br><span class="line">./xmlchange ATM_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_noinch.220811.nc&#x27;</span><br><span class="line">./xmlchange LND_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_noinch.220811.nc&#x27;</span><br><span class="line">./xmlchange ICE_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_noinch.220811.nc&#x27;</span><br><span class="line">./xmlchange OCN_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_noinch.220811.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_FMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_inch_aave.220811.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_SMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_inch_blin.220811.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_VMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_inch_patc.220811.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_FMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_inch_TO_fv09_125_aave.220811.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_SMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_inch_TO_fv09_125_aave.220811.nc&#x27;</span><br><span class="line">./case.build --skip-provenance-check</span><br><span class="line"></span><br><span class="line">cp b1850_tx_inch_220811/run/*.r.* b1850_tx_inch_o1_220824/run/</span><br><span class="line">cp b1850_tx_inch_220811/run/*.rs.* b1850_tx_inch_o1_220824/run/</span><br><span class="line">cp b1850_tx_inch_220811/run/*rpo* b1850_tx_inch_o1_220824/run/</span><br><span class="line">cp b1850_tx_inch_220811/run/*.i.* b1850_tx_inch_o1_220824/run/</span><br></pre></td></tr></table></figure>
+
+<p>到30多年的时候断掉了，这里重启一次。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_tx_inch_o2_220830 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_tx_inch_o2_220830</span><br><span class="line">./xmlchange NTASKS=-40</span><br><span class="line">./xmlchange RUN_REFCASE=b1850_tx_inch_o1_220824</span><br><span class="line">./xmlchange RUN_REFDATE=0031-01-01</span><br><span class="line">./xmlchange RUN_TYPE=hybrid</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=25</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/lym/swh/cesm/cime/scripts/b1850_tx_inch_o1_220824/user_nl_cam .</span><br><span class="line">cp /public1/home/lym/swh/cesm/cime/scripts/b1850_tx_inch_o1_220824/sbatch1.sh .</span><br><span class="line">cp /public1/home/lym/swh/cesm/cime/scripts/b1850_tx_inch_o1_220824/user_nl_mom .</span><br><span class="line">cp /public1/home/lym/swh/cesm/cime/scripts/b1850_tx_inch_o1_220824/user_nl_cice .</span><br><span class="line">./xmlchange ATM_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_noinch.220811.nc&#x27;</span><br><span class="line">./xmlchange LND_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_noinch.220811.nc&#x27;</span><br><span class="line">./xmlchange ICE_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_noinch.220811.nc&#x27;</span><br><span class="line">./xmlchange OCN_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_noinch.220811.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_FMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_inch_aave.220811.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_SMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_inch_blin.220811.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_VMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_inch_patc.220811.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_FMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_inch_TO_fv09_125_aave.220811.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_SMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_inch_TO_fv09_125_aave.220811.nc&#x27;</span><br><span class="line">./case.build --skip-provenance-check</span><br><span class="line"></span><br><span class="line">cp b1850_tx_inch_o1_220824/run/*.r.* b1850_tx_inch_o2_220830/run/</span><br><span class="line">cp b1850_tx_inch_o1_220824/run/*.rs.* b1850_tx_inch_o2_220830/run/</span><br><span class="line">cp b1850_tx_inch_o1_220824/run/*rpo* b1850_tx_inch_o2_220830/run/</span><br><span class="line">cp b1850_tx_inch_o1_220824/run/*.i.* b1850_tx_inch_o2_220830/run/</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="重启记录"><a href="#重启记录" class="headerlink" title="重启记录"></a>重启记录</h1><p>因为更改海陆分布实验还是会断掉，所以要记录下断点时间，方便后续拼接</p>
+<h2 id="无印度大陆实验"><a href="#无印度大陆实验" class="headerlink" title="无印度大陆实验"></a>无印度大陆实验</h2><ol>
+<li>实验名 b1850_tx6_indian_220622      实验年份0-63年</li>
+<li>实验名 b1850_tx_indian_220627         实验年份起始：63</li>
+</ol>
+<p>无海洋性大陆实验</p>
+<ol>
+<li>实验名b1850_tx4_maritime_220624  实验年份0~28年</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CESM2/" rel="tag"># CESM2</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/24/CESM%E8%80%A6%E5%90%88%E5%AE%9E%E9%AA%8C/" rel="prev" title="CESM耦合实验">
+      <i class="fa fa-chevron-left"></i> CESM耦合实验
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/06/wsl-clash%E7%BF%BB%E5%A2%99/" rel="next" title="wsl-clash翻墙">
+      wsl-clash翻墙 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E5%85%B3%E4%BA%8Ebranch%E5%AE%9E%E9%AA%8C%E7%9A%84%E8%AE%B0%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">一个关于branch实验的记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C"><span class="nav-number">1.1.</span> <span class="nav-text">基础实验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#branch%E6%B5%8B%E8%AF%95"><span class="nav-number">1.2.</span> <span class="nav-text">branch测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%80%A6%E5%90%88%E5%AE%9E%E9%AA%8C%E7%9A%84branch%E6%B5%8B%E8%AF%95"><span class="nav-number">2.</span> <span class="nav-text">耦合实验的branch测试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E9%80%94%E4%BF%AE%E6%94%B9%E4%BA%86PHIS%E7%9A%84branch%E6%B5%8B%E8%AF%95"><span class="nav-number">2.1.</span> <span class="nav-text">中途修改了PHIS的branch测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hybrid"><span class="nav-number">3.</span> <span class="nav-text">hybrid</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E6%B5%B7%E6%B4%8B%E6%80%A7%E5%A4%A7%E9%99%86%E5%AE%9E%E9%AA%8C%E9%87%8D%E5%90%AF"><span class="nav-number">3.1.</span> <span class="nav-text">（二）海洋性大陆实验重启</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-%E6%8E%A7%E5%88%B6%E5%AE%9E%E9%AA%8C%E7%9A%84%E9%87%8D%E5%90%AF"><span class="nav-number">3.2.</span> <span class="nav-text">(三) 控制实验的重启</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SPIN-UP-%E5%90%8E%E7%9A%84%E6%AD%A3%E5%BC%8F%E5%AE%9E%E9%AA%8C"><span class="nav-number">4.</span> <span class="nav-text">SPIN UP 后的正式实验</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8D%E5%90%AF%E8%AE%B0%E5%BD%95"><span class="nav-number">5.</span> <span class="nav-text">重启记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A0%E5%8D%B0%E5%BA%A6%E5%A4%A7%E9%99%86%E5%AE%9E%E9%AA%8C"><span class="nav-number">5.1.</span> <span class="nav-text">无印度大陆实验</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

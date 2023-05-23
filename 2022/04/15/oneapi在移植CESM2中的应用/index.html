@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="OneAPI 在 CESM2 移植中的应用 Intel 最近几年发布了oneapi，简单说来就是把编译器、MPI库、数学计算库等等软件都放在一个工具包中，使用起来十分的方便不需要再像之前那样装些乱七八糟的软件了。它官网自己都说了，say goodbye to proprietary Lock-In   更重要的是——免费！这里点赞Intel 本文记录一下我使用oneapi工具包将CESM2移植到服">
+<meta property="og:type" content="article">
+<meta property="og:title" content="oneapi在移植CESM2中的应用">
+<meta property="og:url" content="http://example.com/2022/04/15/oneapi%E5%9C%A8%E7%A7%BB%E6%A4%8DCESM2%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="OneAPI 在 CESM2 移植中的应用 Intel 最近几年发布了oneapi，简单说来就是把编译器、MPI库、数学计算库等等软件都放在一个工具包中，使用起来十分的方便不需要再像之前那样装些乱七八糟的软件了。它官网自己都说了，say goodbye to proprietary Lock-In   更重要的是——免费！这里点赞Intel 本文记录一下我使用oneapi工具包将CESM2移植到服">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://z4a.net/images/2022/04/15/-2022-04-15-151743.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/15/1c13582f6f20b44ae.md.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/15/22cf048aaae7b1186.md.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/15/-2022-04-15-152920.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/15/-2022-04-15-153836.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/15/-2022-04-15-162254.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/15/-2022-04-15-162527.md.png">
+<meta property="og:image" content="https://z4a.net/images/2022/05/12/-2022-05-12-105643.md.png">
+<meta property="article:published_time" content="2022-04-15T07:02:56.000Z">
+<meta property="article:modified_time" content="2022-08-05T02:39:05.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CESM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://z4a.net/images/2022/04/15/-2022-04-15-151743.png">
+
+<link rel="canonical" href="http://example.com/2022/04/15/oneapi%E5%9C%A8%E7%A7%BB%E6%A4%8DCESM2%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>oneapi在移植CESM2中的应用 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/15/oneapi%E5%9C%A8%E7%A7%BB%E6%A4%8DCESM2%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          oneapi在移植CESM2中的应用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-15 15:02:56" itemprop="dateCreated datePublished" datetime="2022-04-15T15:02:56+08:00">2022-04-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-05 10:39:05" itemprop="dateModified" datetime="2022-08-05T10:39:05+08:00">2022-08-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/model/" itemprop="url" rel="index"><span itemprop="name">model</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>OneAPI 在 CESM2 移植中的应用</strong></p>
+<p>Intel 最近几年发布了oneapi，简单说来就是把编译器、MPI库、数学计算库等等软件都放在一个工具包中，使用起来十分的方便不需要再像之前那样装些乱七八糟的软件了。它官网自己都说了，<strong>say goodbye to proprietary Lock-In</strong></p>
+<img src="https://z4a.net/images/2022/04/15/-2022-04-15-151743.png" alt="-2022-04-15-151743.png" style="zoom: 50%;" />
+
+<p>更重要的是——免费！这里点赞Intel</p>
+<p><font size=5>本文记录一下我使用oneapi工具包将CESM2移植到服务器上的流程</font></p>
+<h1 id="关于oneapi的安装"><a href="#关于oneapi的安装" class="headerlink" title="关于oneapi的安装"></a>关于oneapi的安装</h1><p>首先是oneapi的官网：</p>
+<p><a target="_blank" rel="noopener" href="https://www.intel.com/content/www/us/en/developer/tools/oneapi/overview.html#gs.ww0qvh">https://www.intel.com/content/www/us/en/developer/tools/oneapi/overview.html#gs.ww0qvh</a></p>
+<p><a target="_blank" rel="noopener" href="https://z4a.net/image/2OQuAp"><img src="https://z4a.net/images/2022/04/15/1c13582f6f20b44ae.md.png" alt="1c13582f6f20b44ae.md.png"></a></p>
+<p>点击红色箭头所指处进入工具包列表，红色框中所框出来的两个就是我们需要用到的安装包，分别安装两个工具包的流程都是一样的，这里仅以第二个HPC toolkit为例，注意这里建议先安装框中下面那个：</p>
+<p><a target="_blank" rel="noopener" href="https://z4a.net/image/2OQEsJ"><img src="https://z4a.net/images/2022/04/15/22cf048aaae7b1186.md.png" alt="22cf048aaae7b1186.md.png"></a></p>
+<h2 id="安装HPC-Toolkit"><a href="#安装HPC-Toolkit" class="headerlink" title="安装HPC Toolkit"></a>安装HPC Toolkit</h2><p>点击上图所示的链接后，在跳出来的软件列表里选择HPC Toolkit那一栏下方有个Download，点击。在选项中依次选择图中的几个选项，最后一个选择offline</p>
+<p><img src="https://z4a.net/images/2022/04/15/-2022-04-15-152920.png" alt="-2022-04-15-152920.png"></p>
+<p>选择完后旁边会跳出来下载链接，点击下载就好了。</p>
+<p>下载完成后把该文件上传到服务器，这个文件本身是一个sh文件，所以</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh 文件名.sh</span><br></pre></td></tr></table></figure>
+
+<p>加载一段时间后会跳出来安装界面，可以选择全部安装or自定义安装，省事的话一直点下一步就可以了。安装完成后会自动退出。</p>
+<p>以上是HPC Toolkit的安装过程，另一个安装包Base toolkit安装流程是一样的。<font color=#FF000>这里再次建议先安装HPC Toolkit再安装Base Toolkit</font></p>
+<p>在这个两个包安装完成后，很多我们需要的软件就已经在我们服务器中了，但是我们由于没有把他们加到环境变量中系统是不知道我们安装的软件在哪里的。这里intel贴心地给我们生成了一个sh文件，source一下就把各种软件加进环境变量了。</p>
+<p>该文件位置以及环境配置大致如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source $HOME_PATH/intel/oneapi/setvars.sh</span><br></pre></td></tr></table></figure>
+
+<p>结果如图，意思就是环境都给你配置好了 此时可以输入 “icc -v”查看一下</p>
+<p><a target="_blank" rel="noopener" href="https://z4a.net/image/2OQMfj"><img src="https://z4a.net/images/2022/04/15/-2022-04-15-153836.png" alt="-2022-04-15-153836.png"></a></p>
+<p><font size=5>下面小结一下我们安装了这两个包里分别都包含那些我们需要的软件</font></p>
+<p>HPC Toolkit： 编译器（icc icpc ifort） 并行计算库（intelmpi）</p>
+<p>Base Toolkit:  MKL数学库（BLAS和LAPACK)</p>
+<h1 id="python的安装"><a href="#python的安装" class="headerlink" title="python的安装"></a>python的安装</h1><p>CESM2的编译安装是需要python3版本以上的，服务器默认的往往是python2，所以需要自己进行安装，这里我图省事直接用安装了conda然后创建了一个环境，关于conda和conda创建环境网上资料非常多，也很简单，这里不再赘述。</p>
+<p>提个我认为需要注意的点：</p>
+<ol>
+<li>建议安装miniconda，是conda精简版，占用地方小。miniconda下载网址<a target="_blank" rel="noopener" href="https://docs.conda.io/en/latest/miniconda.html">Miniconda — Conda documentation</a> 选python3.7的linux版本进行下载就好，版本不需要太高。下载完上传到服务器里sh一下就自动安装了。</li>
+</ol>
+<h1 id="netcdf库的安装"><a href="#netcdf库的安装" class="headerlink" title="netcdf库的安装"></a>netcdf库的安装</h1><p>上述过程完成后，最后一个重要的准备工作就是安装netcdf库了，这里有些人还安装了pnetcdf库，是一个并行的的netcdf库但是我尝试没有成功，不装pnetcdf也是可以的。这里只介绍netcdf库安装。注意在这之前前两步都做完了以及把编译器的环境变量都给配置好。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">icc -v</span><br></pre></td></tr></table></figure>
+
+<p>查看一下编译器是否加入环境路径</p>
+<p>参考链接：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/183752623">关于clm5.0移植的过程记录（初学者） - 知乎 (zhihu.com)</a></p>
+<p>安装步骤：</p>
+<ol>
+<li><p>安装zlib库</p>
+<p>下载地址 <a target="_blank" rel="noopener" href="http://www.zlib.net/zlib-1.2.11.tar.gz">http://www.zlib.net/zlib-1.2.11.tar.gz</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">wget http://www.zlib.net/zlib-1.2.11.tar.gz</span><br><span class="line">tar -zxvf ./zlib-1.2.11.tar.gz</span><br><span class="line">cd zlib-1.2.11.tar.gz</span><br><span class="line">export CC=icc</span><br><span class="line">export CXX=icpc</span><br><span class="line">export FC=ifort</span><br><span class="line">export f77=ifort</span><br><span class="line">./configure --prefix=/public1/home/lym/swh/app/intel/netcdf4</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<p>这里面export作用是把编译过程中的默认选项切换到intel的编译器，.&#x2F;configure –prefix选项的作用是指定你编译安装的路径，这里可根据自己喜好更改。</p>
+</li>
+<li><p>安装curl</p>
+<p>这个软件服务器自带的，所以我没有安装，可以查看下服务器上是都有这个软件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --version</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装hdf5</p>
+<p>下载官网：<a target="_blank" rel="noopener" href="https://www.hdfgroup.org/downloads/hdf5/source-code/">https://www.hdfgroup.org/downloads/hdf5/source-code/</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf ./hdf5-1.12.0.tar.gz</span><br><span class="line">cd hdf5-1.12.0</span><br><span class="line">export CC=icc</span><br><span class="line">export CXX=icpc</span><br><span class="line">export FC=ifort</span><br><span class="line">export f77=ifort</span><br><span class="line">CFLAGS=&quot;-O3 -fPIC&quot; CPPFLAGS=&quot;-O3 -fPIC&quot; FFLAGS=&quot;-O3 -fPIC&quot; FFLAGS=&quot;-O3 -fPIC&quot; LIBS=&quot;-ldl&quot;</span><br><span class="line">./configure --prefix=/public1/home/lym/swh/app/intel/netcdf4 --with-zlib=/public1/home/lym/swh/app/intel/netcdf4 --enable-largefile --enable-static --enable-shared --enable-fortran --enable-hl</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+
+<p>这里如果你没有重新登陆的话，四个export其实已经不需要了</p>
+</li>
+<li><p>安装netcdf库</p>
+<p>下载：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.6.1.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf ./netcdf-4.6.1.tar.gz</span><br><span class="line">cd netcdf-4.6.1</span><br><span class="line">export CC=icc</span><br><span class="line">export CXX=icpc</span><br><span class="line">export FC=ifort</span><br><span class="line">export f77=ifort</span><br><span class="line">CFLAGS=&quot;-O3 -fPIC -I/public1/home/lym/swh/app/intel/netcdf4/include&quot; CPPFLAGS=&quot;-O3 -fPIC -I/public1/home/lym/swh/app/intel/netcdf4/include&quot; FFLAGS=&quot;-O3 -fPIC&quot; LDFLAGS=-L/public1/home/lym/swh/app/intel/netcdf4/lib ./configure --prefix=/public1/home/lym/swh/app/intel/netcdf4 --enable-static --enable-shared --enable-netcdf4 --enable-largefile --enable-large-file-tests --enable-diskless --enable-mmap --with-zlib=/public1/home/lym/swh/app/intel/netcdf4</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<p>注意上述操作中出现的路径仅供参考，实际情况是要根据你在前几步安装过程进行调整。安装成功后会蹦出来个欢迎界面，开头是congratulations，表示你成功了。</p>
+</li>
+<li><p>安装netcdf-c库</p>
+<p>下载：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://www.unidata.ucar.edu/downloads/netcdf/ftp/netcdf-c-4.7.0.tar.gz	</span><br></pre></td></tr></table></figure>
+
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf ./netcdf-c-4.7.0.tar.gz</span><br><span class="line">cd netcdf-c-4.7.0</span><br><span class="line">export CC=icc</span><br><span class="line">export CXX=icpc</span><br><span class="line">export FC=ifort</span><br><span class="line">export f77=ifort</span><br><span class="line">CPPFLAGS=-I/public1/home/lym/swh/app/intel/netcdf4/include LDFLAGS=-L/public1/home/lym/swh/app/intel/netcdf4/lib ./configure --prefix=/public1/home/lym/swh/app/intel/netcdf4</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装netcdf-fortran库</p>
+<p>下载：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://www.unidata.ucar.edu/downloads/netcdf/ftp/netcdf-fortran-4.4.5.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf ./netcdf-fortran-4.4.5.tar.gz</span><br><span class="line">cd netcdf-fortran-4.4.5</span><br><span class="line">export LD_LIBRARY_PATH=/public1/home/lym/swh/app/intel/netcdf4/lib:$LD_LIBRARY_PATH</span><br><span class="line">export CC=icc</span><br><span class="line">export CXX=icpc</span><br><span class="line">export FC=ifort</span><br><span class="line">export f77=ifort</span><br><span class="line">CFLAGS=&quot;-O3 -fPIC -I/public1/home/lym/swh/app/intel/netcdf4/include&quot; FFLAGS=&quot;-O3 -fPIC&quot; FCFLAGS=&quot;-O3 -fPIC&quot; LDFLAGS=-L/public1/home/lym/swh/app/intel/netcdf4/lib LIBS=&quot;-lnetcdf -lhdf5_hl -lhdf5 -lz -lm -ldl&quot; ./configure --prefix=/public1/home/lym/swh/app/intel/netcdf4 --enable-static --enable-shared --enable-logging --enable-largefile --enable-large-file-tests --with-zlib=/public1/home/lym/swh/app/intel/netcdf4</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>至此，netcdf库基本算安装完成</strong></p>
+<p>将netcdf库加入环境变量，自己做一个sh文件，在其中对netcdf的环境变量进行设置，然后登录上服务器后source下该文件即可</p>
+<p>我的设置如图：</p>
+<p><img src="https://z4a.net/images/2022/04/15/-2022-04-15-162254.png" alt="-2022-04-15-162254.png"></p>
+<p>source完检查一下是否加入到环境变量，以及查看上述软件是否都被正确安装，使用命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc-config --all</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://z4a.net/image/2OQbwE"><img src="https://z4a.net/images/2022/04/15/-2022-04-15-162527.md.png" alt="-2022-04-15-162527.md.png"></a></p>
+<h1 id="BLAS与LAPACK的安装"><a href="#BLAS与LAPACK的安装" class="headerlink" title="BLAS与LAPACK的安装"></a>BLAS与LAPACK的安装</h1><p>BLAS与LAPACK是两个数学计算库，CESM运行需要用到它们，前面安装oneapi的的时候实际已经安装上他们俩，在mkl库里面。但是在应用的过程中我发现在编译CESM2的过程中调用LAPACK库的时候会出现bug，最后还是重新安装了。这里只安装LAPACK库，BLAS不用安装，后续直接调用oneapi里面的库即可。</p>
+<p>安装过程参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/baiyang3/article/details/52790793">linux下安装blas和lapack_baiyang3的博客-CSDN博客_linux 安装lapack</a></p>
+<h2 id="下载lapack后解压"><a href="#下载lapack后解压" class="headerlink" title="下载lapack后解压"></a>下载lapack后解压</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf lapack-3.10.0.tgz</span><br><span class="line">cd lapack-3.10.0/INSTALL/</span><br></pre></td></tr></table></figure>
+
+<p>然后根据平台的特点，将INSTALL目录下对应的make.inc.XXX复制一份到 lapack-3.10.0目录下，并命名为make.inc, 这里我复制的是INSTALL&#x2F;make.inc.ifot，因为我这里用的是intel编译器。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cp make.inc.ifort ../make.inc</span><br><span class="line">cd ..</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<p>这里要注意版本问题，lapack好像从3.5版本之后不需要先安装blas再拷贝一些库进去了，直接在lapack目录里make就行，所以这里建议使用新版本的lapack，亲测使用3.4.2版本会报错。</p>
+<p>make完成之后：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd LAPACKE</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<p>编译不报错的话，LAPACK库到此就完成了，记住该目录的路径，后面移植的时候要用</p>
+<h1 id="CESM2-1-3的移植"><a href="#CESM2-1-3的移植" class="headerlink" title="CESM2.1.3的移植"></a>CESM2.1.3的移植</h1><p>以上是几个比较关键的库，除此之外还需要SVN git等等工具，一般服务器都自带，不自带的话安装也比较简单网上很多教程。这里就不展开了，接下来说CESM2的移植。此处版本为cesm2.1.3</p>
+<h1 id="源代码的下载"><a href="#源代码的下载" class="headerlink" title="源代码的下载"></a>源代码的下载</h1><p>官网教程</p>
+<p><a target="_blank" rel="noopener" href="https://escomp.github.io/CESM/versions/cesm2.1/html/downloading_cesm.html">Downloading CESM2 (CESM2.1) — CESM CESM2.1 documentation (escomp.github.io)</a></p>
+<p>在这一步：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./manage_externals/checkout_externals</span><br></pre></td></tr></table></figure>
+
+<p>执行后会自动开始下载CESM2所需要的各个模块的组件，但是由于一些众所周知的原因，我们不能畅通地连接外网，为解决这个问题可以使用下载完组件后打包安装的压缩包，解压到自己目录即可。</p>
+<p>这里提供百度云链接，版本为cesm2.1.3</p>
+<p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1GBghBIaF-8bey-ND7aK5gQ">https://pan.baidu.com/s/1GBghBIaF-8bey-ND7aK5gQ</a><br>提取码：m7m7</p>
+<p>解压好后可以</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./manage_externals/checkout_externals -S</span><br></pre></td></tr></table></figure>
+
+<p>检查一下各个组件有无问题，如果没有问题结果应该是这样的：</p>
+<p><a target="_blank" rel="noopener" href="https://z4a.net/image/2mj3WH"><img src="https://z4a.net/images/2022/05/12/-2022-05-12-105643.md.png" alt="-2022-05-12-105643.md.png"></a></p>
+<h1 id="config的设置"><a href="#config的设置" class="headerlink" title="config的设置"></a>config的设置</h1><p>装好CESM2.1.3之后，接下来就要处理移植的配置文件</p>
+<p>首先是在home目录下建立一个.cime目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/.cime</span><br></pre></td></tr></table></figure>
+
+<p>这个目录下面将要包含三个文件：</p>
+<p>config_batch.xml           <strong>该文件包含提交到节点运算方面的一些配置</strong></p>
+<p>config_compilers.xml   <strong>该文件包含编译器、mpi库、以及其他一些库的配置</strong></p>
+<p>config_machines.xml   <strong>该文件包含一些路径等等的配置</strong></p>
+<p><font face="微软雅黑">这三个文件官方是有提供模板的，位置在$HOME&#x2F;cesm2.1.3&#x2F;cime&#x2F;config&#x2F;cesm&#x2F;machines 下面，打开xml的文件话会看到里面已经提供了多套配置，以config_compilers.xml为例，用<strong>gcc</strong> or <strong>intel compiler</strong> or <strong>PGI</strong>的话,不同的编译器官网给你提供了现成的模板，选择你需要的那套，其余的就都可以删了，这里建议先把上述三个文件拷贝到~&#x2F;.cime目录下然后进行修改</font></p>
+<p><font color='red'>下面我贴出自己的config文件，并对我认为重要的地方进行标注，仅供参考根据自己平台和编译器的不同要自己做修改</font></p>
+<p><font size=12>config_machines</font></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span>?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">config_machines</span> <span class="attr">version</span>=<span class="string">&quot;2.0&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">machine</span> <span class="attr">MACH</span>=<span class="string">&quot;oneapi2&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">DESC</span>&gt;</span>sunweihao<span class="tag">&lt;/<span class="name">DESC</span>&gt;</span>                                 </span><br><span class="line">  <span class="tag">&lt;<span class="name">NODENAME_REGEX</span>&gt;</span>login01<span class="tag">&lt;/<span class="name">NODENAME_REGEX</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">OS</span>&gt;</span>LINUX<span class="tag">&lt;/<span class="name">OS</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">PROXY</span>&gt;</span>sunweihao<span class="tag">&lt;/<span class="name">PROXY</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">COMPILERS</span>&gt;</span>intel<span class="tag">&lt;/<span class="name">COMPILERS</span>&gt;</span>      # 标出所使用的编译器，这里用的是intel</span><br><span class="line">  <span class="tag">&lt;<span class="name">MPILIBS</span>&gt;</span>intelmpi<span class="tag">&lt;/<span class="name">MPILIBS</span>&gt;</span>       # 标出所使用的mpi，这里用的intelmpi</span><br><span class="line">  <span class="tag">&lt;<span class="name">PROJECT</span>&gt;</span>none<span class="tag">&lt;/<span class="name">PROJECT</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">CIME_OUTPUT_ROOT</span>&gt;</span>/public1/home/wgx/swh/cesm2.1.3/scratch<span class="tag">&lt;/<span class="name">CIME_OUTPUT_ROOT</span>&gt;</span>  # 这个路径是跑case时的运行路径</span><br><span class="line">  <span class="tag">&lt;<span class="name">DIN_LOC_ROOT</span>&gt;</span>/public1/home/wgx/swh/cesm2.1.3/inputdata<span class="tag">&lt;/<span class="name">DIN_LOC_ROOT</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">DIN_LOC_ROOT_CLMFORC</span>&gt;</span>/public1/home/wgx/swh/cesm2.1.3/inputdata/atm/datm7<span class="tag">&lt;/<span class="name">DIN_LOC_ROOT_CLMFORC</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">DOUT_S_ROOT</span>&gt;</span>/public1/home/wgx/swh/cesm2.1.3/archive/$CASE<span class="tag">&lt;/<span class="name">DOUT_S_ROOT</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">BASELINE_ROOT</span>&gt;</span>/public1/home/wgx/swh/cesm2.1.3/cesm_baselines<span class="tag">&lt;/<span class="name">BASELINE_ROOT</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">CCSM_CPRNC</span>&gt;</span>/public1/home/wgx/swh/cesm2.1.3/cime/tools/cprnc<span class="tag">&lt;/<span class="name">CCSM_CPRNC</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">GMAKE</span>&gt;</span>make<span class="tag">&lt;/<span class="name">GMAKE</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">GMAKE_J</span>&gt;</span>24<span class="tag">&lt;/<span class="name">GMAKE_J</span>&gt;</span>               # make时所使用的核数</span><br><span class="line">  <span class="tag">&lt;<span class="name">BATCH_SYSTEM</span>&gt;</span>slurm<span class="tag">&lt;/<span class="name">BATCH_SYSTEM</span>&gt;</span>  # 这里要给出你所在服务器上使用的作业管理系统</span><br><span class="line">  <span class="tag">&lt;<span class="name">SUPPORTED_BY</span>&gt;</span>swh<span class="tag">&lt;/<span class="name">SUPPORTED_BY</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">MAX_TASKS_PER_NODE</span>&gt;</span>28<span class="tag">&lt;/<span class="name">MAX_TASKS_PER_NODE</span>&gt;</span>    # 这里是每个结点的最大核数，会因为服务器不同而不同，要事先查好</span><br><span class="line">  <span class="tag">&lt;<span class="name">MAX_MPITASKS_PER_NODE</span>&gt;</span>28<span class="tag">&lt;/<span class="name">MAX_MPITASKS_PER_NODE</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">PROJECT_REQUIRED</span>&gt;</span>FALSE<span class="tag">&lt;/<span class="name">PROJECT_REQUIRED</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mpirun</span> <span class="attr">mpilib</span>=<span class="string">&quot;default&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">executable</span>&gt;</span>mpirun<span class="tag">&lt;/<span class="name">executable</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">arguments</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">arg</span> <span class="attr">name</span>=<span class="string">&quot;ntasks&quot;</span>&gt;</span> -np &#123;&#123; total_tasks &#125;&#125; <span class="tag">&lt;/<span class="name">arg</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">arguments</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mpirun</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">module_system</span> <span class="attr">type</span>=<span class="string">&quot;none&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">module_system</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">environment_variables</span>&gt;</span>       #前面安装的一些软件库的路径</span><br><span class="line">    <span class="tag">&lt;<span class="name">env</span> <span class="attr">name</span>=<span class="string">&quot;OMP_STACKSIZE&quot;</span>&gt;</span>256M<span class="tag">&lt;/<span class="name">env</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">env</span> <span class="attr">name</span>=<span class="string">&quot;PATH&quot;</span>&gt;</span>$ENV&#123;HOME&#125;/bin:$ENV&#123;PATH&#125;<span class="tag">&lt;/<span class="name">env</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">env</span> <span class="attr">name</span>=<span class="string">&quot;NETCDF_PATH&quot;</span>&gt;</span>/public1/home/wgx/swh/app/oneapi/netcdf4<span class="tag">&lt;/<span class="name">env</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">env</span> <span class="attr">name</span>=<span class="string">&quot;HDF5_PATH&quot;</span>&gt;</span>/public1/home/wgx/swh/app/oneapi/netcdf4<span class="tag">&lt;/<span class="name">env</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">env</span> <span class="attr">name</span>=<span class="string">&quot;ZLIB_PATH&quot;</span>&gt;</span>/public1/home/wgx/swh/app/oneapi/netcdf4<span class="tag">&lt;/<span class="name">env</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">env</span> <span class="attr">name</span>=<span class="string">&quot;LAPACK_PATH&quot;</span>&gt;</span>/public1/home/wgx/intel/oneapi/mkl/2021.3.0<span class="tag">&lt;/<span class="name">env</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">environment_variables</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">resource_limits</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">resource</span> <span class="attr">name</span>=<span class="string">&quot;RLIMIT_STACK&quot;</span>&gt;</span>-1<span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">resource_limits</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">machine</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">config_machines</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><font size=12>config_compliers</font></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">config_compilers</span> <span class="attr">version</span>=<span class="string">&quot;2.0&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">compiler</span> <span class="attr">COMPILER</span>=<span class="string">&quot;intel&quot;</span> <span class="attr">MACH</span>=<span class="string">&quot;oneapi2&quot;</span>&gt;</span> # 这里给出使用intel编译器的时候的配置</span><br><span class="line">  <span class="tag">&lt;<span class="name">CFLAGS</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">base</span>&gt;</span>  -qno-opt-dynamic-align -fp-model precise -std=gnu99 <span class="tag">&lt;/<span class="name">base</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">append</span> <span class="attr">compile_threaded</span>=<span class="string">&quot;true&quot;</span>&gt;</span> -qopenmp <span class="tag">&lt;/<span class="name">append</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">append</span> <span class="attr">DEBUG</span>=<span class="string">&quot;FALSE&quot;</span>&gt;</span> -O2 -debug minimal <span class="tag">&lt;/<span class="name">append</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">append</span> <span class="attr">DEBUG</span>=<span class="string">&quot;TRUE&quot;</span>&gt;</span> -O0 -g <span class="tag">&lt;/<span class="name">append</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">CFLAGS</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">CPPDEFS</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- http://software.intel.com/en-us/articles/intel-composer-xe/ --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">append</span>&gt;</span> -DFORTRANUNDERSCORE -DCPRINTEL<span class="tag">&lt;/<span class="name">append</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">CPPDEFS</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">CXX_LDFLAGS</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">base</span>&gt;</span> -cxxlib <span class="tag">&lt;/<span class="name">base</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">CXX_LDFLAGS</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">CXX_LINKER</span>&gt;</span>FORTRAN<span class="tag">&lt;/<span class="name">CXX_LINKER</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">FC_AUTO_R8</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">base</span>&gt;</span> -r8 <span class="tag">&lt;/<span class="name">base</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">FC_AUTO_R8</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">FFLAGS</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">base</span>&gt;</span> -qno-opt-dynamic-align  -convert big_endian -assume byterecl -ftz -traceback -assume realloc_lhs -fp-model source  <span class="tag">&lt;/<span class="name">base</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">append</span> <span class="attr">compile_threaded</span>=<span class="string">&quot;true&quot;</span>&gt;</span> -qopenmp <span class="tag">&lt;/<span class="name">append</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">append</span> <span class="attr">DEBUG</span>=<span class="string">&quot;TRUE&quot;</span>&gt;</span> -O0 -g -check uninit -check bounds -check pointers -fpe0 -check noarg_temp_created <span class="tag">&lt;/<span class="name">append</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">append</span> <span class="attr">DEBUG</span>=<span class="string">&quot;FALSE&quot;</span>&gt;</span> -O2 -debug minimal <span class="tag">&lt;/<span class="name">append</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">FFLAGS</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">FFLAGS_NOOPT</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">base</span>&gt;</span> -O0 <span class="tag">&lt;/<span class="name">base</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">append</span> <span class="attr">compile_threaded</span>=<span class="string">&quot;true&quot;</span>&gt;</span> -qopenmp <span class="tag">&lt;/<span class="name">append</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">FFLAGS_NOOPT</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">FIXEDFLAGS</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">base</span>&gt;</span> -fixed -132 <span class="tag">&lt;/<span class="name">base</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">FIXEDFLAGS</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">FREEFLAGS</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">base</span>&gt;</span> -free <span class="tag">&lt;/<span class="name">base</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">FREEFLAGS</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">LDFLAGS</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">append</span> <span class="attr">compile_threaded</span>=<span class="string">&quot;true&quot;</span>&gt;</span> -qopenmp <span class="tag">&lt;/<span class="name">append</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">LDFLAGS</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">MPICC</span>&gt;</span> mpiicc  <span class="tag">&lt;/<span class="name">MPICC</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">MPICXX</span>&gt;</span> mpicpc <span class="tag">&lt;/<span class="name">MPICXX</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">MPIFC</span>&gt;</span> mpiifort <span class="tag">&lt;/<span class="name">MPIFC</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">SCC</span>&gt;</span> icc <span class="tag">&lt;/<span class="name">SCC</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">SCXX</span>&gt;</span> icpc <span class="tag">&lt;/<span class="name">SCXX</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">SFC</span>&gt;</span> ifort <span class="tag">&lt;/<span class="name">SFC</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">MPI_PATH</span>&gt;</span>/public1/home/wgx/intel/oneapi/mpi/2021.5.1<span class="tag">&lt;/<span class="name">MPI_PATH</span>&gt;</span>  # 此处路径要对应oneapi里面mpi库的路径</span><br><span class="line">  <span class="tag">&lt;<span class="name">SLIBS</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">append</span>&gt;</span> -L/public1/home/wgx/swh/app/oneapi/netcdf4/lib -lnetcdff -lnetcdf <span class="tag">&lt;/<span class="name">append</span>&gt;</span> # 标出netcdf库路径，跟上面软件安装路径一致</span><br><span class="line">    <span class="tag">&lt;<span class="name">append</span>&gt;</span> -L/public1/home/wgx/intel/oneapi/mkl/2021.3.0 -lblas -L/public1/home/wgx/swh/app/oneapi/lapack-3.10.0 -llapack <span class="tag">&lt;/<span class="name">append</span>&gt;</span>            # blas和lapace的路径，blas只需要找到oneapi的里面mkl库路径即可，lapack前面我们有安装，这里是安装之后的路径</span><br><span class="line">  <span class="tag">&lt;/<span class="name">SLIBS</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">SUPPORTS_CXX</span>&gt;</span>TRUE<span class="tag">&lt;/<span class="name">SUPPORTS_CXX</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">compiler</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">config_compilers</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><font size=12>config_batch</font></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">config_batch</span> <span class="attr">version</span>=<span class="string">&quot;2.1&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">batch_system</span> <span class="attr">type</span>=<span class="string">&quot;slurm&quot;</span> <span class="attr">MACH</span>=<span class="string">&quot;oneapi2&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">batch_submit</span>&gt;</span>sbatch<span class="tag">&lt;/<span class="name">batch_submit</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">submit_args</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">arg</span> <span class="attr">flag</span>=<span class="string">&quot;--time&quot;</span> <span class="attr">name</span>=<span class="string">&quot;$JOB_WALLCLOCK_TIME&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">arg</span> <span class="attr">flag</span>=<span class="string">&quot;-p&quot;</span> <span class="attr">name</span>=<span class="string">&quot;$JOB_QUEUE&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">submit_args</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">queues</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">queue</span> <span class="attr">walltimemax</span>=<span class="string">&quot;12:00:00&quot;</span> <span class="attr">nodemin</span>=<span class="string">&quot;1&quot;</span> <span class="attr">nodemax</span>=<span class="string">&quot;2712&quot;</span>&gt;</span>i01203share<span class="tag">&lt;/<span class="name">queue</span>&gt;</span> #i01203share是服务器能提交作业的队列名</span><br><span class="line">  <span class="tag">&lt;/<span class="name">queues</span>&gt;</span>                                        # walltimemax时作业的时间最大限制，注意有些服务器是限制作业时长的</span><br><span class="line"><span class="tag">&lt;/<span class="name">batch_system</span>&gt;</span>                                    # 这个时候我们就需要限制单次最大时长，然后多次提交</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">config_batch</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上三个文件设置好之后就可以去测试移植成果了~</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CESM/" rel="tag"># CESM</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/05/python-learning/" rel="prev" title="python learning">
+      <i class="fa fa-chevron-left"></i> python learning
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/20/Linux%E7%9F%A5%E8%AF%86/" rel="next" title="计算机知识">
+      计算机知识 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Eoneapi%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">关于oneapi的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85HPC-Toolkit"><span class="nav-number">1.1.</span> <span class="nav-text">安装HPC Toolkit</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#python%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">python的安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#netcdf%E5%BA%93%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">3.</span> <span class="nav-text">netcdf库的安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BLAS%E4%B8%8ELAPACK%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">4.</span> <span class="nav-text">BLAS与LAPACK的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BDlapack%E5%90%8E%E8%A7%A3%E5%8E%8B"><span class="nav-number">4.1.</span> <span class="nav-text">下载lapack后解压</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CESM2-1-3%E7%9A%84%E7%A7%BB%E6%A4%8D"><span class="nav-number">5.</span> <span class="nav-text">CESM2.1.3的移植</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%8B%E8%BD%BD"><span class="nav-number">6.</span> <span class="nav-text">源代码的下载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#config%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="nav-number">7.</span> <span class="nav-text">config的设置</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

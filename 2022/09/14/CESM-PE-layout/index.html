@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文探讨核数设置如何影响CESM的运行网上资料：CESM user guide 网上文档 阅读文档 The component processor layout is via three settings: the number of MPI tasks, the number of OpenMP threads per task, and the root MPI processor numbe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CESM PE layout">
+<meta property="og:url" content="http://example.com/2022/09/14/CESM-PE-layout/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本文探讨核数设置如何影响CESM的运行网上资料：CESM user guide 网上文档 阅读文档 The component processor layout is via three settings: the number of MPI tasks, the number of OpenMP threads per task, and the root MPI processor numbe">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-14T13:54:23.000Z">
+<meta property="article:modified_time" content="2022-09-16T07:03:02.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CESM">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/09/14/CESM-PE-layout/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CESM PE layout | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/14/CESM-PE-layout/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CESM PE layout
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-09-14 21:54:23" itemprop="dateCreated datePublished" datetime="2022-09-14T21:54:23+08:00">2022-09-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-16 15:03:02" itemprop="dateModified" datetime="2022-09-16T15:03:02+08:00">2022-09-16</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="本文探讨核数设置如何影响CESM的运行"><a href="#本文探讨核数设置如何影响CESM的运行" class="headerlink" title="本文探讨核数设置如何影响CESM的运行"></a>本文探讨核数设置如何影响CESM的运行</h1><h2 id="网上资料："><a href="#网上资料：" class="headerlink" title="网上资料："></a>网上资料：</h2><p><a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1xDl-_7GjYRtsUD2hG6N9G0KY4kTdszbP/view?usp=sharing">CESM user guide</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cesm.ucar.edu/models/cesm1.0/cesm/cesm_doc_1_0_4/x939.html">网上文档</a></p>
+<h2 id="阅读文档"><a href="#阅读文档" class="headerlink" title="阅读文档"></a>阅读文档</h2><blockquote>
+<p>The component processor layout is via three settings: the number of MPI tasks, the number of OpenMP threads per task, and the root MPI processor number from the global set.</p>
+</blockquote>
+<blockquote>
+<p>ONE IMPORTANT POINT is that for a fully active configuration, the atmosphere component is hardwired in the driver to never run concurrently with the land or ice component.</p>
+</blockquote>
+<p>大气模块不能和land ice模块并行。</p>
+<blockquote>
+<p>If all components have identical NTASKS, NTHRDS, and ROOTPE set, all components will run sequentially on the same hardware processors.</p>
+</blockquote>
+<p>如果懒省事统一给一个值，那么是顺序挨个运行</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">entry</span> <span class="attr">id</span>=<span class="string">&quot;NTASKS_ATM&quot;</span> <span class="attr">value</span>=<span class="string">&quot;16&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">entry</span> <span class="attr">id</span>=<span class="string">&quot;NTHRDS_ATM&quot;</span> <span class="attr">value</span>=<span class="string">&quot;4&quot;</span>  /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">entry</span> <span class="attr">id</span>=<span class="string">&quot;ROOTPE_ATM&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0&quot;</span>  /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">entry</span> <span class="attr">id</span>=<span class="string">&quot;NTASKS_OCN&quot;</span> <span class="attr">value</span>=<span class="string">&quot;64&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">entry</span> <span class="attr">id</span>=<span class="string">&quot;NTHRDS_OCN&quot;</span> <span class="attr">value</span>=<span class="string">&quot;1&quot;</span>  /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">entry</span> <span class="attr">id</span>=<span class="string">&quot;ROOTPE_OCN&quot;</span> <span class="attr">value</span>=<span class="string">&quot;16&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>以此为例，如果写提交脚本，那么总共需要申请128个 hardware processors</p>
+<p>128核排列顺序为</p>
+<p>Atmosphere：4 4 4 4 4 4…共计64</p>
+<p>Ocean：1 1 1 1 1…共计64</p>
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p><font size=6 color=red>以CESM2 B1850MOM为例</font></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sinfo --Node --long</span><br></pre></td></tr></table></figure>
+
+<p>该命令可以查看一个节点上有多少个CPU</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./xmlquery NTASKS,NTHRDS,ROOTPE</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="CASE1"><a href="#CASE1" class="headerlink" title="CASE1"></a>CASE1</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test1 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test1</span><br></pre></td></tr></table></figure>
+
+<p>根据case新建的信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Compset forcing is 1850</span><br><span class="line">Com forcing is Biogeochemistry intercomponent  with diagnostic CO2</span><br><span class="line">ATM component is CAM cam6 physics:</span><br><span class="line">LND component is clm5.0:BGC (vert. resol. CN and methane) with prognostic crop:</span><br><span class="line">ICE component is Sea ICE (cice) model version 5</span><br><span class="line">OCN component is MOM6 OCEAN </span><br><span class="line">ROF component is MOSART: MOdel for Scale Adaptive River Transport</span><br><span class="line">GLC component is cism2 (default, higher-order, can run in parallel):cism ice evolution turned off (this is the standard configuration unless you&#x27;re explicitly interested in ice evolution):</span><br><span class="line">WAV component is Stub wave component</span><br><span class="line">IAC component is Stub iac component</span><br><span class="line">ESP component is Stub external system processing (ESP) component</span><br></pre></td></tr></table></figure>
+
+<p>后面三个是stub的</p>
+<p>尝试使用10个节点，280核来研究</p>
+<h3 id="CASE2"><a href="#CASE2" class="headerlink" title="CASE2"></a>CASE2</h3><p>什么都不改，统一10个节点</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test2 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test2</span><br><span class="line">./xmlchange NTASKS=-10</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE3"><a href="#CASE3" class="headerlink" title="CASE3"></a>CASE3</h3><p>大气5个节点，海洋5个节点</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test3 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test3</span><br><span class="line">./xmlchange NTASKS=-5</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_OCN=140</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE4"><a href="#CASE4" class="headerlink" title="CASE4"></a>CASE4</h3><p>大气3，海洋7</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test4 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test4</span><br><span class="line">./xmlchange NTASKS_ATM=-3</span><br><span class="line">./xmlchange NTASKS_OCN=-7</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_OCN=84</span><br><span class="line">./xmlchange STOP_OPTION=days</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<p>查看PE信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NTASKS: [&#x27;CPL:84&#x27;, &#x27;ATM:84&#x27;, &#x27;LND:28&#x27;, &#x27;ICE:56&#x27;, &#x27;OCN:196&#x27;, &#x27;ROF:28&#x27;, &#x27;GLC:28&#x27;, &#x27;WAV:28&#x27;, &#x27;IAC:1&#x27;, &#x27;ESP:1&#x27;]</span><br><span class="line">        NTHRDS: [&#x27;CPL:1&#x27;, &#x27;ATM:1&#x27;, &#x27;LND:1&#x27;, &#x27;ICE:1&#x27;, &#x27;OCN:1&#x27;, &#x27;ROF:1&#x27;, &#x27;GLC:1&#x27;, &#x27;WAV:1&#x27;, &#x27;IAC:1&#x27;, &#x27;ESP:1&#x27;]</span><br><span class="line">        ROOTPE: [&#x27;CPL:0&#x27;, &#x27;ATM:0&#x27;, &#x27;LND:0&#x27;, &#x27;ICE:28&#x27;, &#x27;OCN:84&#x27;, &#x27;ROF:0&#x27;, &#x27;GLC:0&#x27;, &#x27;WAV:0&#x27;, &#x27;IAC:0&#x27;, &#x27;ESP:0&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p>除了大气和海洋其他的都是默认的，先不调了试一试</p>
+<h3 id="CASE5"><a href="#CASE5" class="headerlink" title="CASE5"></a>CASE5</h3><p>在CASE4的基础上，把除了OCN以外的，和ATM保持一致，这样设置我预想应该是前面几个由于是同一个global MPI，所以是依次顺序运行的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test5 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test5</span><br><span class="line">./xmlchange NTASKS_ATM=-3</span><br><span class="line">./xmlchange NTASKS_LND=-3</span><br><span class="line">./xmlchange NTASKS_ICE=-3</span><br><span class="line">./xmlchange NTASKS_ROF=-3</span><br><span class="line">./xmlchange NTASKS_GLC=-3</span><br><span class="line">./xmlchange NTASKS_OCN=-7</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_OCN=84</span><br><span class="line">./xmlchange STOP_OPTION=days</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE6"><a href="#CASE6" class="headerlink" title="CASE6"></a>CASE6</h3><p>大气海洋6:4</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test6 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test6</span><br><span class="line">./xmlchange NTASKS_ATM=-6</span><br><span class="line">./xmlchange NTASKS_LND=-6</span><br><span class="line">./xmlchange NTASKS_ICE=-6</span><br><span class="line">./xmlchange NTASKS_ROF=-6</span><br><span class="line">./xmlchange NTASKS_GLC=-6</span><br><span class="line">./xmlchange NTASKS_OCN=-4</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_OCN=168</span><br><span class="line">./xmlchange STOP_OPTION=days</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE7"><a href="#CASE7" class="headerlink" title="CASE7"></a>CASE7</h3><p>大气海洋7:3</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test7 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test7</span><br><span class="line">./xmlchange NTASKS_ATM=-7</span><br><span class="line">./xmlchange NTASKS_LND=-7</span><br><span class="line">./xmlchange NTASKS_ICE=-7</span><br><span class="line">./xmlchange NTASKS_ROF=-7</span><br><span class="line">./xmlchange NTASKS_GLC=-7</span><br><span class="line">./xmlchange NTASKS_OCN=-3</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_OCN=196</span><br><span class="line">./xmlchange STOP_OPTION=days</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE8-大气5海洋5，改动NTASK和NTHRD"><a href="#CASE8-大气5海洋5，改动NTASK和NTHRD" class="headerlink" title="CASE8 大气5海洋5，改动NTASK和NTHRD"></a>CASE8 大气5海洋5，改动NTASK和NTHRD</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test8 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test8</span><br><span class="line">./xmlchange NTASKS=28</span><br><span class="line">./xmlchange NTHRDS=5</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_OCN=28</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE9-大气海洋4-6，改动NTASKS和NTHRDS"><a href="#CASE9-大气海洋4-6，改动NTASKS和NTHRDS" class="headerlink" title="CASE9 大气海洋4:6，改动NTASKS和NTHRDS"></a>CASE9 大气海洋4:6，改动NTASKS和NTHRDS</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test9 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test9</span><br><span class="line">./xmlchange NTASKS_ATM=28</span><br><span class="line">./xmlchange NTHRDS_ATM=4</span><br><span class="line">./xmlchange NTASKS_LND=28</span><br><span class="line">./xmlchange NTHRDS_LND=4</span><br><span class="line">./xmlchange NTASKS_ICE=28</span><br><span class="line">./xmlchange NTHRDS_ICE=4</span><br><span class="line">./xmlchange NTASKS_ROF=28</span><br><span class="line">./xmlchange NTHRDS_ROF=4</span><br><span class="line">./xmlchange NTASKS_GLC=28</span><br><span class="line">./xmlchange NTHRDS_GLC=4</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange NTASKS_OCN=28</span><br><span class="line">./xmlchange NTHRDS_OCN=6</span><br><span class="line">./xmlchange ROOTPE_OCN=28</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE10-大气5海洋5，改动NTASK和NTHRD-x3D-2"><a href="#CASE10-大气5海洋5，改动NTASK和NTHRD-x3D-2" class="headerlink" title="CASE10 大气5海洋5，改动NTASK和NTHRD&#x3D;2"></a>CASE10 大气5海洋5，改动NTASK和NTHRD&#x3D;2</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test10 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test10</span><br><span class="line">./xmlchange NTASKS=70</span><br><span class="line">./xmlchange NTHRDS=2</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_OCN=70</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup --reset</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE11-大气海洋4-6，-改动NTASKS和NTHRDS"><a href="#CASE11-大气海洋4-6，-改动NTASKS和NTHRDS" class="headerlink" title="CASE11 大气海洋4:6， 改动NTASKS和NTHRDS"></a>CASE11 大气海洋4:6， 改动NTASKS和NTHRDS</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test11 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test11</span><br><span class="line">./xmlchange NTASKS_ATM=28</span><br><span class="line">./xmlchange NTHRDS_ATM=4</span><br><span class="line">./xmlchange NTASKS_LND=28</span><br><span class="line">./xmlchange NTHRDS_LND=4</span><br><span class="line">./xmlchange NTASKS_ICE=28</span><br><span class="line">./xmlchange NTHRDS_ICE=4</span><br><span class="line">./xmlchange NTASKS_ROF=28</span><br><span class="line">./xmlchange NTHRDS_ROF=4</span><br><span class="line">./xmlchange NTASKS_GLC=28</span><br><span class="line">./xmlchange NTHRDS_GLC=4</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_LND=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange ROOTPE_ROF=0</span><br><span class="line">./xmlchange ROOTPE_GLC=0</span><br><span class="line">./xmlchange NTASKS_OCN=28</span><br><span class="line">./xmlchange NTHRDS_OCN=6</span><br><span class="line">./xmlchange ROOTPE_OCN=28</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="20node"><a href="#20node" class="headerlink" title="20node"></a>20node</h2><h3 id="CASE12-统一20节点"><a href="#CASE12-统一20节点" class="headerlink" title="CASE12 统一20节点"></a>CASE12 统一20节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test12 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test12</span><br><span class="line">./xmlchange NTASKS=-20</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE13-大气10个节点，海洋10个节点"><a href="#CASE13-大气10个节点，海洋10个节点" class="headerlink" title="CASE13 大气10个节点，海洋10个节点"></a>CASE13 大气10个节点，海洋10个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test13 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test13</span><br><span class="line">./xmlchange NTASKS=-10</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange ROOTPE_OCN=280</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE16-大气13个节点，海洋7个节点"><a href="#CASE16-大气13个节点，海洋7个节点" class="headerlink" title="CASE16 大气13个节点，海洋7个节点"></a>CASE16 大气13个节点，海洋7个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test16 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test16</span><br><span class="line">./xmlchange NTASKS_ATM=-13</span><br><span class="line">./xmlchange NTASKS_LND=-13</span><br><span class="line">./xmlchange NTASKS_ICE=-13</span><br><span class="line">./xmlchange NTASKS_ROF=-13</span><br><span class="line">./xmlchange NTASKS_GLC=-13</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange NTASKS_OCN=-7</span><br><span class="line">./xmlchange ROOTPE_OCN=364</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE17-大气7个节点，海洋13个节点"><a href="#CASE17-大气7个节点，海洋13个节点" class="headerlink" title="CASE17 大气7个节点，海洋13个节点"></a>CASE17 大气7个节点，海洋13个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test17 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test17</span><br><span class="line">./xmlchange NTASKS_ATM=-7</span><br><span class="line">./xmlchange NTASKS_LND=-7</span><br><span class="line">./xmlchange NTASKS_ICE=-7</span><br><span class="line">./xmlchange NTASKS_ROF=-7</span><br><span class="line">./xmlchange NTASKS_GLC=-7</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange NTASKS_OCN=-13</span><br><span class="line">./xmlchange ROOTPE_OCN=196</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE18-大气15个节点，海洋5个节点"><a href="#CASE18-大气15个节点，海洋5个节点" class="headerlink" title="CASE18 大气15个节点，海洋5个节点"></a>CASE18 大气15个节点，海洋5个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test18 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test18</span><br><span class="line">./xmlchange NTASKS_ATM=-15</span><br><span class="line">./xmlchange NTASKS_LND=-15</span><br><span class="line">./xmlchange NTASKS_ICE=-15</span><br><span class="line">./xmlchange NTASKS_ROF=-15</span><br><span class="line">./xmlchange NTASKS_GLC=-15</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange NTASKS_OCN=-5</span><br><span class="line">./xmlchange ROOTPE_OCN=420</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE19-大气14个节点，海洋6个节点"><a href="#CASE19-大气14个节点，海洋6个节点" class="headerlink" title="CASE19 大气14个节点，海洋6个节点"></a>CASE19 大气14个节点，海洋6个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test19 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test19</span><br><span class="line">./xmlchange NTASKS_ATM=-14</span><br><span class="line">./xmlchange NTASKS_LND=-14</span><br><span class="line">./xmlchange NTASKS_ICE=-14</span><br><span class="line">./xmlchange NTASKS_ROF=-14</span><br><span class="line">./xmlchange NTASKS_GLC=-14</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange NTASKS_OCN=-6</span><br><span class="line">./xmlchange ROOTPE_OCN=392</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE20-大气12个节点，海洋8个节点"><a href="#CASE20-大气12个节点，海洋8个节点" class="headerlink" title="CASE20 大气12个节点，海洋8个节点"></a>CASE20 大气12个节点，海洋8个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test20 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test20</span><br><span class="line">./xmlchange NTASKS_ATM=-12</span><br><span class="line">./xmlchange NTASKS_LND=-12</span><br><span class="line">./xmlchange NTASKS_ICE=-12</span><br><span class="line">./xmlchange NTASKS_ROF=-12</span><br><span class="line">./xmlchange NTASKS_GLC=-12</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange NTASKS_OCN=-8</span><br><span class="line">./xmlchange ROOTPE_OCN=336</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE21-大气13个节点，海洋10个节点"><a href="#CASE21-大气13个节点，海洋10个节点" class="headerlink" title="CASE21 大气13个节点，海洋10个节点"></a>CASE21 大气13个节点，海洋10个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test21 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test21</span><br><span class="line">./xmlchange NTASKS_ATM=-13</span><br><span class="line">./xmlchange NTASKS_LND=-13</span><br><span class="line">./xmlchange NTASKS_ICE=-13</span><br><span class="line">./xmlchange NTASKS_ROF=-13</span><br><span class="line">./xmlchange NTASKS_GLC=-13</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange NTASKS_OCN=-10</span><br><span class="line">./xmlchange ROOTPE_OCN=364</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE23-大气16个节点，海洋7个节点"><a href="#CASE23-大气16个节点，海洋7个节点" class="headerlink" title="CASE23 大气16个节点，海洋7个节点"></a>CASE23 大气16个节点，海洋7个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test23 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test23</span><br><span class="line">./xmlchange NTASKS_ATM=-16</span><br><span class="line">./xmlchange NTASKS_LND=-16</span><br><span class="line">./xmlchange NTASKS_ICE=-16</span><br><span class="line">./xmlchange NTASKS_ROF=-16</span><br><span class="line">./xmlchange NTASKS_GLC=-16</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange NTASKS_OCN=-10</span><br><span class="line">./xmlchange ROOTPE_OCN=448</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="30node"><a href="#30node" class="headerlink" title="30node"></a>30node</h2><h3 id="CASE14-统一30节点"><a href="#CASE14-统一30节点" class="headerlink" title="CASE14 统一30节点"></a>CASE14 统一30节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test14 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test14</span><br><span class="line">./xmlchange NTASKS=-30</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE15-大气15个节点，海洋15个节点"><a href="#CASE15-大气15个节点，海洋15个节点" class="headerlink" title="CASE15 大气15个节点，海洋15个节点"></a>CASE15 大气15个节点，海洋15个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test15 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test15</span><br><span class="line">./xmlchange NTASKS=-15</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange ROOTPE_OCN=420</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE24-大气20个节点，海洋10个节点"><a href="#CASE24-大气20个节点，海洋10个节点" class="headerlink" title="CASE24 大气20个节点，海洋10个节点"></a>CASE24 大气20个节点，海洋10个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test24 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test24</span><br><span class="line">./xmlchange NTASKS_ATM=-20</span><br><span class="line">./xmlchange NTASKS_LND=-20</span><br><span class="line">./xmlchange NTASKS_ICE=-20</span><br><span class="line">./xmlchange NTASKS_ROF=-20</span><br><span class="line">./xmlchange NTASKS_GLC=-20</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange NTASKS_OCN=-10</span><br><span class="line">./xmlchange ROOTPE_OCN=560</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE25-大气21个节点，海洋9个节点"><a href="#CASE25-大气21个节点，海洋9个节点" class="headerlink" title="CASE25 大气21个节点，海洋9个节点"></a>CASE25 大气21个节点，海洋9个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test25 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test25</span><br><span class="line">./xmlchange NTASKS_ATM=-21</span><br><span class="line">./xmlchange NTASKS_LND=-21</span><br><span class="line">./xmlchange NTASKS_ICE=-21</span><br><span class="line">./xmlchange NTASKS_ROF=-21</span><br><span class="line">./xmlchange NTASKS_GLC=-21</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange NTASKS_OCN=-9</span><br><span class="line">./xmlchange ROOTPE_OCN=588</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE26-大气18个节点，海洋12个节点"><a href="#CASE26-大气18个节点，海洋12个节点" class="headerlink" title="CASE26 大气18个节点，海洋12个节点"></a>CASE26 大气18个节点，海洋12个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test26 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test26</span><br><span class="line">./xmlchange NTASKS_ATM=-18</span><br><span class="line">./xmlchange NTASKS_LND=-18</span><br><span class="line">./xmlchange NTASKS_ICE=-18</span><br><span class="line">./xmlchange NTASKS_ROF=-18</span><br><span class="line">./xmlchange NTASKS_GLC=-18</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange NTASKS_OCN=-12</span><br><span class="line">./xmlchange ROOTPE_OCN=504</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE27-大气22个节点，海洋8个节点"><a href="#CASE27-大气22个节点，海洋8个节点" class="headerlink" title="CASE27 大气22个节点，海洋8个节点"></a>CASE27 大气22个节点，海洋8个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test27 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test27</span><br><span class="line">./xmlchange NTASKS_ATM=-22</span><br><span class="line">./xmlchange NTASKS_LND=-22</span><br><span class="line">./xmlchange NTASKS_ICE=-22</span><br><span class="line">./xmlchange NTASKS_ROF=-22</span><br><span class="line">./xmlchange NTASKS_GLC=-22</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange NTASKS_OCN=-8</span><br><span class="line">./xmlchange ROOTPE_OCN=616</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE28-大气20个节点，GLC1个，ROF1个，海洋8个节点"><a href="#CASE28-大气20个节点，GLC1个，ROF1个，海洋8个节点" class="headerlink" title="CASE28 大气20个节点，GLC1个，ROF1个，海洋8个节点"></a>CASE28 大气20个节点，GLC1个，ROF1个，海洋8个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test28 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test28</span><br><span class="line">./xmlchange NTASKS_ATM=-20</span><br><span class="line">./xmlchange NTASKS_LND=-20</span><br><span class="line">./xmlchange NTASKS_ICE=-20</span><br><span class="line">./xmlchange NTASKS_ROF=-1</span><br><span class="line">./xmlchange NTASKS_GLC=-1</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_LND=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange ROOTPE_GLC=560</span><br><span class="line">./xmlchange ROOTPE_ROF=588</span><br><span class="line">./xmlchange NTASKS_OCN=-8</span><br><span class="line">./xmlchange ROOTPE_OCN=616</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE29-大气18个节点，GLC2个，ROF2个，海洋8个节点"><a href="#CASE29-大气18个节点，GLC2个，ROF2个，海洋8个节点" class="headerlink" title="CASE29 大气18个节点，GLC2个，ROF2个，海洋8个节点"></a>CASE29 大气18个节点，GLC2个，ROF2个，海洋8个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test29 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test29</span><br><span class="line">./xmlchange NTASKS_ATM=-18</span><br><span class="line">./xmlchange NTASKS_LND=-18</span><br><span class="line">./xmlchange NTASKS_ICE=-18</span><br><span class="line">./xmlchange NTASKS_ROF=-2</span><br><span class="line">./xmlchange NTASKS_GLC=-2</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_LND=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange ROOTPE_GLC=504</span><br><span class="line">./xmlchange ROOTPE_ROF=560</span><br><span class="line">./xmlchange NTASKS_OCN=-8</span><br><span class="line">./xmlchange ROOTPE_OCN=616</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE30-大气21个节点，GLC1个，海洋8个节点"><a href="#CASE30-大气21个节点，GLC1个，海洋8个节点" class="headerlink" title="CASE30 大气21个节点，GLC1个，海洋8个节点"></a>CASE30 大气21个节点，GLC1个，海洋8个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test30 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test30</span><br><span class="line">./xmlchange NTASKS_ATM=-21</span><br><span class="line">./xmlchange NTASKS_LND=-21</span><br><span class="line">./xmlchange NTASKS_ICE=-21</span><br><span class="line">./xmlchange NTASKS_ROF=-21</span><br><span class="line">./xmlchange NTASKS_GLC=-1</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_LND=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange ROOTPE_GLC=588</span><br><span class="line">./xmlchange ROOTPE_ROF=0</span><br><span class="line">./xmlchange NTASKS_OCN=-8</span><br><span class="line">./xmlchange ROOTPE_OCN=616</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE30-大气21个节点，GLC1个，海洋8个节点-1"><a href="#CASE30-大气21个节点，GLC1个，海洋8个节点-1" class="headerlink" title="CASE30 大气21个节点，GLC1个，海洋8个节点"></a>CASE30 大气21个节点，GLC1个，海洋8个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test30 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test30</span><br><span class="line">./xmlchange NTASKS_ATM=-21</span><br><span class="line">./xmlchange NTASKS_LND=-21</span><br><span class="line">./xmlchange NTASKS_ICE=-21</span><br><span class="line">./xmlchange NTASKS_ROF=-21</span><br><span class="line">./xmlchange NTASKS_GLC=-1</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_LND=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange ROOTPE_GLC=588</span><br><span class="line">./xmlchange ROOTPE_ROF=0</span><br><span class="line">./xmlchange NTASKS_OCN=-8</span><br><span class="line">./xmlchange ROOTPE_OCN=616</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE31-大气21个节点，GLC1个，ROF1个，海洋7个节点"><a href="#CASE31-大气21个节点，GLC1个，ROF1个，海洋7个节点" class="headerlink" title="CASE31 大气21个节点，GLC1个，ROF1个，海洋7个节点"></a>CASE31 大气21个节点，GLC1个，ROF1个，海洋7个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test31 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test31</span><br><span class="line">./xmlchange NTASKS_ATM=-21</span><br><span class="line">./xmlchange NTASKS_LND=-21</span><br><span class="line">./xmlchange NTASKS_ICE=-21</span><br><span class="line">./xmlchange NTASKS_ROF=-1</span><br><span class="line">./xmlchange NTASKS_GLC=-1</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_LND=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange ROOTPE_GLC=588</span><br><span class="line">./xmlchange ROOTPE_ROF=616</span><br><span class="line">./xmlchange NTASKS_OCN=-7</span><br><span class="line">./xmlchange ROOTPE_OCN=644</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE32-大气20个节点，GLC1个，ROF1个，海洋8个节点"><a href="#CASE32-大气20个节点，GLC1个，ROF1个，海洋8个节点" class="headerlink" title="CASE32 大气20个节点，GLC1个，ROF1个，海洋8个节点"></a>CASE32 大气20个节点，GLC1个，ROF1个，海洋8个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test32 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test32</span><br><span class="line">./xmlchange NTASKS_ATM=-20</span><br><span class="line">./xmlchange NTASKS_LND=-20</span><br><span class="line">./xmlchange NTASKS_ICE=-20</span><br><span class="line">./xmlchange NTASKS_ROF=-1</span><br><span class="line">./xmlchange NTASKS_GLC=-1</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_LND=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange ROOTPE_GLC=560</span><br><span class="line">./xmlchange ROOTPE_ROF=588</span><br><span class="line">./xmlchange NTASKS_OCN=-8</span><br><span class="line">./xmlchange ROOTPE_OCN=616</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE33-大气21个节点，GLC1个，海洋8个节点"><a href="#CASE33-大气21个节点，GLC1个，海洋8个节点" class="headerlink" title="CASE33 大气21个节点，GLC1个，海洋8个节点"></a>CASE33 大气21个节点，GLC1个，海洋8个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test33 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test33</span><br><span class="line">./xmlchange NTASKS_ATM=-21</span><br><span class="line">./xmlchange NTASKS_CPL=-21</span><br><span class="line">./xmlchange NTASKS_LND=-21</span><br><span class="line">./xmlchange NTASKS_ICE=-21</span><br><span class="line">./xmlchange NTASKS_ROF=-0</span><br><span class="line">./xmlchange NTASKS_GLC=-1</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_LND=0</span><br><span class="line">./xmlchange ROOTPE_CPL=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange ROOTPE_GLC=588</span><br><span class="line">./xmlchange ROOTPE_ROF=0</span><br><span class="line">./xmlchange NTASKS_OCN=-8</span><br><span class="line">./xmlchange ROOTPE_OCN=616</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE34-大气22个节点，海洋8个节点"><a href="#CASE34-大气22个节点，海洋8个节点" class="headerlink" title="CASE34 大气22个节点，海洋8个节点"></a>CASE34 大气22个节点，海洋8个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test34 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test34</span><br><span class="line">./xmlchange NTASKS_ATM=-22</span><br><span class="line">./xmlchange NTASKS_CPL=-22</span><br><span class="line">./xmlchange NTASKS_LND=-22</span><br><span class="line">./xmlchange NTASKS_ICE=-22</span><br><span class="line">./xmlchange NTASKS_ROF=-22</span><br><span class="line">./xmlchange NTASKS_GLC=-22</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_LND=0</span><br><span class="line">./xmlchange ROOTPE_CPL=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange ROOTPE_GLC=0</span><br><span class="line">./xmlchange ROOTPE_ROF=0</span><br><span class="line">./xmlchange NTASKS_OCN=-8</span><br><span class="line">./xmlchange ROOTPE_OCN=616</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE35-大气23个节点，海洋7个节点"><a href="#CASE35-大气23个节点，海洋7个节点" class="headerlink" title="CASE35 大气23个节点，海洋7个节点"></a>CASE35 大气23个节点，海洋7个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test35 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test35</span><br><span class="line">./xmlchange NTASKS_ATM=-23</span><br><span class="line">./xmlchange NTASKS_CPL=-23</span><br><span class="line">./xmlchange NTASKS_LND=-23</span><br><span class="line">./xmlchange NTASKS_ICE=-23</span><br><span class="line">./xmlchange NTASKS_ROF=-23</span><br><span class="line">./xmlchange NTASKS_GLC=-23</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_LND=0</span><br><span class="line">./xmlchange ROOTPE_CPL=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange ROOTPE_GLC=0</span><br><span class="line">./xmlchange ROOTPE_ROF=0</span><br><span class="line">./xmlchange NTASKS_OCN=-7</span><br><span class="line">./xmlchange ROOTPE_OCN=644</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE36-大气21个节点，GLC1个，海洋8个节点，CPL全局"><a href="#CASE36-大气21个节点，GLC1个，海洋8个节点，CPL全局" class="headerlink" title="CASE36 大气21个节点，GLC1个，海洋8个节点，CPL全局"></a>CASE36 大气21个节点，GLC1个，海洋8个节点，CPL全局</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test36 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test36</span><br><span class="line">./xmlchange NTASKS_ATM=-21</span><br><span class="line">./xmlchange NTASKS_CPL=-30</span><br><span class="line">./xmlchange NTASKS_LND=-21</span><br><span class="line">./xmlchange NTASKS_ICE=-21</span><br><span class="line">./xmlchange NTASKS_ROF=-0</span><br><span class="line">./xmlchange NTASKS_GLC=-1</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_LND=0</span><br><span class="line">./xmlchange ROOTPE_CPL=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange ROOTPE_GLC=588</span><br><span class="line">./xmlchange ROOTPE_ROF=0</span><br><span class="line">./xmlchange NTASKS_OCN=-8</span><br><span class="line">./xmlchange ROOTPE_OCN=616</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE338-大气21个节点，GLC1个，海洋8个节点，CPL22"><a href="#CASE338-大气21个节点，GLC1个，海洋8个节点，CPL22" class="headerlink" title="CASE338 大气21个节点，GLC1个，海洋8个节点，CPL22"></a>CASE338 大气21个节点，GLC1个，海洋8个节点，CPL22</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test38 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test38</span><br><span class="line">./xmlchange NTASKS_ATM=-21</span><br><span class="line">./xmlchange NTASKS_CPL=-22</span><br><span class="line">./xmlchange NTASKS_LND=-21</span><br><span class="line">./xmlchange NTASKS_ICE=-21</span><br><span class="line">./xmlchange NTASKS_ROF=-21</span><br><span class="line">./xmlchange NTASKS_GLC=-1</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_LND=0</span><br><span class="line">./xmlchange ROOTPE_CPL=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange ROOTPE_GLC=588</span><br><span class="line">./xmlchange ROOTPE_ROF=0</span><br><span class="line">./xmlchange NTASKS_OCN=-8</span><br><span class="line">./xmlchange ROOTPE_OCN=616</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br><span class="line">cp ../b1850_pe_test15/sbatch1.sh .</span><br><span class="line">sbatch sbatch1.sh</span><br><span class="line">ls</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="CASE39-大气21-5个节点，GLC0-5个，海洋8个节点"><a href="#CASE39-大气21-5个节点，GLC0-5个，海洋8个节点" class="headerlink" title="CASE39 大气21.5个节点，GLC0.5个，海洋8个节点"></a>CASE39 大气21.5个节点，GLC0.5个，海洋8个节点</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_pe_test39 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_pe_test39</span><br><span class="line">./xmlchange NTASKS_ATM=602</span><br><span class="line">./xmlchange NTASKS_CPL=602</span><br><span class="line">./xmlchange NTASKS_LND=602</span><br><span class="line">./xmlchange NTASKS_ICE=602</span><br><span class="line">./xmlchange NTASKS_ROF=602</span><br><span class="line">./xmlchange NTASKS_GLC=14</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_LND=0</span><br><span class="line">./xmlchange ROOTPE_CPL=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange ROOTPE_GLC=602</span><br><span class="line">./xmlchange ROOTPE_ROF=0</span><br><span class="line">./xmlchange NTASKS_OCN=-8</span><br><span class="line">./xmlchange ROOTPE_OCN=616</span><br><span class="line">./xmlchange STOP_OPTION=ndays</span><br><span class="line">./xmlchange STOP_N=10</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h3 id="-1"><a href="#-1" class="headerlink" title=""></a></h3><h3 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h3><p>调用多线程会出错，所以还是不要动NTHRDS这个量比较好</p>
+<h2 id="结果总结"><a href="#结果总结" class="headerlink" title="结果总结"></a>结果总结</h2><h3 id="10节点"><a href="#10节点" class="headerlink" title="10节点"></a>10节点</h3><h3 id="20节点"><a href="#20节点" class="headerlink" title="20节点"></a>20节点</h3><ol>
+<li>统一20节点顺序跑： 5.287</li>
+<li>大气海洋各10节点：4.536</li>
+<li>大气13 海洋7： 5.586</li>
+<li>大气7 海洋13： 3.450</li>
+<li>大气15 海洋5： 5.246</li>
+<li>大气14 海洋6： 5.766</li>
+</ol>
+<h3 id="30节点"><a href="#30节点" class="headerlink" title="30节点"></a>30节点</h3><ol>
+<li>统一30节点顺序跑：6.331</li>
+<li>大气海洋各15节点：6.080</li>
+<li>大气21 海洋9 ：6.533</li>
+<li>大气20 海洋10：6.041</li>
+<li>大气18 海洋12：6.059</li>
+<li>大气22 海洋8： 6.472</li>
+<li>大气20 GLC1 ROF1 海洋8：6.800</li>
+<li>大气18 GLC2 ROF2 海洋8：5.374</li>
+<li>大气21 GLC1 海洋8：6.306</li>
+<li>大气21，GLC1,ROF1，海洋8：7.174</li>
+<li>大气21，GLC1，海洋8：7.939</li>
+<li>大气22，海洋8：6.661</li>
+<li>大气23，海洋7：5.950</li>
+<li>大气21，CPL30，GLC1，海洋8：5.010</li>
+<li>大气21，CPL22，GLC1，海洋8：7.654</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CESM/" rel="tag"># CESM</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/09/09/%E6%91%84%E5%BD%B1%E6%94%B6%E8%97%8F/" rel="prev" title="摄影收藏">
+      <i class="fa fa-chevron-left"></i> 摄影收藏
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/09/16/CESM%E5%90%AF%E5%8A%A8%E8%AE%B0%E5%BD%95new/" rel="next" title="CESM启动记录new">
+      CESM启动记录new <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AC%E6%96%87%E6%8E%A2%E8%AE%A8%E6%A0%B8%E6%95%B0%E8%AE%BE%E7%BD%AE%E5%A6%82%E4%BD%95%E5%BD%B1%E5%93%8DCESM%E7%9A%84%E8%BF%90%E8%A1%8C"><span class="nav-number">1.</span> <span class="nav-text">本文探讨核数设置如何影响CESM的运行</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E4%B8%8A%E8%B5%84%E6%96%99%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">网上资料：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%85%E8%AF%BB%E6%96%87%E6%A1%A3"><span class="nav-number">1.2.</span> <span class="nav-text">阅读文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5"><span class="nav-number">1.3.</span> <span class="nav-text">实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE1"><span class="nav-number">1.3.1.</span> <span class="nav-text">CASE1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE2"><span class="nav-number">1.3.2.</span> <span class="nav-text">CASE2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE3"><span class="nav-number">1.3.3.</span> <span class="nav-text">CASE3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE4"><span class="nav-number">1.3.4.</span> <span class="nav-text">CASE4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE5"><span class="nav-number">1.3.5.</span> <span class="nav-text">CASE5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE6"><span class="nav-number">1.3.6.</span> <span class="nav-text">CASE6</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE7"><span class="nav-number">1.3.7.</span> <span class="nav-text">CASE7</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE8-%E5%A4%A7%E6%B0%945%E6%B5%B7%E6%B4%8B5%EF%BC%8C%E6%94%B9%E5%8A%A8NTASK%E5%92%8CNTHRD"><span class="nav-number">1.3.8.</span> <span class="nav-text">CASE8 大气5海洋5，改动NTASK和NTHRD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE9-%E5%A4%A7%E6%B0%94%E6%B5%B7%E6%B4%8B4-6%EF%BC%8C%E6%94%B9%E5%8A%A8NTASKS%E5%92%8CNTHRDS"><span class="nav-number">1.3.9.</span> <span class="nav-text">CASE9 大气海洋4:6，改动NTASKS和NTHRDS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE10-%E5%A4%A7%E6%B0%945%E6%B5%B7%E6%B4%8B5%EF%BC%8C%E6%94%B9%E5%8A%A8NTASK%E5%92%8CNTHRD-x3D-2"><span class="nav-number">1.3.10.</span> <span class="nav-text">CASE10 大气5海洋5，改动NTASK和NTHRD&#x3D;2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE11-%E5%A4%A7%E6%B0%94%E6%B5%B7%E6%B4%8B4-6%EF%BC%8C-%E6%94%B9%E5%8A%A8NTASKS%E5%92%8CNTHRDS"><span class="nav-number">1.3.11.</span> <span class="nav-text">CASE11 大气海洋4:6， 改动NTASKS和NTHRDS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#20node"><span class="nav-number">1.4.</span> <span class="nav-text">20node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE12-%E7%BB%9F%E4%B8%8020%E8%8A%82%E7%82%B9"><span class="nav-number">1.4.1.</span> <span class="nav-text">CASE12 统一20节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE13-%E5%A4%A7%E6%B0%9410%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8C%E6%B5%B7%E6%B4%8B10%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.4.2.</span> <span class="nav-text">CASE13 大气10个节点，海洋10个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE16-%E5%A4%A7%E6%B0%9413%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8C%E6%B5%B7%E6%B4%8B7%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.4.3.</span> <span class="nav-text">CASE16 大气13个节点，海洋7个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE17-%E5%A4%A7%E6%B0%947%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8C%E6%B5%B7%E6%B4%8B13%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.4.4.</span> <span class="nav-text">CASE17 大气7个节点，海洋13个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE18-%E5%A4%A7%E6%B0%9415%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8C%E6%B5%B7%E6%B4%8B5%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.4.5.</span> <span class="nav-text">CASE18 大气15个节点，海洋5个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE19-%E5%A4%A7%E6%B0%9414%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8C%E6%B5%B7%E6%B4%8B6%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.4.6.</span> <span class="nav-text">CASE19 大气14个节点，海洋6个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE20-%E5%A4%A7%E6%B0%9412%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8C%E6%B5%B7%E6%B4%8B8%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.4.7.</span> <span class="nav-text">CASE20 大气12个节点，海洋8个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE21-%E5%A4%A7%E6%B0%9413%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8C%E6%B5%B7%E6%B4%8B10%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.4.8.</span> <span class="nav-text">CASE21 大气13个节点，海洋10个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE23-%E5%A4%A7%E6%B0%9416%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8C%E6%B5%B7%E6%B4%8B7%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.4.9.</span> <span class="nav-text">CASE23 大气16个节点，海洋7个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.4.10.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#30node"><span class="nav-number">1.5.</span> <span class="nav-text">30node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE14-%E7%BB%9F%E4%B8%8030%E8%8A%82%E7%82%B9"><span class="nav-number">1.5.1.</span> <span class="nav-text">CASE14 统一30节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE15-%E5%A4%A7%E6%B0%9415%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8C%E6%B5%B7%E6%B4%8B15%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.5.2.</span> <span class="nav-text">CASE15 大气15个节点，海洋15个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE24-%E5%A4%A7%E6%B0%9420%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8C%E6%B5%B7%E6%B4%8B10%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.5.3.</span> <span class="nav-text">CASE24 大气20个节点，海洋10个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE25-%E5%A4%A7%E6%B0%9421%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8C%E6%B5%B7%E6%B4%8B9%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.5.4.</span> <span class="nav-text">CASE25 大气21个节点，海洋9个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE26-%E5%A4%A7%E6%B0%9418%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8C%E6%B5%B7%E6%B4%8B12%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.5.5.</span> <span class="nav-text">CASE26 大气18个节点，海洋12个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE27-%E5%A4%A7%E6%B0%9422%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8C%E6%B5%B7%E6%B4%8B8%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.5.6.</span> <span class="nav-text">CASE27 大气22个节点，海洋8个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE28-%E5%A4%A7%E6%B0%9420%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8CGLC1%E4%B8%AA%EF%BC%8CROF1%E4%B8%AA%EF%BC%8C%E6%B5%B7%E6%B4%8B8%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.5.7.</span> <span class="nav-text">CASE28 大气20个节点，GLC1个，ROF1个，海洋8个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE29-%E5%A4%A7%E6%B0%9418%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8CGLC2%E4%B8%AA%EF%BC%8CROF2%E4%B8%AA%EF%BC%8C%E6%B5%B7%E6%B4%8B8%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.5.8.</span> <span class="nav-text">CASE29 大气18个节点，GLC2个，ROF2个，海洋8个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE30-%E5%A4%A7%E6%B0%9421%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8CGLC1%E4%B8%AA%EF%BC%8C%E6%B5%B7%E6%B4%8B8%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.5.9.</span> <span class="nav-text">CASE30 大气21个节点，GLC1个，海洋8个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE30-%E5%A4%A7%E6%B0%9421%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8CGLC1%E4%B8%AA%EF%BC%8C%E6%B5%B7%E6%B4%8B8%E4%B8%AA%E8%8A%82%E7%82%B9-1"><span class="nav-number">1.5.10.</span> <span class="nav-text">CASE30 大气21个节点，GLC1个，海洋8个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE31-%E5%A4%A7%E6%B0%9421%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8CGLC1%E4%B8%AA%EF%BC%8CROF1%E4%B8%AA%EF%BC%8C%E6%B5%B7%E6%B4%8B7%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.5.11.</span> <span class="nav-text">CASE31 大气21个节点，GLC1个，ROF1个，海洋7个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE32-%E5%A4%A7%E6%B0%9420%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8CGLC1%E4%B8%AA%EF%BC%8CROF1%E4%B8%AA%EF%BC%8C%E6%B5%B7%E6%B4%8B8%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.5.12.</span> <span class="nav-text">CASE32 大气20个节点，GLC1个，ROF1个，海洋8个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE33-%E5%A4%A7%E6%B0%9421%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8CGLC1%E4%B8%AA%EF%BC%8C%E6%B5%B7%E6%B4%8B8%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.5.13.</span> <span class="nav-text">CASE33 大气21个节点，GLC1个，海洋8个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE34-%E5%A4%A7%E6%B0%9422%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8C%E6%B5%B7%E6%B4%8B8%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.5.14.</span> <span class="nav-text">CASE34 大气22个节点，海洋8个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE35-%E5%A4%A7%E6%B0%9423%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8C%E6%B5%B7%E6%B4%8B7%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.5.15.</span> <span class="nav-text">CASE35 大气23个节点，海洋7个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE36-%E5%A4%A7%E6%B0%9421%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8CGLC1%E4%B8%AA%EF%BC%8C%E6%B5%B7%E6%B4%8B8%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8CCPL%E5%85%A8%E5%B1%80"><span class="nav-number">1.5.16.</span> <span class="nav-text">CASE36 大气21个节点，GLC1个，海洋8个节点，CPL全局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE338-%E5%A4%A7%E6%B0%9421%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8CGLC1%E4%B8%AA%EF%BC%8C%E6%B5%B7%E6%B4%8B8%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8CCPL22"><span class="nav-number">1.5.17.</span> <span class="nav-text">CASE338 大气21个节点，GLC1个，海洋8个节点，CPL22</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CASE39-%E5%A4%A7%E6%B0%9421-5%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8CGLC0-5%E4%B8%AA%EF%BC%8C%E6%B5%B7%E6%B4%8B8%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">1.5.18.</span> <span class="nav-text">CASE39 大气21.5个节点，GLC0.5个，海洋8个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-1"><span class="nav-number">1.5.19.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93%EF%BC%9A"><span class="nav-number">1.5.20.</span> <span class="nav-text">小结：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C%E6%80%BB%E7%BB%93"><span class="nav-number">1.6.</span> <span class="nav-text">结果总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10%E8%8A%82%E7%82%B9"><span class="nav-number">1.6.1.</span> <span class="nav-text">10节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20%E8%8A%82%E7%82%B9"><span class="nav-number">1.6.2.</span> <span class="nav-text">20节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#30%E8%8A%82%E7%82%B9"><span class="nav-number">1.6.3.</span> <span class="nav-text">30节点</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

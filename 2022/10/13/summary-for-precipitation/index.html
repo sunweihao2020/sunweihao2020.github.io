@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Precipitation ProcessesHow do cloud droplets grow larger? 云滴是如何变大的？ Fig1. 雨滴和云滴的比较，雨滴要比云滴大100倍  ​    首先我们要探讨自然界中的雨滴是如何形成的：  自然界中普遍存在着悬浮在空中的小云滴，但是能降落到地面的雨滴则要大得多。如图一所示，一个典型的雨滴要比云滴大100倍，那么云滴需要经历什么过程才能变成雨">
+<meta property="og:type" content="article">
+<meta property="og:title" content="summary-for-precipitation">
+<meta property="og:url" content="http://example.com/2022/10/13/summary-for-precipitation/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Precipitation ProcessesHow do cloud droplets grow larger? 云滴是如何变大的？ Fig1. 雨滴和云滴的比较，雨滴要比云滴大100倍  ​    首先我们要探讨自然界中的雨滴是如何形成的：  自然界中普遍存在着悬浮在空中的小云滴，但是能降落到地面的雨滴则要大得多。如图一所示，一个典型的雨滴要比云滴大100倍，那么云滴需要经历什么过程才能变成雨">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008vxvgGgy1h73obhlk01j30hm0hi3z4.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008vxvgGgy1h774x41pj6j30ie07rgm1.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008vxvgGgy1h7752owxl0j30ia0cnq3s.jpg">
+<meta property="article:published_time" content="2022-10-13T06:51:39.000Z">
+<meta property="article:modified_time" content="2022-10-16T07:35:55.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="read">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/008vxvgGgy1h73obhlk01j30hm0hi3z4.jpg">
+
+<link rel="canonical" href="http://example.com/2022/10/13/summary-for-precipitation/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>summary-for-precipitation | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/13/summary-for-precipitation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          summary-for-precipitation
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-10-13 14:51:39" itemprop="dateCreated datePublished" datetime="2022-10-13T14:51:39+08:00">2022-10-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-10-16 15:35:55" itemprop="dateModified" datetime="2022-10-16T15:35:55+08:00">2022-10-16</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Precipitation-Processes"><a href="#Precipitation-Processes" class="headerlink" title="Precipitation Processes"></a>Precipitation Processes</h1><h2 id="How-do-cloud-droplets-grow-larger-云滴是如何变大的？"><a href="#How-do-cloud-droplets-grow-larger-云滴是如何变大的？" class="headerlink" title="How do cloud droplets grow larger? 云滴是如何变大的？"></a>How do cloud droplets grow larger? 云滴是如何变大的？</h2><p><img src="https://tva1.sinaimg.cn/large/008vxvgGgy1h73obhlk01j30hm0hi3z4.jpg"></p>
+<center><b>Fig1. 雨滴和云滴的比较，雨滴要比云滴大100倍</b></center>
+
+<p>​    <font color=red>首先我们要探讨自然界中的雨滴是如何形成的：  </font><font face="微软雅黑">自然界中普遍存在着悬浮在空中的小云滴，但是能降落到地面的雨滴则要大得多。如图一所示，一个典型的雨滴要比云滴大100倍，那么云滴需要经历什么过程才能变成雨滴呢？我们取单个云滴来看，它的尺寸大小取决于有多少水分子进来&#x2F;出去，对应着该云滴与周围环境之间的凝结(condensation)&#x2F;蒸发(evaporation)</font></p>
+<p>​	当蒸发速率 约等于 凝结速率时，云滴的大小就不会在变化了，此时云滴周围的水气分子含量保持稳定，也称为<b> 饱和水汽压 saturation vapor pressure</b></p>
+<p>​	但是云滴由于是悬浮在空中的球形，受曲率效应的影响，保持云滴处于平衡态需要更大的相对湿度。什么是<b> 曲率效应 </b>?</p>
+<p><font color=blue> 关于曲率效应： </font>图二是平坦的水面与小液滴，由于液滴具有更强的曲率，因此蒸发的速度更快。更强的水汽压才能使液滴维持动态平衡，液滴直径越小，曲率效应越显著。对于微小的云滴来说，使其保持平衡的相对湿度甚至需要超过100%。图三是使不同直径的液滴达到平衡所需要的相对湿度。</p>
+<p><img src="https://tva1.sinaimg.cn/large/008vxvgGgy1h774x41pj6j30ie07rgm1.jpg"></p>
+<center><b>Fig2. 平坦的水面与云滴</b></center>
+
+
+
+<p><img src="https://tva1.sinaimg.cn/large/008vxvgGgy1h7752owxl0j30ia0cnq3s.jpg"></p>
+<center><b> Fig3. 液滴直径与所需要的相对湿度</center></b>
+
+
+
+<p><font color=red> 根据曲率效应，相对湿度得大于100%才能使小云滴达到平衡，更遑论继续增长了。这样说岂不是下雨也得是“百年难得一遇”了？</font></p>
+<p>$\approx$</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$x \notin A, y \not \in B$</span><br></pre></td></tr></table></figure>
+
+<p>$x \notin A, y \not \in B$</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\stacrel&#123;upper symbol&#125;&#123;base symbol&#125;</span><br></pre></td></tr></table></figure>
+
+<p>$$<br>\approx<br>$$</p>
+<p>$$<br>\stacrel{upper symbol}{base symbol}<br>$$</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$\lim^&#123;x \to \infty&#125;_&#123;y \to 0&#125;&#123;\frac&#123;x&#125;&#123;y&#125;&#125;$</span><br><span class="line">$\displaystyle \lim^&#123;x \to \infty&#125;_&#123;y \to 0&#125;&#123;\frac&#123;x&#125;&#123;y&#125;&#125;$</span><br></pre></td></tr></table></figure>
+
+<p>$$<br>\lim^{x \to \infty}_{y \to 0}{\frac{x}{y}}<br>$$</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/read/" rel="tag"># read</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/05/%E6%B8%AF%E9%A3%8E%E6%91%84%E5%BD%B1/" rel="prev" title="港风摄影">
+      <i class="fa fa-chevron-left"></i> 港风摄影
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/14/%E6%80%8E%E6%A0%B7%E6%8F%92%E5%80%BC%E4%BC%9A%E6%AF%94%E8%BE%83%E5%BF%AB%EF%BC%9F/" rel="next" title="怎样插值会比较快？">
+      怎样插值会比较快？ <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Precipitation-Processes"><span class="nav-number">1.</span> <span class="nav-text">Precipitation Processes</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#How-do-cloud-droplets-grow-larger-%E4%BA%91%E6%BB%B4%E6%98%AF%E5%A6%82%E4%BD%95%E5%8F%98%E5%A4%A7%E7%9A%84%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">How do cloud droplets grow larger? 云滴是如何变大的？</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="python知识码python的slice函数  关于波浪线 ~ 它的作用起到了一个补码的作用 波浪线  lambda函数匿名函数  关于一个插值实现的记录对于零散的nan值怎么进行插值处理，这里的做法是把所有非nan的数据抽出来组成没有缺测的数组，然后再插入到原来的网格中，妙  python保存为PDF文件 Python中的绘图(论文中保存成PDF不失真) - helloHKTK - 博客园 (">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python learning">
+<meta property="og:url" content="http://example.com/2022/04/05/python-learning/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="python知识码python的slice函数  关于波浪线 ~ 它的作用起到了一个补码的作用 波浪线  lambda函数匿名函数  关于一个插值实现的记录对于零散的nan值怎么进行插值处理，这里的做法是把所有非nan的数据抽出来组成没有缺测的数组，然后再插入到原来的网格中，妙  python保存为PDF文件 Python中的绘图(论文中保存成PDF不失真) - helloHKTK - 博客园 (">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20210831170356576.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20210906164823478.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/27/-2022-04-27-211751.md.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20210921145438951.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20211115092534567.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20211115211956868.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20211124142236875.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20211228152302834.png">
+<meta property="og:image" content="https://z4a.net/images/2022/04/05/image-20220309161441953.png">
+<meta property="og:image" content="https://z4a.net/images/2022/07/25/-2022-07-25-214335.md.png">
+<meta property="article:published_time" content="2022-04-05T02:39:02.000Z">
+<meta property="article:modified_time" content="2022-08-03T01:21:59.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://z4a.net/images/2022/04/05/image-20210831170356576.png">
+
+<link rel="canonical" href="http://example.com/2022/04/05/python-learning/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>python learning | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/05/python-learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          python learning
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-05 10:39:02" itemprop="dateCreated datePublished" datetime="2022-04-05T10:39:02+08:00">2022-04-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-03 09:21:59" itemprop="dateModified" datetime="2022-08-03T09:21:59+08:00">2022-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/computer/" itemprop="url" rel="index"><span itemprop="name">computer</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="python知识码"><a href="#python知识码" class="headerlink" title="python知识码"></a>python知识码</h1><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/509211/understanding-slice-notation">python的slice函数</a></p>
+<hr>
+<p>关于波浪线 ~</p>
+<p>它的作用起到了一个补码的作用</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lanchunhui/article/details/51746477">波浪线</a></p>
+<hr>
+<h3 id="lambda函数"><a href="#lambda函数" class="headerlink" title="lambda函数"></a>lambda函数</h3><p><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017451447842528">匿名函数</a></p>
+<hr>
+<h3 id="关于一个插值实现的记录"><a href="#关于一个插值实现的记录" class="headerlink" title="关于一个插值实现的记录"></a>关于一个插值实现的记录</h3><p>对于零散的nan值怎么进行插值处理，这里的做法是把所有非nan的数据抽出来组成没有缺测的数组，然后再插入到原来的网格中，妙</p>
+<hr>
+<p>python保存为PDF文件</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/helloHKTK/p/12483478.html">Python中的绘图(论文中保存成PDF不失真) - helloHKTK - 博客园 (cnblogs.com)</a></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><hr>
+<h3 id="关于隐循环"><a href="#关于隐循环" class="headerlink" title="关于隐循环"></a>关于隐循环</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file_prect    =  [x <span class="keyword">for</span> x <span class="keyword">in</span> file1 <span class="keyword">if</span> (<span class="string">&quot;PRECT-&quot;</span> <span class="keyword">in</span> x)]</span><br></pre></td></tr></table></figure>
+
+<p>一个例子，假如我要挑选在某个列表里满足条件的文件</p>
+<h2 id="cartopy一个教程"><a href="#cartopy一个教程" class="headerlink" title="cartopy一个教程"></a>cartopy一个教程</h2><p><a target="_blank" rel="noopener" href="https://zhajiman.github.io/post/cartopy_introduction/">https://zhajiman.github.io/post/cartopy_introduction/</a></p>
+<h2 id="还有这种赋值方法"><a href="#还有这种赋值方法" class="headerlink" title="还有这种赋值方法"></a>还有这种赋值方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lonmin,lonmax,latmin,latmax = <span class="number">30</span>,<span class="number">120</span>,-<span class="number">10</span>,<span class="number">30</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="python在字符串前面加u"><a href="#python在字符串前面加u" class="headerlink" title="python在字符串前面加u"></a>python在字符串前面加u</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/CherryChanccc/article/details/82428220">python字符串前面加u_Honghong的博客-CSDN博客_python字符串前加u</a></p>
+<h2 id="打出上下标的方法"><a href="#打出上下标的方法" class="headerlink" title="打出上下标的方法"></a>打出上下标的方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plt.plot(x_data, x_data**<span class="number">3</span>, label = <span class="string">&#x27;$x^3$&#x27;</span>)</span><br><span class="line">n=<span class="string">&quot;x\u00b2&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="python-格式化输出"><a href="#python-格式化输出" class="headerlink" title="python 格式化输出"></a>python 格式化输出</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43213268/article/details/88932999">python中几种格式化输出 的用法_下雨天再见的博客-CSDN博客</a></p>
+<hr>
+<h1 id="python中的科学计算"><a href="#python中的科学计算" class="headerlink" title="python中的科学计算"></a>python中的科学计算</h1><h3 id="关于使用xarray来截取时间的操作"><a href="#关于使用xarray来截取时间的操作" class="headerlink" title="关于使用xarray来截取时间的操作"></a>关于使用xarray来截取时间的操作</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">file  =  xr.open_dataset(path+<span class="string">&quot;HadISST_sst.nc&quot;</span>)</span><br><span class="line">start_time = <span class="string">&#x27;1980-01-01&#x27;</span></span><br><span class="line">end_time   = <span class="string">&#x27;2019-12-31&#x27;</span></span><br><span class="line">time_slice = <span class="built_in">slice</span>(start_time, end_time)</span><br><span class="line">sst   =  file[<span class="string">&quot;sst&quot;</span>].sel(time=time_slice)</span><br></pre></td></tr></table></figure>
+
+<p>这里start和end_time中和dataset里面的时间并不对应，但是却可以把分割出我想要的时间段</p>
+<p>dataset里面的时间长这样：</p>
+<p><img src="https://z4a.net/images/2022/04/05/image-20210831170356576.png" alt="image-20210831170356576.png"></p>
+<p>总之这样是可以的，很神奇，嗯</p>
+<hr>
+<p>使用xarray来对dimension进行查看</p>
+<p><img src="https://z4a.net/images/2022/04/05/image-20210906164823478.png" alt="image-20210906164823478.png"></p>
+<p>可以使用f2.nj来看，也是直接跟名字就好，但是基本上这类不过是自然数的累加而已</p>
+<h2 id="numpy-interp"><a href="#numpy-interp" class="headerlink" title="numpy.interp"></a>numpy.interp</h2><p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.interp.html#numpy-interp">参考网站</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/6518811/interpolate-nan-values-in-a-numpy-array">Interpolate NaN values in a numpy array</a></p>
+<h2 id="numpy-interp-使用中的注意事项"><a href="#numpy-interp-使用中的注意事项" class="headerlink" title="numpy.interp 使用中的注意事项"></a>numpy.interp 使用中的注意事项</h2><p>如果是插值到p坐标系上的话，由于p是递减的，而这个函数要求坐标轴的值是递增的，因此需要倒过来插值完再倒回去</p>
+<h2 id="numpy中的引用问题"><a href="#numpy中的引用问题" class="headerlink" title="numpy中的引用问题"></a>numpy中的引用问题</h2><p>有时候多维数组，但我只想固定某一维度，其余的不想输了，要不要把所有的：,都加上</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a.shape</span><br><span class="line">&gt; (<span class="number">12</span>, <span class="number">37</span>, <span class="number">192</span>, <span class="number">288</span>)</span><br><span class="line">a[<span class="number">11</span>].shape</span><br><span class="line">&gt; (<span class="number">37</span>, <span class="number">192</span>, <span class="number">288</span>)</span><br><span class="line">a[:,<span class="number">11</span>].shape</span><br><span class="line">&gt; (<span class="number">12</span>, <span class="number">192</span>, <span class="number">288</span>)</span><br><span class="line">a[<span class="number">10</span>,:].shape</span><br><span class="line">&gt; (<span class="number">37</span>, <span class="number">192</span>, <span class="number">288</span>)</span><br></pre></td></tr></table></figure>
+
+<p>以上为一些例子</p>
+<h2 id="跳点取值"><a href="#跳点取值" class="headerlink" title="跳点取值"></a>跳点取值</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">u.lon.data[::<span class="number">20</span>]</span><br></pre></td></tr></table></figure>
+
+<p>结果是每隔20个取一个</p>
+<h2 id="取消科学记数法"><a href="#取消科学记数法" class="headerlink" title="取消科学记数法"></a>取消科学记数法</h2><p>np.set_printoptions(suppress&#x3D;True)</p>
+<h2 id="矩阵内只对符合条件的数据进行运算"><a href="#矩阵内只对符合条件的数据进行运算" class="headerlink" title="矩阵内只对符合条件的数据进行运算"></a>矩阵内只对符合条件的数据进行运算</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;<span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">&gt;&gt;arr = np.random.rand(<span class="number">5</span>,<span class="number">5</span>) <span class="comment"># 5x5的随机数组</span></span><br><span class="line">&gt;&gt;arr</span><br><span class="line">array([[ <span class="number">0.36401504</span>,  <span class="number">0.87729325</span>,  <span class="number">0.53453396</span>,  <span class="number">0.5031851</span> ,  <span class="number">0.90744627</span>],</span><br><span class="line">       [ <span class="number">0.44607108</span>,  <span class="number">0.22673265</span>,  <span class="number">0.77539262</span>,  <span class="number">0.84064101</span>,  <span class="number">0.41774629</span>],</span><br><span class="line">       [ <span class="number">0.91686641</span>,  <span class="number">0.71480639</span>,  <span class="number">0.09617148</span>,  <span class="number">0.41535823</span>,  <span class="number">0.4175782</span> ],</span><br><span class="line">       [ <span class="number">0.25753864</span>,  <span class="number">0.73196495</span>,  <span class="number">0.43557823</span>,  <span class="number">0.97497112</span>,  <span class="number">0.54451645</span>],</span><br><span class="line">       [ <span class="number">0.58167148</span>,  <span class="number">0.50382906</span>,  <span class="number">0.88490307</span>,  <span class="number">0.77238085</span>,  <span class="number">0.17427672</span>]])</span><br><span class="line">&gt;&gt;mask = arr&gt;<span class="number">0.5</span> <span class="comment"># 选取数组中元素大于0.5的元素的bool数组</span></span><br><span class="line">&gt;&gt;mask</span><br><span class="line">array([[<span class="literal">False</span>,  <span class="literal">True</span>,  <span class="literal">True</span>,  <span class="literal">True</span>,  <span class="literal">True</span>],</span><br><span class="line">       [<span class="literal">False</span>, <span class="literal">False</span>,  <span class="literal">True</span>,  <span class="literal">True</span>, <span class="literal">False</span>],</span><br><span class="line">       [ <span class="literal">True</span>,  <span class="literal">True</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>],</span><br><span class="line">       [<span class="literal">False</span>,  <span class="literal">True</span>, <span class="literal">False</span>,  <span class="literal">True</span>,  <span class="literal">True</span>],</span><br><span class="line">       [ <span class="literal">True</span>,  <span class="literal">True</span>,  <span class="literal">True</span>,  <span class="literal">True</span>, <span class="literal">False</span>]], dtype=<span class="built_in">bool</span>)</span><br><span class="line">&gt;&gt;arr[mask] = <span class="number">0</span> <span class="comment"># 将数组中大于0.5的值设为0</span></span><br><span class="line">&gt;&gt;arr</span><br><span class="line">array([[ <span class="number">0.36401504</span>,  <span class="number">0.</span>        ,  <span class="number">0.</span>        ,  <span class="number">0.</span>        ,  <span class="number">0.</span>        ],</span><br><span class="line">       [ <span class="number">0.44607108</span>,  <span class="number">0.22673265</span>,  <span class="number">0.</span>        ,  <span class="number">0.</span>        ,  <span class="number">0.41774629</span>],</span><br><span class="line">       [ <span class="number">0.</span>        ,  <span class="number">0.</span>        ,  <span class="number">0.09617148</span>,  <span class="number">0.41535823</span>,  <span class="number">0.4175782</span> ],</span><br><span class="line">       [ <span class="number">0.25753864</span>,  <span class="number">0.</span>        ,  <span class="number">0.43557823</span>,  <span class="number">0.</span>        ,  <span class="number">0.</span>        ],</span><br><span class="line">       [ <span class="number">0.</span>        ,  <span class="number">0.</span>        ,  <span class="number">0.</span>        ,  <span class="number">0.</span>        ,  <span class="number">0.17427672</span>]])</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="模式后处理的插值函数"><a href="#模式后处理的插值函数" class="headerlink" title="模式后处理的插值函数"></a>模式后处理的插值函数</h2><p>注意虽然没有缺测，但是位势高度会出现负值，这点需要特别注意</p>
+<h2 id="python滤波平滑教程"><a href="#python滤波平滑教程" class="headerlink" title="python滤波平滑教程"></a>python滤波平滑教程</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42782150/article/details/107176500">https://blog.csdn.net/weixin_42782150/article/details/107176500</a></p>
+<p>滑动平均：</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/13728392/moving-average-or-running-mean">https://stackoverflow.com/questions/13728392/moving-average-or-running-mean</a></p>
+<h2 id="python中对包含nan值的函数"><a href="#python中对包含nan值的函数" class="headerlink" title="python中对包含nan值的函数"></a>python中对包含nan值的函数</h2><p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.nanmean.html">https://numpy.org/doc/stable/reference/generated/numpy.nanmean.html</a></p>
+<h2 id="计数numpy中符合条件元素的个数"><a href="#计数numpy中符合条件元素的个数" class="headerlink" title="计数numpy中符合条件元素的个数"></a>计数numpy中符合条件元素的个数</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_18351157/article/details/107448247">https://blog.csdn.net/qq_18351157/article/details/107448247</a></p>
+<p>思想是先生成一个bool的数组再用np.count_nonzero()</p>
+<h2 id="isel的用法"><a href="#isel的用法" class="headerlink" title="isel的用法"></a>isel的用法</h2><p>xarray中isel的用法是针对位置来进行选择的，这里给出一个例子</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">april  =  [x*<span class="number">12</span>+<span class="number">3</span> <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">120</span>)]</span><br><span class="line">f  =  xr.open_dataset(<span class="string">&quot;/home/sun/data/HadISST_sst.nc&quot;</span>).isel(time=april)</span><br></pre></td></tr></table></figure>
+
+<p>如是便可以把每年的四月挑出来了</p>
+<h2 id="并行计算学习"><a href="#并行计算学习" class="headerlink" title="并行计算学习"></a>并行计算学习</h2><p>资料：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40481076/article/details/101594705">(48条消息) python多线程详解（超详细）_笨小孩哈哈的博客-CSDN博客_python 多线程</a></p>
+<p><a target="_blank" rel="noopener" href="https://realpython.com/intro-to-python-threading/">https://realpython.com/intro-to-python-threading/</a></p>
+<h1 id="matplotlib"><a href="#matplotlib" class="headerlink" title="matplotlib"></a>matplotlib</h1><h2 id="plot绘制2d图样式"><a href="#plot绘制2d图样式" class="headerlink" title="plot绘制2d图样式"></a>plot绘制2d图样式</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot">matplotlib.pyplot.plot — Matplotlib 3.4.3 documentation</a></p>
+<p>一个是关于markers，一个是关于line style</p>
+<h2 id="设置线段样式"><a href="#设置线段样式" class="headerlink" title="设置线段样式"></a>设置线段样式</h2><p>设置线段样式的三种方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plt.plot(x, y, linewidth=<span class="number">2.0</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">line, = plt.plot(x, y, <span class="string">&#x27;-&#x27;</span>)</span><br><span class="line">line.set_antialiased(<span class="literal">False</span>) <span class="comment"># turn off antialiasing</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lines = plt.plot(x1, y1, x2, y2)</span><br><span class="line"><span class="comment"># use keyword args</span></span><br><span class="line">plt.setp(lines, color=<span class="string">&#x27;r&#x27;</span>, linewidth=<span class="number">2.0</span>)</span><br><span class="line"><span class="comment"># or MATLAB style string value pairs</span></span><br><span class="line">plt.setp(lines, <span class="string">&#x27;color&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, <span class="string">&#x27;linewidth&#x27;</span>, <span class="number">2.0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>官网网址关于点线虚线什么的</p>
+<p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/lines_bars_and_markers/linestyles.html">https://matplotlib.org/stable/gallery/lines_bars_and_markers/linestyles.html</a></p>
+<h2 id="生成多个figure和subpolt"><a href="#生成多个figure和subpolt" class="headerlink" title="生成多个figure和subpolt"></a>生成多个figure和subpolt</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">plt.figure(<span class="number">1</span>)                <span class="comment"># the first figure</span></span><br><span class="line">plt.subplot(<span class="number">211</span>)             <span class="comment"># the first subplot in the first figure</span></span><br><span class="line">plt.plot([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">plt.subplot(<span class="number">212</span>)             <span class="comment"># the second subplot in the first figure</span></span><br><span class="line">plt.plot([<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">plt.figure(<span class="number">2</span>)                <span class="comment"># a second figure</span></span><br><span class="line">plt.plot([<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])          <span class="comment"># creates a subplot() by default</span></span><br><span class="line"></span><br><span class="line">plt.figure(<span class="number">1</span>)                <span class="comment"># figure 1 current; subplot(212) still current</span></span><br><span class="line">plt.subplot(<span class="number">211</span>)             <span class="comment"># make subplot(211) in figure1 current</span></span><br><span class="line">plt.title(<span class="string">&#x27;Easy as 1, 2, 3&#x27;</span>) <span class="comment"># subplot 211 title</span></span><br></pre></td></tr></table></figure>
+
+<p>这里注意从figure2调到figure1需要执行命令，此时指向figure1中的subpolt(212),因此还得再指向plt.subplot(211)</p>
+<p><span style='color:red;background:white;font-size:16;font-family:楷体;'>小结：在画图之前你需要指定在哪个figure，有axes还需指定在哪个subplot</span></p>
+<hr>
+<h2 id="任意设置子图在指定位置"><a href="#任意设置子图在指定位置" class="headerlink" title="任意设置子图在指定位置"></a>任意设置子图在指定位置</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/subplots_axes_and_figures/axes_demo.html">Axes Demo — Matplotlib 3.4.3 documentation</a></p>
+<hr>
+<h2 id="直方图"><a href="#直方图" class="headerlink" title="直方图"></a>直方图</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.hist.html#matplotlib.pyplot.hist">matplotlib.pyplot.hist — Matplotlib 3.4.3 documentation</a></p>
+<h2 id="在python里面打数学公式"><a href="#在python里面打数学公式" class="headerlink" title="在python里面打数学公式"></a>在python里面打数学公式</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/tutorials/text/mathtext.html">Writing mathematical expressions — Matplotlib 3.4.3 documentation</a></p>
+<h2 id="调整子图的教程"><a href="#调整子图的教程" class="headerlink" title="调整子图的教程"></a>调整子图的教程</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/tutorials/intermediate/gridspec.html">https://matplotlib.org/stable/tutorials/intermediate/gridspec.html</a></p>
+<h2 id="Constrained-Layout-的用法"><a href="#Constrained-Layout-的用法" class="headerlink" title="Constrained Layout 的用法"></a>Constrained Layout 的用法</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/MTandHJ/article/details/90272935">https://blog.csdn.net/MTandHJ/article/details/90272935</a></p>
+<h2 id="contour等值线合集"><a href="#contour等值线合集" class="headerlink" title="contour等值线合集"></a>contour等值线合集</h2><h3 id="官方contour教程"><a href="#官方contour教程" class="headerlink" title="官方contour教程"></a>官方contour教程</h3><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/images_contours_and_fields/contour_demo.html">https://matplotlib.org/stable/gallery/images_contours_and_fields/contour_demo.html</a></p>
+<h3 id="contour设置"><a href="#contour设置" class="headerlink" title="contour设置"></a>contour设置</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">im   =  ax.contour(f1.lon,f1.level,avg_theta,np.linspace(-<span class="number">2</span>,<span class="number">4</span>,<span class="number">15</span>),linewidths=<span class="number">0.9</span>,colors=<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">rcParams[<span class="string">&quot;contour.negative_linestyle&quot;</span>] = <span class="string">&#x27;solid&#x27;</span> <span class="comment"># 设置负数的线段样式</span></span><br></pre></td></tr></table></figure>
+
+<p>注意设置contour的负数样式并不能直接在contour函数里面搞，需要像第二行那样搞</p>
+<h2 id="Tick设置"><a href="#Tick设置" class="headerlink" title="Tick设置"></a>Tick设置</h2><h3 id="调整坐标轴标签和刻度之间的距离"><a href="#调整坐标轴标签和刻度之间的距离" class="headerlink" title="调整坐标轴标签和刻度之间的距离"></a>调整坐标轴标签和刻度之间的距离</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ax.tick_params(pad=<span class="number">0.2</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="使用预定义的刻度设置"><a href="#使用预定义的刻度设置" class="headerlink" title="使用预定义的刻度设置"></a>使用预定义的刻度设置</h3><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/ticks_and_spines/tick-formatters.html">https://matplotlib.org/stable/gallery/ticks_and_spines/tick-formatters.html</a></p>
+<h3 id="经纬度的ticklabel形式"><a href="#经纬度的ticklabel形式" class="headerlink" title="经纬度的ticklabel形式"></a>经纬度的ticklabel形式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置Formatter.</span></span><br><span class="line"><span class="keyword">if</span> xformatter <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    xformatter = LongitudeFormatter()</span><br><span class="line"><span class="keyword">if</span> yformatter <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    yformatter = LatitudeFormatter()</span><br><span class="line">ax.xaxis.set_major_formatter(xformatter)</span><br><span class="line">ax.yaxis.set_major_formatter(yformatter)</span><br></pre></td></tr></table></figure>
+
+<p>这样的话会自动转换成经纬度形式的labels，不需要我再自己搞tick_labels了</p>
+<h2 id="设置绘图的范围"><a href="#设置绘图的范围" class="headerlink" title="设置绘图的范围"></a>设置绘图的范围</h2><p>需求：比如我只想在原图的基础上只画某个范围内的图像，只需要对x轴进行设置就好。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">plt.xlim(xmin=<span class="number">60</span>,xmax=<span class="number">130</span>)</span><br><span class="line">plt.ylim(ymin=-<span class="number">0.5</span>,ymax=<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#ax的方法</span></span><br><span class="line">ax.set_xlim(xmin=<span class="number">60</span>,xmax=<span class="number">200</span>)</span><br><span class="line">ax.set_ylim(ymin=-<span class="number">0.5</span>,ymax=<span class="number">1.5</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在这个范围之外的就不会再有了</p>
+<h2 id="设置x轴y轴标题"><a href="#设置x轴y轴标题" class="headerlink" title="设置x轴y轴标题"></a>设置x轴y轴标题</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ax1.set_xlabel(<span class="string">&#x27;time&#x27;</span>)</span><br><span class="line">ax1.set_ylabel(<span class="string">&#x27;s1 and s2&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="关于刻度"><a href="#关于刻度" class="headerlink" title="关于刻度"></a>关于刻度</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;这条命令定义了两个major刻度之间分成多少份&#x27;&#x27;&#x27;</span></span><br><span class="line">ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="number">10</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="设置coutour等值线的label有一个单独的函数"><a href="#设置coutour等值线的label有一个单独的函数" class="headerlink" title="设置coutour等值线的label有一个单独的函数"></a>设置coutour等值线的label有一个单独的函数</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.clabel.html">https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.clabel.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/contour_api.html?highlight=inline#matplotlib.contour.ContourLabeler.calc_label_rot_and_inline">https://matplotlib.org/stable/api/contour_api.html?highlight=inline#matplotlib.contour.ContourLabeler.calc_label_rot_and_inline</a></p>
+<h2 id="双y轴"><a href="#双y轴" class="headerlink" title="双y轴"></a>双y轴</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/atanisi/p/8530693.html">https://www.cnblogs.com/atanisi/p/8530693.html</a></p>
+<h2 id="倒转y轴"><a href="#倒转y轴" class="headerlink" title="倒转y轴"></a>倒转y轴</h2><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/2051744/reverse-y-axis-in-pyplot">https://stackoverflow.com/questions/2051744/reverse-y-axis-in-pyplot</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plt.gca().invert_yaxis()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="怎么给NAN值赋颜色"><a href="#怎么给NAN值赋颜色" class="headerlink" title="怎么给NAN值赋颜色"></a>怎么给NAN值赋颜色</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plt.gca().set_facecolor(&quot;black&quot;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="histgram-教程"><a href="#histgram-教程" class="headerlink" title="histgram 教程"></a>histgram 教程</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/statistics/hist.html">https://matplotlib.org/stable/gallery/statistics/hist.html</a></p>
+<h2 id="绘制bar图"><a href="#绘制bar图" class="headerlink" title="绘制bar图"></a>绘制bar图</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/47dfbe43dae1">https://www.jianshu.com/p/47dfbe43dae1</a> 讲调整柱子颜色的</p>
+<h2 id="matplotlib-颜色列表"><a href="#matplotlib-颜色列表" class="headerlink" title="matplotlib 颜色列表"></a>matplotlib 颜色列表</h2><p><a target="_blank" rel="noopener" href="https://finthon.com/matplotlib-color-list/">https://finthon.com/matplotlib-color-list/</a></p>
+<h2 id="colormap参考列表"><a href="#colormap参考列表" class="headerlink" title="colormap参考列表"></a>colormap参考列表</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/color/colormap_reference.html">https://matplotlib.org/stable/gallery/color/colormap_reference.html</a></p>
+<h3 id="一个第三方colormap"><a href="#一个第三方colormap" class="headerlink" title="一个第三方colormap"></a>一个第三方colormap</h3><p><a target="_blank" rel="noopener" href="https://github.com/1313e/CMasher">https://github.com/1313e/CMasher</a></p>
+<h2 id="调整视图的长宽比"><a href="#调整视图的长宽比" class="headerlink" title="调整视图的长宽比"></a>调整视图的长宽比</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">axs.<span class="built_in">set</span>(aspect=<span class="number">0.5</span>)</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://jdhao.github.io/2017/06/03/change-aspect-ratio-in-mpl/">https://jdhao.github.io/2017/06/03/change-aspect-ratio-in-mpl/</a></p>
+<h2 id="像素图"><a href="#像素图" class="headerlink" title="像素图"></a>像素图</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/images_contours_and_fields/contour_image.html#sphx-glr-gallery-images-contours-and-fields-contour-image-py">https://matplotlib.org/stable/gallery/images_contours_and_fields/contour_image.html#sphx-glr-gallery-images-contours-and-fields-contour-image-py</a></p>
+<h2 id="colormap的设置教程"><a href="#colormap的设置教程" class="headerlink" title="colormap的设置教程"></a>colormap的设置教程</h2><ol>
+<li><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/tutorials/colors/colormap-manipulation.html">Creating Colormaps in Matplotlib — Matplotlib 3.5.1 documentation</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">viridis = cm.get_cmap(<span class="string">&#x27;viridis&#x27;</span>, <span class="number">256</span>)</span><br><span class="line">newcolors = viridis(np.linspace(<span class="number">0</span>, <span class="number">1</span>, <span class="number">256</span>))</span><br><span class="line">pink = np.array([<span class="number">248</span>/<span class="number">256</span>, <span class="number">24</span>/<span class="number">256</span>, <span class="number">148</span>/<span class="number">256</span>, <span class="number">1</span>])</span><br><span class="line">newcolors[:<span class="number">25</span>, :] = pink</span><br><span class="line">newcmp = ListedColormap(newcolors)  <span class="comment">#注意这最后一步是把一堆rgb array生成一个数组</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/tutorials/colors/colorbar_only.html">Customized Colorbars Tutorial — Matplotlib 3.5.1 documentation</a></p>
+<p>这里面主要是看extend两边的颜色设置</p>
+</li>
+</ol>
+<h2 id="关于边框（xy轴）的设置（粗细、颜色）"><a href="#关于边框（xy轴）的设置（粗细、颜色）" class="headerlink" title="关于边框（xy轴）的设置（粗细、颜色）"></a>关于边框（xy轴）的设置（粗细、颜色）</h2><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4761623/how-to-change-the-color-of-the-axis-ticks-and-labels-for-a-plot-in-matplotlib">https://stackoverflow.com/questions/4761623/how-to-change-the-color-of-the-axis-ticks-and-labels-for-a-plot-in-matplotlib</a></p>
+<h2 id="CMAP教程"><a href="#CMAP教程" class="headerlink" title="CMAP教程"></a>CMAP教程</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/tutorials/colors/colormaps.html">https://matplotlib.org/stable/tutorials/colors/colormaps.html</a></p>
+<h3 id="cmap名字后面加r等于反过来"><a href="#cmap名字后面加r等于反过来" class="headerlink" title="cmap名字后面加r等于反过来"></a>cmap名字后面加r等于反过来</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cmap = <span class="string">&#x27;Blues&#x27;</span></span><br><span class="line">cmap = <span class="string">&#x27;Blues_r&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="第三方cmap库"><a href="#第三方cmap库" class="headerlink" title="第三方cmap库"></a>第三方cmap库</h3><p><a target="_blank" rel="noopener" href="https://jiffyclub.github.io/palettable/">Palettable (jiffyclub.github.io)</a></p>
+<h2 id="流线中的箭头样式设置"><a href="#流线中的箭头样式设置" class="headerlink" title="流线中的箭头样式设置"></a>流线中的箭头样式设置</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.patches.FancyArrowPatch.html#matplotlib.patches.FancyArrowPatch">https://matplotlib.org/stable/api/_as_gen/matplotlib.patches.FancyArrowPatch.html#matplotlib.patches.FancyArrowPatch</a></p>
+<p>注意，对于’&lt;-‘这种箭头，方向是反着的</p>
+<h2 id="绘制streamplot的例子"><a href="#绘制streamplot的例子" class="headerlink" title="绘制streamplot的例子"></a>绘制streamplot的例子</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/images_contours_and_fields/plot_streamplot.html">https://matplotlib.org/stable/gallery/images_contours_and_fields/plot_streamplot.html</a></p>
+<h2 id="添加文本"><a href="#添加文本" class="headerlink" title="添加文本"></a>添加文本</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_21478261/article/details/108290310">(9条消息) Python可视化31|matplotlib-图添加文本(text)及注释(annotate)_pythonic生物人的博客-CSDN博客</a></p>
+<h2 id="Unidata中的各种例子"><a href="#Unidata中的各种例子" class="headerlink" title="Unidata中的各种例子"></a>Unidata中的各种例子</h2><p><a target="_blank" rel="noopener" href="https://unidata.github.io/python-training/gallery/gallery-home/">https://unidata.github.io/python-training/gallery/gallery-home/</a></p>
+<h2 id="文本框的样式实例"><a href="#文本框的样式实例" class="headerlink" title="文本框的样式实例"></a>文本框的样式实例</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/3.1.1/gallery/pyplots/whats_new_98_4_fancy.html#sphx-glr-gallery-pyplots-whats-new-98-4-fancy-py">https://matplotlib.org/3.1.1/gallery/pyplots/whats_new_98_4_fancy.html#sphx-glr-gallery-pyplots-whats-new-98-4-fancy-py</a></p>
+<h2 id="matplotlib里面有一个很多教程的集合网站"><a href="#matplotlib里面有一个很多教程的集合网站" class="headerlink" title="matplotlib里面有一个很多教程的集合网站"></a>matplotlib里面有一个很多教程的集合网站</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/tutorials/">Tutorials — Matplotlib 3.5.0 documentation</a></p>
+<p>点进去在左边框</p>
+<h2 id="第三方colorbar库"><a href="#第三方colorbar库" class="headerlink" title="第三方colorbar库"></a>第三方colorbar库</h2><p><a target="_blank" rel="noopener" href="https://jiffyclub.github.io/palettable/">Palettable (jiffyclub.github.io)</a></p>
+<h2 id="给等值线添加图例"><a href="#给等值线添加图例" class="headerlink" title="给等值线添加图例"></a>给等值线添加图例</h2><p><a target="_blank" rel="noopener" href="https://github.com/matplotlib/matplotlib/issues/11134">https://github.com/matplotlib/matplotlib/issues/11134</a></p>
+<h2 id="关于刻度label的大小设置"><a href="#关于刻度label的大小设置" class="headerlink" title="关于刻度label的大小设置"></a>关于刻度label的大小设置</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ax.tick_params(labelsize=labelsize)</span><br></pre></td></tr></table></figure>
+
+<p>参考网站</p>
+<p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.tick_params.html">https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.tick_params.html</a></p>
+<p>labelsize一个是可以设置具体值，还有就是设置字符串</p>
+<p>字符串选项xx-small, x-small, small, medium, large, x-large, xx-large, larger, smaller</p>
+<h2 id="给刻度线加上label"><a href="#给刻度线加上label" class="headerlink" title="给刻度线加上label"></a>给刻度线加上label</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ax.clabel(im2, np.linspace(<span class="number">2</span>,<span class="number">12</span>,<span class="number">6</span>), inline=<span class="literal">True</span>, fontsize=<span class="number">12</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="tick-params-对坐标轴刻度的设置"><a href="#tick-params-对坐标轴刻度的设置" class="headerlink" title="tick_params 对坐标轴刻度的设置"></a>tick_params 对坐标轴刻度的设置</h2><p>官方文档 <a target="_blank" rel="noopener" href="https://matplotlib.org/3.5.0/api/_as_gen/matplotlib.axes.Axes.tick_params.html">https://matplotlib.org/3.5.0/api/_as_gen/matplotlib.axes.Axes.tick_params.html</a></p>
+<p>这里以labelsize设置，如果只想设置x或者y轴的话</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ax1.tick_params(axis=&#x27;y&#x27;, labelcolor=color)</span><br></pre></td></tr></table></figure>
+
+<p>在里面指定一下就好了</p>
+<h2 id="subplots与add-subplot之间的subplot-kw"><a href="#subplots与add-subplot之间的subplot-kw" class="headerlink" title="subplots与add_subplot之间的subplot_kw"></a>subplots与add_subplot之间的subplot_kw</h2><p>在使用cartopy画图的过程中，添加地图映射用的是这个语句</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ax = fig1.add_subplot(projection=proj)</span><br></pre></td></tr></table></figure>
+
+<p>我很好奇那如果使用plt.subplots可以给添加地图映射么？</p>
+<p>在官网给出的例子里是这样的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fig, axs = plt.subplots(<span class="number">2</span>, <span class="number">2</span>, subplot_kw=<span class="built_in">dict</span>(projection=<span class="string">&quot;polar&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<p>有了 subplot_kw 这个参数，关于这个参数的解释</p>
+<blockquote>
+<p><strong>subplot_kw</strong>dict, optional</p>
+<p>Dict with keywords passed to the <a target="_blank" rel="noopener" href="https://matplotlib.org/3.5.0/api/figure_api.html#matplotlib.figure.Figure.add_subplot"><code>add_subplot</code></a> call used to create each subplot.</p>
+</blockquote>
+<h2 id="关于colorbar的设置"><a href="#关于colorbar的设置" class="headerlink" title="关于colorbar的设置"></a>关于colorbar的设置</h2><p>起因是我想把colorbar下面的数字改大一点，参考资料：</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/23172282/how-to-change-font-properties-of-a-matplotlib-colorbar-label">https://stackoverflow.com/questions/23172282/how-to-change-font-properties-of-a-matplotlib-colorbar-label</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> matplotlib.pylab <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> arange</span><br><span class="line"></span><br><span class="line">pcolor(arange(<span class="number">20</span>).reshape(<span class="number">4</span>,<span class="number">5</span>))</span><br><span class="line">cb = colorbar(label=<span class="string">&#x27;a label&#x27;</span>)</span><br><span class="line">ax = cb.ax</span><br><span class="line">text = ax.yaxis.label</span><br><span class="line">font = matplotlib.font_manager.FontProperties(family=<span class="string">&#x27;times new roman&#x27;</span>, style=<span class="string">&#x27;italic&#x27;</span>, size=<span class="number">16</span>)</span><br><span class="line">text.set_font_properties(font)</span><br><span class="line">show()</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://z4a.net/image/2kXYfa"><img src="https://z4a.net/images/2022/04/27/-2022-04-27-211751.md.png" alt="-2022-04-27-211751.md.png"></a></p>
+<p>从这里我们可以知道：</p>
+<ol>
+<li>cb &#x3D; colorbar(label&#x3D;’a label’) 这句话调用之后返回的是一个句柄，也就是后面的ax</li>
+<li>让我惊奇的是后面的text也是ax能够返回的对象，还有用这种方法来设置fontproperties，以及最后的set_font_properties</li>
+</ol>
+<p><strong>学习了学习了</strong></p>
+<p>关于对colorbar labelsize的设置：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = fig.colorbar(im,shrink=<span class="number">0.6</span>, pad=<span class="number">0.05</span>)</span><br><span class="line">a.ax.tick_params(labelsize=<span class="number">8</span>)</span><br></pre></td></tr></table></figure>
+
+<p>跟上面一样，也是在返回的句柄上进行操作，这里注意tick_params这个函数</p>
+<p>文档：<a target="_blank" rel="noopener" href="https://matplotlib.org/3.5.0/api/_as_gen/matplotlib.axes.Axes.tick_params.html">https://matplotlib.org/3.5.0/api/_as_gen/matplotlib.axes.Axes.tick_params.html</a></p>
+<h2 id="legend"><a href="#legend" class="headerlink" title="legend"></a>legend</h2><h3 id="官方教程"><a href="#官方教程" class="headerlink" title="官方教程"></a>官方教程</h3><p><a target="_blank" rel="noopener" href="https://matplotlib.org/3.1.1/tutorials/intermediate/legend_guide.html">https://matplotlib.org/3.1.1/tutorials/intermediate/legend_guide.html</a></p>
+<h3 id="线图的legend控制label的颜色跟线的颜色一致"><a href="#线图的legend控制label的颜色跟线的颜色一致" class="headerlink" title="线图的legend控制label的颜色跟线的颜色一致"></a>线图的legend控制label的颜色跟线的颜色一致</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">labelcolor=<span class="string">&#x27;linecolor&#x27;</span></span><br><span class="line"></span><br><span class="line">ax.legend(loc=<span class="string">&#x27;upper left&#x27;</span>,prop=&#123;<span class="string">&#x27;size&#x27;</span>: <span class="number">25</span>&#125;,labelcolor=<span class="string">&#x27;linecolor&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="关于画图过程中字典形式的传入参数"><a href="#关于画图过程中字典形式的传入参数" class="headerlink" title="关于画图过程中字典形式的传入参数"></a>关于画图过程中字典形式的传入参数</h2><p>举例、积累：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ax.quiverkey(q, X=quiver_x, Y=quiver_y, U=speed,</span><br><span class="line">                    label=<span class="string">f&#x27;<span class="subst">&#123;speed&#125;</span> m/s&#x27;</span>, labelpos=<span class="string">&#x27;S&#x27;</span>, labelsep=<span class="number">0.1</span>,fontproperties=&#123;<span class="string">&#x27;size&#x27;</span>:<span class="number">18</span>&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="设置-自我总结"><a href="#设置-自我总结" class="headerlink" title="设置-自我总结"></a>设置-自我总结</h2><ol>
+<li><p>关于相互重叠啊，跑出去了啊等等问题</p>
+<p>加plt.tight_layout()让它自己调整</p>
+</li>
+<li><p>range()也是不包含尾端的</p>
+</li>
+<li><p>在绘制等值线图的时候，关闭extend &#x3D; both，超过的值不会画，会造成有白斑出现</p>
+</li>
+</ol>
+<h3 id="打出°的上标"><a href="#打出°的上标" class="headerlink" title="打出°的上标"></a>打出°的上标</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">u&#x27;&#x27;</span> + <span class="built_in">str</span>(xxxx) + <span class="string">&quot;\N&#123;DEGREE SIGN&#125;&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="上标下标的教程"><a href="#上标下标的教程" class="headerlink" title="上标下标的教程"></a>上标下标的教程</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_38314865/article/details/89392911?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-1.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-1.nonecase">python为字体添加上下标_Mr.horse的博客-CSDN博客_python怎么打上角标</a></p>
+<h3 id="pad参数调整子图之间的距离"><a href="#pad参数调整子图之间的距离" class="headerlink" title="pad参数调整子图之间的距离"></a>pad参数调整子图之间的距离</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ig1, axes = plt.subplots(<span class="number">1</span>,<span class="number">2</span>,figsize = (<span class="number">16</span>,<span class="number">7</span>))</span><br><span class="line">fig1.tight_layout(pad = <span class="number">1</span>) <span class="comment">#pad参数设置子图之间的间隔 </span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>label不一定要是文本，数字也可以</p>
+<h3 id="contour中的线段设置问题"><a href="#contour中的线段设置问题" class="headerlink" title="contour中的线段设置问题"></a>contour中的线段设置问题</h3><p>设置了cmap后再设置negative_linestyle无法呈现负值对应虚线的效果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">im   =  ax.contour(f1.lon,f1.level,avg_theta,np.linspace(-<span class="number">2</span>,<span class="number">4</span>,<span class="number">15</span>),linewidth=<span class="number">0.9</span>,cmap=<span class="string">&#x27;Blues&#x27;</span>,negative_linestyle=<span class="string">&#x27;dashed&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="调整矢量图的箭头稀疏程度"><a href="#调整矢量图的箭头稀疏程度" class="headerlink" title="调整矢量图的箭头稀疏程度"></a>调整矢量图的箭头稀疏程度</h3><p>目前没找到现成的函数，我发现可以跳点画</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">q  =  ax.quiver(f2.lon[::<span class="number">4</span>], f2.level[::<span class="number">2</span>], uwind[::<span class="number">2</span>,::<span class="number">4</span>], omega[::<span class="number">2</span>,::<span class="number">4</span>], </span><br><span class="line">                angles=<span class="string">&#x27;uv&#x27;</span>,<span class="comment"># regrid_shape这个参数越小，是两门就越稀疏</span></span><br><span class="line">                scale_units=<span class="string">&#x27;xy&#x27;</span>, scale=<span class="number">1.5</span>,        <span class="comment"># scale是参考矢量，所以取得越大画出来的箭头就越短</span></span><br><span class="line">                units=<span class="string">&#x27;xy&#x27;</span>, width=<span class="number">2</span>,</span><br><span class="line">                color=<span class="string">&#x27;b&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="报错：-tkinter-TclError-unknown-color-name-“white”"><a href="#报错：-tkinter-TclError-unknown-color-name-“white”" class="headerlink" title="报错：_tkinter.TclError: unknown color name “white”"></a>报错：_tkinter.TclError: unknown color name “white”</h3><p>解决办法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import matplotlib</span><br><span class="line">matplotlib.use(&#x27;Agg&#x27;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用streamplot画垂直流线的几个问题"><a href="#使用streamplot画垂直流线的几个问题" class="headerlink" title="使用streamplot画垂直流线的几个问题"></a>使用streamplot画垂直流线的几个问题</h3><ol>
+<li>必须坐标系是递增的</li>
+<li>必须坐标轴上是等间距的</li>
+</ol>
+<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><h2 id="matplotlib-axes-Axes-pcolormesh"><a href="#matplotlib-axes-Axes-pcolormesh" class="headerlink" title="matplotlib.axes.Axes.pcolormesh"></a>matplotlib.axes.Axes.pcolormesh</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.pcolormesh.html">https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.pcolormesh.html</a></p>
+<h2 id="matplotlib-pyplot-colorbar"><a href="#matplotlib-pyplot-colorbar" class="headerlink" title="matplotlib.pyplot.colorbar"></a>matplotlib.pyplot.colorbar</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html#matplotlib.pyplot.colorbar">https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html#matplotlib.pyplot.colorbar</a></p>
+<h2 id="numpy-average"><a href="#numpy-average" class="headerlink" title="numpy.average"></a>numpy.average</h2><p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.average.html">numpy.average — NumPy v1.21 Manual</a></p>
+<h2 id="matplotlib-patches-Circle"><a href="#matplotlib-patches-Circle" class="headerlink" title="matplotlib.patches.Circle"></a>matplotlib.patches.Circle</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.patches.Circle.html">https://matplotlib.org/stable/api/_as_gen/matplotlib.patches.Circle.html</a></p>
+<h2 id="isinstance函数"><a href="#isinstance函数" class="headerlink" title="isinstance函数"></a>isinstance函数</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wanglei_storage/article/details/52849081">https://blog.csdn.net/wanglei_storage/article/details/52849081</a></p>
+<h2 id="matplotlib中的流线函数"><a href="#matplotlib中的流线函数" class="headerlink" title="matplotlib中的流线函数"></a>matplotlib中的流线函数</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.streamplot.html#matplotlib.axes.Axes.streamplot">https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.streamplot.html#matplotlib.axes.Axes.streamplot</a></p>
+<h2 id="strip函数"><a href="#strip函数" class="headerlink" title="strip函数"></a>strip函数</h2><p>用来去掉字符串头尾的特殊字符，比如换行符</p>
+<h2 id="main函数"><a href="#main函数" class="headerlink" title="main函数"></a>main函数</h2><p>注意在main函数中我发现由于main函数里面的值是非全局变量，再调用外部函数的话，会因为无全局变量而不错，因此编写的外部函数要有传入参数</p>
+<h2 id="在pycharm中设置运行断点"><a href="#在pycharm中设置运行断点" class="headerlink" title="在pycharm中设置运行断点"></a>在pycharm中设置运行断点</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># %%</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="函数中的参数问题"><a href="#函数中的参数问题" class="headerlink" title="函数中的参数问题"></a>函数中的参数问题</h2><p>没有指定函数值的参数要放在前面，指定了函数值的要放在后面，不能乱</p>
+<h3 id="xarray读取era数据存在的问题"><a href="#xarray读取era数据存在的问题" class="headerlink" title="xarray读取era数据存在的问题"></a>xarray读取era数据存在的问题</h3><p>似乎无法处理short类型数据，无法获取factor和offset这些量</p>
+<h1 id="debug"><a href="#debug" class="headerlink" title="debug"></a>debug</h1><h2 id="cartopy设置与添加水平线"><a href="#cartopy设置与添加水平线" class="headerlink" title="cartopy设置与添加水平线"></a>cartopy设置与添加水平线</h2><p>添加水平线用到的函数hlines()给的是xmin和xmax</p>
+<p>但是在实际操作中并不能对上，需要进行调整，原因目前还没搞清</p>
+<h2 id="jupyterlab中的设置密码问题"><a href="#jupyterlab中的设置密码问题" class="headerlink" title="jupyterlab中的设置密码问题"></a>jupyterlab中的设置密码问题</h2><p>网上给的教程有问题，真正的教程在jupyterlab的config文件里面可以找到</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> jupyter_server.auth <span class="keyword">import</span> passwd; passwd()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="cartopy加载地图信息显示下载失败"><a href="#cartopy加载地图信息显示下载失败" class="headerlink" title="cartopy加载地图信息显示下载失败"></a>cartopy加载地图信息显示下载失败</h2><p>[(7条消息) Cartopy加载地图信息报错 TimeoutError: <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_50569998/article/details/108814321">WinError 10060]_会计师-CSDN博客</a></p>
+<p>地图信息储存的服务器有问题，下载github里面的资料再放进去</p>
+<h2 id="cartopy地图只画出来一半"><a href="#cartopy地图只画出来一半" class="headerlink" title="cartopy地图只画出来一半"></a>cartopy地图只画出来一半</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">f   =  plt.figure(figsize=(<span class="number">10</span>,<span class="number">5</span>))</span><br><span class="line">ax  =  f.add_subplot(</span><br><span class="line">    <span class="number">111</span>,</span><br><span class="line">    projection=ccrs.PlateCarree()</span><br><span class="line">)</span><br><span class="line">ax.streamplot(</span><br><span class="line">    u.lon,u.lat,</span><br><span class="line">    u1,v1,</span><br><span class="line">    transform=ccrs.PlateCarree()</span><br><span class="line">)</span><br><span class="line">ax.coastlines()</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://z4a.net/images/2022/04/05/image-20210921145438951.png" alt="image-20210921145438951.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">f   =  plt.figure(figsize=(<span class="number">10</span>,<span class="number">5</span>))</span><br><span class="line">ax  =  f.add_subplot(</span><br><span class="line">    <span class="number">111</span>,</span><br><span class="line">    projection=ccrs.PlateCarree(central_longitude=<span class="number">0</span>)</span><br><span class="line">)</span><br><span class="line">ax.streamplot(</span><br><span class="line">    u.lon,u.lat,</span><br><span class="line">    u1,v1,</span><br><span class="line">    transform=ccrs.PlateCarree()</span><br><span class="line">)</span><br><span class="line">ax.coastlines()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>加了一个central的设置后就好了，原因目前不明</p>
+<h2 id="cartopy-中的set-extent"><a href="#cartopy-中的set-extent" class="headerlink" title="cartopy 中的set_extent"></a>cartopy 中的set_extent</h2><p>在设置刻度的时候可能会覆盖之前设置的ax.set_extent，所以这个语句要放在刻度设置的后面，覆盖回去</p>
+<h2 id="画图报错-tkinter-TclError-unknown-color-name-“white”"><a href="#画图报错-tkinter-TclError-unknown-color-name-“white”" class="headerlink" title="画图报错 _tkinter.TclError: unknown color name “white”"></a>画图报错 _tkinter.TclError: unknown color name “white”</h2><p>这是由于在xshell中打开了X11转发，把它关上就可以了</p>
+<h1 id="cartopy"><a href="#cartopy" class="headerlink" title="cartopy"></a>cartopy</h1><h2 id="设置边界线的粗细"><a href="#设置边界线的粗细" class="headerlink" title="设置边界线的粗细"></a>设置边界线的粗细</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ax.add_feature(cf.COASTLINE, lw=2) #lw参数</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="matplotlib画图总结"><a href="#matplotlib画图总结" class="headerlink" title="matplotlib画图总结"></a>matplotlib画图总结</h1><h2 id="2021-x2F-11-x2F-15-时间序列"><a href="#2021-x2F-11-x2F-15-时间序列" class="headerlink" title="2021&#x2F;11&#x2F;15 时间序列"></a>2021&#x2F;11&#x2F;15 时间序列</h2><p><img src="https://z4a.net/images/2022/04/05/image-20211115092534567.png" alt="image-20211115092534567.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">fig,axs  =  plt.subplots(tight_layout=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># axs.set_yticks(np.arange(90, 160,10))</span></span><br><span class="line"></span><br><span class="line">axs.bar(year,day-<span class="number">120</span>,width=<span class="number">1</span>,color=color_list,edgecolor=<span class="string">&#x27;black&#x27;</span>) <span class="comment"># 使用自定义的柱的颜色 定义边缘的颜色</span></span><br><span class="line"><span class="comment"># 刻度设置</span></span><br><span class="line">axs.set_xlim(<span class="number">1979</span>,<span class="number">2020</span>)</span><br><span class="line">axs.xaxis.set_major_locator(MultipleLocator(<span class="number">5</span>))  <span class="comment"># 设置大刻度和小刻度</span></span><br><span class="line">axs.xaxis.set_minor_locator(MultipleLocator(<span class="number">1</span>))  <span class="comment"># 注意只设置小刻度是出不来的，得先设置大刻度</span></span><br><span class="line"></span><br><span class="line">axs.set_yticks(np.arange(-<span class="number">20</span>,<span class="number">25</span>,<span class="number">5</span>))</span><br><span class="line">axs.set_yticklabels(y_label)</span><br><span class="line"></span><br><span class="line">axs.plot([<span class="number">1979</span>,<span class="number">2020</span>],[<span class="number">0</span>,<span class="number">0</span>],color=<span class="string">&#x27;black&#x27;</span>)</span><br><span class="line">axs.plot([<span class="number">1979</span>,<span class="number">2020</span>],[np.ceil(np.mean(day)-np.std(day))-<span class="number">120</span>,np.ceil(np.mean(day)-np.std(day))-<span class="number">120</span>],color=<span class="string">&#x27;k&#x27;</span>,linestyle=<span class="string">&#x27;dashed&#x27;</span>)</span><br><span class="line">axs.plot([<span class="number">1979</span>,<span class="number">2020</span>],[np.floor(np.mean(day)+np.std(day))-<span class="number">120</span>,np.floor(np.mean(day)+np.std(day))-<span class="number">120</span>],color=<span class="string">&#x27;k&#x27;</span>,linestyle=<span class="string">&#x27;dashed&#x27;</span>)</span><br><span class="line"></span><br><span class="line">axs.set_aspect(<span class="number">0.5</span>)  <span class="comment"># 调整图像的长宽比</span></span><br><span class="line"></span><br><span class="line">plt.savefig(<span class="string">&#x27;/home/sun/paint/lunwen/bob_time_seris.pdf&#x27;</span>,dpi=<span class="number">350</span>)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="矢量图绘制"><a href="#矢量图绘制" class="headerlink" title="矢量图绘制"></a>矢量图绘制</h2><p><img src="https://z4a.net/images/2022/04/05/image-20211115211956868.png" alt="image-20211115211956868.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">lonmin,lonmax,latmin,latmax  =  <span class="number">30</span>,<span class="number">120</span>,-<span class="number">10</span>,<span class="number">30</span></span><br><span class="line">extent     =  [lonmin,lonmax,latmin,latmax]</span><br><span class="line"></span><br><span class="line">proj = ccrs.PlateCarree()</span><br><span class="line">fig  = plt.figure()</span><br><span class="line">ax   = fig.add_subplot(<span class="number">111</span>, projection=proj)</span><br><span class="line"></span><br><span class="line">set_map_ticks(ax, dx=<span class="number">10</span>, dy=<span class="number">10</span>, nx=<span class="number">1</span>, ny=<span class="number">1</span>, labelsize=<span class="string">&#x27;small&#x27;</span>)</span><br><span class="line">ax.set_extent(extent, crs=proj)</span><br><span class="line">ax.coastlines(resolution=<span class="string">&#x27;10m&#x27;</span>,lw=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">ax.plot([<span class="number">30</span>,<span class="number">120</span>],[<span class="number">0</span>,<span class="number">0</span>],linestyle=<span class="string">&#x27;dashed&#x27;</span>,color=<span class="string">&#x27;grey&#x27;</span>)</span><br><span class="line"></span><br><span class="line">im  =  ax.contourf(f3.lon,f3.lat,late_prect,levels=np.linspace(<span class="number">2</span>,<span class="number">18</span>,<span class="number">9</span>),cmap=<span class="string">&#x27;Blues&#x27;</span>,alpha=<span class="number">1</span>,extend=<span class="string">&#x27;both&#x27;</span>)</span><br><span class="line"></span><br><span class="line">q  =  ax.quiver(lon, lat, </span><br><span class="line">                  late_u, late_v, </span><br><span class="line">          regrid_shape=<span class="number">15</span>, angles=<span class="string">&#x27;uv&#x27;</span>,   <span class="comment"># regrid_shape这个参数越小，是两门就越稀疏</span></span><br><span class="line">        scale_units=<span class="string">&#x27;xy&#x27;</span>, scale=<span class="number">1</span>,        <span class="comment"># scale是参考矢量，所以取得越大画出来的箭头就越短</span></span><br><span class="line">        units=<span class="string">&#x27;xy&#x27;</span>, width=<span class="number">0.25</span>,</span><br><span class="line">        transform=proj,</span><br><span class="line">                  color=<span class="string">&#x27;k&#x27;</span>,linewidth=<span class="number">1.2</span>,headlength = <span class="number">5</span>, headaxislength = <span class="number">4</span>, headwidth = <span class="number">5</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">rect = mpl.patches.Rectangle(</span><br><span class="line">        (<span class="number">0.88</span>, <span class="number">0.8</span>), <span class="number">0.12</span>, <span class="number">0.2</span>, transform=ax.transAxes,    <span class="comment"># 这个能辟出来一块区域，第一个参数是最左下角点的坐标，后面是矩形的长和宽</span></span><br><span class="line">        fc=<span class="string">&#x27;white&#x27;</span>, ec=<span class="string">&#x27;k&#x27;</span>, lw=<span class="number">0.5</span>, zorder=<span class="number">1.1</span></span><br><span class="line">    )</span><br><span class="line">ax.add_patch(rect)</span><br><span class="line"></span><br><span class="line">qk = ax.quiverkey(</span><br><span class="line">        q, X=<span class="number">0.94</span>, Y=<span class="number">0.93</span>, U=<span class="number">5</span>,</span><br><span class="line">        label=<span class="string">f&#x27;<span class="subst">&#123;<span class="number">5</span>&#125;</span> m/s&#x27;</span>, labelpos=<span class="string">&#x27;S&#x27;</span>, labelsep=<span class="number">0.08</span>,</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="多张子图共用一个colorbar"><a href="#多张子图共用一个colorbar" class="headerlink" title="多张子图共用一个colorbar"></a>多张子图共用一个colorbar</h2><p><img src="https://z4a.net/images/2022/04/05/image-20211124142236875.png" alt="image-20211124142236875.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">dates  =  [-<span class="number">12</span>,-<span class="number">9</span>,-<span class="number">6</span>,-<span class="number">3</span>,<span class="number">0</span>,<span class="number">3</span>] <span class="comment">#总共6张图</span></span><br><span class="line">date   =  [<span class="number">18</span>,<span class="number">21</span>,<span class="number">24</span>,<span class="number">27</span>,<span class="number">30</span>,<span class="number">33</span>]</span><br><span class="line">props = <span class="built_in">dict</span>(boxstyle=<span class="string">&#x27;square&#x27;</span>, edgecolor=<span class="string">&#x27;white&#x27;</span>, facecolor=<span class="string">&#x27;white&#x27;</span>, alpha=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">proj    =  ccrs.PlateCarree()</span><br><span class="line">fig1    =  plt.figure(figsize=(<span class="number">14</span>,<span class="number">12</span>))</span><br><span class="line">    </span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">6</span>,<span class="number">2</span>):</span><br><span class="line">    ax = fig1.add_subplot(<span class="number">3</span>,<span class="number">2</span>,j,projection=proj)  <span class="comment">#这里添加子图的方式是（行，列，index）默认是从左往右，所以想从上往下要处理一下</span></span><br><span class="line">    ax.coastlines(resolution=<span class="string">&#x27;110m&#x27;</span>,lw=<span class="number">1</span>)</span><br><span class="line">    <span class="comment"># 设置经纬度刻度.</span></span><br><span class="line">    set_map_ticks(ax, dx=<span class="number">10</span>, dy=<span class="number">10</span>, nx=<span class="number">1</span>, ny=<span class="number">1</span>, labelsize=<span class="string">&#x27;small&#x27;</span>)</span><br><span class="line">    ax.set_extent(extent, crs=proj)</span><br><span class="line">    </span><br><span class="line">    ax.plot([<span class="number">40</span>,<span class="number">120</span>],[<span class="number">0</span>,<span class="number">0</span>],<span class="string">&#x27;k--&#x27;</span>)</span><br><span class="line">    im  =  ax.contourf(f2.lon,f2.lat,f2.T2M.data[date[<span class="built_in">int</span>((j-<span class="number">1</span>)/<span class="number">2</span>)],:],levels=np.linspace(<span class="number">280</span>,<span class="number">310</span>,<span class="number">16</span>),cmap=<span class="string">&#x27;coolwarm&#x27;</span>,alpha=<span class="number">1</span>,extend=<span class="string">&#x27;both&#x27;</span>)</span><br><span class="line">    <span class="keyword">if</span> dates[<span class="built_in">int</span>((j-<span class="number">1</span>)/<span class="number">2</span>)] &lt;= <span class="number">0</span>:</span><br><span class="line">        ax.text(<span class="number">0.825</span>,<span class="number">0.825</span>,<span class="string">&quot;D&quot;</span>+<span class="built_in">str</span>(dates[<span class="built_in">int</span>((j-<span class="number">1</span>)/<span class="number">2</span>)]),transform=ax.transAxes,bbox=props,fontsize=<span class="number">15</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        ax.text(<span class="number">0.825</span>,<span class="number">0.825</span>,<span class="string">&quot;D+&quot;</span>+<span class="built_in">str</span>(dates[<span class="built_in">int</span>((j-<span class="number">1</span>)/<span class="number">2</span>)]),transform=ax.transAxes,bbox=props,fontsize=<span class="number">15</span>)</span><br><span class="line">        </span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="number">7</span>,<span class="number">2</span>):</span><br><span class="line">    ax = fig1.add_subplot(<span class="number">3</span>,<span class="number">2</span>,j,projection=proj)</span><br><span class="line">    ax.coastlines(resolution=<span class="string">&#x27;110m&#x27;</span>,lw=<span class="number">1</span>)</span><br><span class="line">    <span class="comment"># 设置经纬度刻度.</span></span><br><span class="line">    set_map_ticks(ax, dx=<span class="number">10</span>, dy=<span class="number">10</span>, nx=<span class="number">1</span>, ny=<span class="number">1</span>, labelsize=<span class="string">&#x27;small&#x27;</span>)</span><br><span class="line">    ax.set_extent(extent, crs=proj)</span><br><span class="line">    </span><br><span class="line">    ax.plot([<span class="number">40</span>,<span class="number">120</span>],[<span class="number">0</span>,<span class="number">0</span>],<span class="string">&#x27;k--&#x27;</span>)</span><br><span class="line">    im  =  ax.contourf(f2.lon,f2.lat,f2.T2M.data[date[<span class="built_in">int</span>(j/<span class="number">2</span>+<span class="number">2</span>)],:],levels=np.linspace(<span class="number">280</span>,<span class="number">310</span>,<span class="number">16</span>),cmap=<span class="string">&#x27;coolwarm&#x27;</span>,alpha=<span class="number">1</span>,extend=<span class="string">&#x27;both&#x27;</span>)</span><br><span class="line">    <span class="keyword">if</span> dates[<span class="built_in">int</span>(j/<span class="number">2</span>+<span class="number">2</span>)] &lt;= <span class="number">0</span>:</span><br><span class="line">        ax.text(<span class="number">0.825</span>,<span class="number">0.825</span>,<span class="string">&quot;D&quot;</span>+<span class="built_in">str</span>(dates[<span class="built_in">int</span>(j/<span class="number">2</span>+<span class="number">2</span>)]),transform=ax.transAxes,bbox=props,fontsize=<span class="number">15</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        ax.text(<span class="number">0.825</span>,<span class="number">0.825</span>,<span class="string">&quot;D+&quot;</span>+<span class="built_in">str</span>(dates[<span class="built_in">int</span>(j/<span class="number">2</span>+<span class="number">2</span>)]),transform=ax.transAxes,bbox=props,fontsize=<span class="number">15</span>)</span><br><span class="line">            </span><br><span class="line">       </span><br><span class="line"></span><br><span class="line">fig1.subplots_adjust(top=<span class="number">0.8</span>) <span class="comment">#整体往上紧凑来给下面的colorbar增加空间</span></span><br><span class="line"></span><br><span class="line">cbar_ax = fig1.add_axes([<span class="number">0.2</span>, <span class="number">0.05</span>, <span class="number">0.6</span>, <span class="number">0.03</span>])  <span class="comment">#依次是左端 下端 宽度 高度</span></span><br><span class="line">fig1.colorbar(im, cax=cbar_ax, shrink=<span class="number">0.5</span>, pad=<span class="number">0.2</span>, orientation=<span class="string">&#x27;horizontal&#x27;</span>) <span class="comment">#这样画就可以了</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2021-x2F-12-x2F-28-垂直流场、等值线、等值填色"><a href="#2021-x2F-12-x2F-28-垂直流场、等值线、等值填色" class="headerlink" title="2021&#x2F;12&#x2F;28 垂直流场、等值线、等值填色"></a>2021&#x2F;12&#x2F;28 垂直流场、等值线、等值填色</h2><p><img src="https://z4a.net/images/2022/04/05/image-20211228152302834.png" alt="image-20211228152302834.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建画布</span></span><br><span class="line">fig  =  plt.figure()</span><br><span class="line">ax   =  fig.add_subplot()</span><br><span class="line">ax.invert_yaxis()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制等值线</span></span><br><span class="line">im1   =  ax.contour(f1.lon,f1.level,avg_theta,np.linspace(-<span class="number">2</span>,<span class="number">4</span>,<span class="number">13</span>),linewidth=<span class="number">0.9</span>,colors=<span class="string">&#x27;grey&#x27;</span>,negative_linestyle=<span class="string">&#x27;dashed&#x27;</span>)</span><br><span class="line">im2   =  ax.contourf(f4.lon,f4.level,div,<span class="number">10</span>,cmap=<span class="string">&#x27;seismic&#x27;</span>,extend=<span class="string">&#x27;both&#x27;</span>)</span><br><span class="line">q  =  ax.quiver(f2.lon[::<span class="number">4</span>], f2.level[::<span class="number">2</span>], uwind[::<span class="number">2</span>,::<span class="number">4</span>], omega[::<span class="number">2</span>,::<span class="number">4</span>], </span><br><span class="line">                angles=<span class="string">&#x27;uv&#x27;</span>,<span class="comment"># regrid_shape这个参数越小，是两门就越稀疏</span></span><br><span class="line">                scale_units=<span class="string">&#x27;xy&#x27;</span>, scale=<span class="number">1.5</span>,        <span class="comment"># scale是参考矢量，所以取得越大画出来的箭头就越短</span></span><br><span class="line">                units=<span class="string">&#x27;xy&#x27;</span>, width=<span class="number">2</span>,</span><br><span class="line">                color=<span class="string">&#x27;k&#x27;</span>)</span><br><span class="line">fig.colorbar(im2,label=<span class="string">&#x27;divergence units: $&#123;10^6&#125;$ $&#123;s^-1&#125;$&#x27;</span>) <span class="comment"># 注意这里怎么加上标</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加地形</span></span><br><span class="line">ax2  =  ax.twinx()</span><br><span class="line">ax2.set_ylim((<span class="number">0</span>,<span class="number">4.5</span>))</span><br><span class="line"><span class="comment">#ax2.set_yticks(np.arange(0,21,1))</span></span><br><span class="line">ax2.plot(f5.lon.data,topo/<span class="number">1000</span>,color=<span class="string">&#x27;k&#x27;</span>)</span><br><span class="line">ax2.fill_between(f5.lon.data,<span class="number">0</span>,topo/<span class="number">1000</span>,where=topo&gt;<span class="number">0</span>,color=<span class="string">&#x27;k&#x27;</span>)</span><br><span class="line"></span><br><span class="line">ax2.set_yticklabels([])  <span class="comment"># 这里把刻度设置成无</span></span><br><span class="line">ax2.set_yticks([])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="关于自制colormap与配合uigradient"><a href="#关于自制colormap与配合uigradient" class="headerlink" title="关于自制colormap与配合uigradient"></a>关于自制colormap与配合uigradient</h2><p>uigradient网址</p>
+<p><a target="_blank" rel="noopener" href="https://uigradients.com/#WeddingDayBlues">uiGradients - Beautiful colored gradients</a></p>
+<p><img src="https://z4a.net/images/2022/04/05/image-20220309161441953.png" alt="image-20220309161441953.png"></p>
+<p>直接复制了粘贴进puthon里即可，python是认这玩意儿的</p>
+<p>自制colormap例子</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pylab <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> matplotlib.colors <span class="keyword">import</span> ListedColormap,LinearSegmentedColormap</span><br><span class="line">clist=[<span class="string">&#x27;#40E0D0&#x27;</span>,<span class="string">&#x27;#FF8C00&#x27;</span>,<span class="string">&#x27;#FF0080&#x27;</span>]</span><br><span class="line"></span><br><span class="line">newcmp = LinearSegmentedColormap.from_list(<span class="string">&#x27;chaos&#x27;</span>,clist)</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用python绘制垂直的流线"><a href="#使用python绘制垂直的流线" class="headerlink" title="使用python绘制垂直的流线"></a>使用python绘制垂直的流线</h2><p>使用python中streamPlot函数绘制流线会带来2个问题</p>
+<ol>
+<li>由于p坐标是递减的，而函数要求坐标递增</li>
+<li>函数要求坐标轴是等间距的</li>
+</ol>
+<p>因此，垂直流线的绘制很成问题。对此，这里记录使用python绘制成功流线的设置<br>绘制出来的结果如图：<a target="_blank" rel="noopener" href="https://z4a.net/image/2P2yY5"><img src="https://z4a.net/images/2022/07/25/-2022-07-25-214335.md.png" alt="-2022-07-25-214335.md.png"></a><br>函数片段如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">paint_meridional_circulation</span>():</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;This script paint meridional circulation and diabatic heating&#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="comment"># -------------- import module ---------------------------------</span></span><br><span class="line">    <span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">    <span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">    <span class="keyword">import</span> sys</span><br><span class="line">    <span class="keyword">import</span> xarray <span class="keyword">as</span> xr</span><br><span class="line">    <span class="keyword">import</span> plotly.figure_factory <span class="keyword">as</span> ff</span><br><span class="line">    sys.path.append(<span class="string">&quot;/home/sun/mycode_git/paint/&quot;</span>)</span><br><span class="line">    <span class="keyword">from</span> paint_lunwen_version3_0_fig2a_tem_gradient_20220426 <span class="keyword">import</span> add_text</span><br><span class="line">    <span class="comment">#import matplotlib</span></span><br><span class="line">    <span class="comment">#matplotlib.use(&#x27;Agg&#x27;)</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">## -------------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># -------------- reference -------------------------------------</span></span><br><span class="line">    f0        =  xr.open_dataset(path + <span class="string">&quot;composite3.nc&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># -------------- variables -------------------------------------</span></span><br><span class="line">    var_list  =  cal_zonal_average(lon_slice=<span class="built_in">slice</span>(<span class="number">90</span>,<span class="number">100</span>),time_slice=[<span class="number">0</span>,<span class="number">10</span>,<span class="number">20</span>,<span class="number">25</span>,<span class="number">27</span>,<span class="number">29</span>,<span class="number">30</span>,<span class="number">32</span>,<span class="number">34</span>])</span><br><span class="line"></span><br><span class="line">    v         =  var_list[<span class="number">0</span>]</span><br><span class="line">    w         =  var_list[<span class="number">1</span>] * -<span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">## --------------  unify v and w  ------------------------------</span></span><br><span class="line">    multiple  =  np.nanmean(<span class="built_in">abs</span>(v))/np.nanmean(<span class="built_in">abs</span>(w))</span><br><span class="line">    w         =  w * <span class="number">1000</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">## --------------   vertical interpolate  ----------------------</span></span><br><span class="line">    <span class="comment">## fuck python stream plot, it need reverse and interpolate vertical axis</span></span><br><span class="line">    old_level =  f0.level.data</span><br><span class="line">    new_level =  np.linspace(<span class="number">1000</span>,<span class="number">100</span>,<span class="number">37</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(new_level)</span><br><span class="line">    <span class="built_in">print</span>(old_level)</span><br><span class="line"></span><br><span class="line">    new_v     =  np.zeros((v.shape[<span class="number">0</span>],<span class="number">37</span>,v.shape[<span class="number">2</span>]))</span><br><span class="line">    new_w     =  new_v.copy()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> tt <span class="keyword">in</span> <span class="built_in">range</span>(v.shape[<span class="number">0</span>]):</span><br><span class="line">        <span class="keyword">for</span> yy <span class="keyword">in</span> <span class="built_in">range</span>(v.shape[<span class="number">2</span>]):</span><br><span class="line">            </span><br><span class="line">            new_v[tt,:,yy]     =  np.interp(new_level[::-<span class="number">1</span>],old_level[::-<span class="number">1</span>],v[tt,::-<span class="number">1</span>,yy]) </span><br><span class="line">            new_w[tt,:,yy]     =  np.interp(new_level[::-<span class="number">1</span>],old_level[::-<span class="number">1</span>],w[tt,::-<span class="number">1</span>,yy]) </span><br><span class="line">            <span class="comment">#print(new_w[tt,:,yy])</span></span><br><span class="line">            </span><br><span class="line">    <span class="comment"># ------------      date    ----------------------------------</span></span><br><span class="line">    dates  =  [-<span class="number">30</span>,-<span class="number">20</span>,-<span class="number">10</span>,-<span class="number">5</span>,-<span class="number">3</span>,-<span class="number">1</span>,<span class="number">0</span>,<span class="number">2</span>,<span class="number">4</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># ------------     paint    ----------------------------------</span></span><br><span class="line">    <span class="comment">## set figure</span></span><br><span class="line">    fig1 = plt.figure(figsize=(<span class="number">32</span>, <span class="number">26</span>))</span><br><span class="line">    spec1 = fig1.add_gridspec(nrows=<span class="number">3</span>, ncols=<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">        <span class="keyword">for</span> row <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">            ax  =  fig1.add_subplot(spec1[row, col])</span><br><span class="line"></span><br><span class="line">            <span class="comment"># set axis ticks and label</span></span><br><span class="line">            ax.set_xticks(np.linspace(-<span class="number">10</span>, <span class="number">40</span>, <span class="number">11</span>, dtype=<span class="built_in">int</span>))</span><br><span class="line">            ax.set_yticks(np.linspace(<span class="number">1000</span>, <span class="number">100</span>, <span class="number">10</span>))</span><br><span class="line">            ax.set_xticklabels(generate_xlabel(np.linspace(-<span class="number">10</span>, <span class="number">40</span>, <span class="number">11</span>, dtype=<span class="built_in">int</span>)))</span><br><span class="line">            ax.set_yticklabels(np.linspace(<span class="number">100</span>,<span class="number">1000</span>,<span class="number">10</span>,dtype=<span class="built_in">int</span>))</span><br><span class="line">            ax.tick_params(axis=<span class="string">&#x27;both&#x27;</span>, labelsize=<span class="number">22.5</span>)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># set axis limit</span></span><br><span class="line">            ax.set_xlim((-<span class="number">10</span>,<span class="number">30</span>))</span><br><span class="line"></span><br><span class="line">            <span class="comment"># plot stream line</span></span><br><span class="line">            ax.streamplot(f0.lat.data, new_level[::-<span class="number">1</span>], new_v[j,::-<span class="number">1</span>], new_w[j,::-<span class="number">1</span>], color=<span class="string">&#x27;k&#x27;</span>,linewidth=<span class="number">2.5</span>,density=<span class="number">2</span>,arrowsize=<span class="number">2.75</span>, arrowstyle=<span class="string">&#x27;-&gt;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment"># add date</span></span><br><span class="line">            add_text(ax=ax, string=<span class="string">&quot;D&quot;</span> + <span class="built_in">str</span>(dates[j]), location=(<span class="number">0.05</span>, <span class="number">0.91</span>), fontsize=<span class="number">30</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            j += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    plt.savefig(<span class="string">&quot;/home/sun/paint/monthly_meri_vertical_tem_90to100E/circulation_vertical.pdf&quot;</span>, dpi=<span class="number">350</span>)</span><br><span class="line"></span><br><span class="line">    plt.show()</span><br></pre></td></tr></table></figure>
+<p>注意的几个点：</p>
+<ol>
+<li>w一开始omega，这里乘以了负数，因此w正值为上升运动</li>
+<li>插值到等间距的坐标系，且np.interp也是要求坐标轴为正的。因此这里关于z轴倒了过来，如此操作得到的结果：<br>新数据 z轴是 100 to 1000 的值</li>
+<li>绘图： y轴 100 to 1000 数据为new_v[j,::-1] 因此是1000 to 100的数据匹配100 to 1000的坐标轴，所以得到的图像是正确的。再利用ticklabel把原有的坐标覆盖掉。</li>
+<li>Fuck python</li>
+</ol>
+<h1 id="numpy计算总结"><a href="#numpy计算总结" class="headerlink" title="numpy计算总结"></a>numpy计算总结</h1><h3 id="函数返回值问题"><a href="#函数返回值问题" class="headerlink" title="函数返回值问题"></a>函数返回值问题</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_flist</span>(<span class="params">path,var</span>):</span><br><span class="line">    list1  =  [x <span class="keyword">for</span> x <span class="keyword">in</span> os.listdir(path) <span class="keyword">if</span> (var+<span class="string">&quot;-&quot;</span> <span class="keyword">in</span> x)]</span><br><span class="line">    <span class="keyword">return</span> list1.sort()</span><br><span class="line"></span><br><span class="line"><span class="built_in">id</span>  =  get_flist(path_id,<span class="string">&quot;V&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>注意，返回值是.sort()的话最后结果什么也没有，必须要sort完再返回</p>
+<h2 id="xarray中的slice问题"><a href="#xarray中的slice问题" class="headerlink" title="xarray中的slice问题"></a>xarray中的slice问题</h2><p>注意使用slice挑选的时候是需要考虑顺序的，不是说可以反过来在这个范围内即可</p>
+<h2 id="利用隐循环计算pentad平均"><a href="#利用隐循环计算pentad平均" class="headerlink" title="利用隐循环计算pentad平均"></a>利用隐循环计算pentad平均</h2><h2 id="交换象限"><a href="#交换象限" class="headerlink" title="交换象限"></a>交换象限</h2><p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.swapaxes.html">https://numpy.org/doc/stable/reference/generated/numpy.swapaxes.html</a></p>
+<h1 id="xarray"><a href="#xarray" class="headerlink" title="xarray"></a>xarray</h1><h2 id="关于获取dataarray-dataset一些属性的知识"><a href="#关于获取dataarray-dataset一些属性的知识" class="headerlink" title="关于获取dataarray dataset一些属性的知识"></a>关于获取dataarray dataset一些属性的知识</h2><p><a target="_blank" rel="noopener" href="https://docs.xarray.dev/en/stable/user-guide/data-structures.html">Data Structures (xarray.dev)</a></p>
+<h1 id="python资源网址记录"><a href="#python资源网址记录" class="headerlink" title="python资源网址记录"></a>python资源网址记录</h1><h2 id="Iris-一个处理地球科学数据的软件包"><a href="#Iris-一个处理地球科学数据的软件包" class="headerlink" title="Iris 一个处理地球科学数据的软件包"></a>Iris 一个处理地球科学数据的软件包</h2><p><a target="_blank" rel="noopener" href="https://scitools-iris.readthedocs.io/en/latest/generated/gallery/index.html#sphx-glr-generated-gallery">https://scitools-iris.readthedocs.io/en/latest/generated/gallery/index.html#sphx-glr-generated-gallery</a></p>
+<h2 id="matplotlib官网的gallery，记载着很多种例子加代码"><a href="#matplotlib官网的gallery，记载着很多种例子加代码" class="headerlink" title="matplotlib官网的gallery，记载着很多种例子加代码"></a>matplotlib官网的gallery，记载着很多种例子加代码</h2><p><a target="_blank" rel="noopener" href="https://matplotlib.org/stable/gallery/images_contours_and_fields/contour_label_demo.html">https://matplotlib.org/stable/gallery/images_contours_and_fields/contour_label_demo.html</a></p>
+<h2 id="一个教程，说的是关于python中main函数的"><a href="#一个教程，说的是关于python中main函数的" class="headerlink" title="一个教程，说的是关于python中main函数的"></a>一个教程，说的是关于python中main函数的</h2><p><a target="_blank" rel="noopener" href="https://realpython.com/python-main-function/">https://realpython.com/python-main-function/</a></p>
+<h2 id="real-python-一个python学习网站"><a href="#real-python-一个python学习网站" class="headerlink" title="real python 一个python学习网站"></a>real python 一个python学习网站</h2><p><a target="_blank" rel="noopener" href="https://realpython.com/">Python Tutorials – Real Python</a></p>
+<h2 id="从知乎上看到的几个学习网站"><a href="#从知乎上看到的几个学习网站" class="headerlink" title="从知乎上看到的几个学习网站"></a>从知乎上看到的几个学习网站</h2><p><a target="_blank" rel="noopener" href="https://docs.python-guide.org/">The Hitchhiker’s Guide to Python! — The Hitchhiker’s Guide to Python (python-guide.org)</a></p>
+<p><a target="_blank" rel="noopener" href="https://pymotw.com/3/">Python 3 Module of the Week — PyMOTW 3</a></p>
+<p><a target="_blank" rel="noopener" href="https://pymbook.readthedocs.io/en/latest/">Welcome to Python for you and me — Python for you and me 0.5.beta1 documentation (pymbook.readthedocs.io)</a></p>
+<p><a target="_blank" rel="noopener" href="https://py.checkio.org/">py.CheckiO - Python coding challenges and exercises with solutions for beginners and advanced</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/05/CESM-learning/" rel="prev" title="CESM learning">
+      <i class="fa fa-chevron-left"></i> CESM learning
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/15/oneapi%E5%9C%A8%E7%A7%BB%E6%A4%8DCESM2%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/" rel="next" title="oneapi在移植CESM2中的应用">
+      oneapi在移植CESM2中的应用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#python%E7%9F%A5%E8%AF%86%E7%A0%81"><span class="nav-number">1.</span> <span class="nav-text">python知识码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lambda%E5%87%BD%E6%95%B0"><span class="nav-number">1.0.1.</span> <span class="nav-text">lambda函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E4%B8%80%E4%B8%AA%E6%8F%92%E5%80%BC%E5%AE%9E%E7%8E%B0%E7%9A%84%E8%AE%B0%E5%BD%95"><span class="nav-number">1.0.2.</span> <span class="nav-text">关于一个插值实现的记录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.1.</span> <span class="nav-text"></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E9%9A%90%E5%BE%AA%E7%8E%AF"><span class="nav-number">1.1.1.</span> <span class="nav-text">关于隐循环</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cartopy%E4%B8%80%E4%B8%AA%E6%95%99%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">cartopy一个教程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%98%E6%9C%89%E8%BF%99%E7%A7%8D%E8%B5%8B%E5%80%BC%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">还有这种赋值方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python%E5%9C%A8%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%89%8D%E9%9D%A2%E5%8A%A0u"><span class="nav-number">1.4.</span> <span class="nav-text">python在字符串前面加u</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%87%BA%E4%B8%8A%E4%B8%8B%E6%A0%87%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">1.5.</span> <span class="nav-text">打出上下标的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python-%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA"><span class="nav-number">1.6.</span> <span class="nav-text">python 格式化输出</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#python%E4%B8%AD%E7%9A%84%E7%A7%91%E5%AD%A6%E8%AE%A1%E7%AE%97"><span class="nav-number">2.</span> <span class="nav-text">python中的科学计算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E4%BD%BF%E7%94%A8xarray%E6%9D%A5%E6%88%AA%E5%8F%96%E6%97%B6%E9%97%B4%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">2.0.1.</span> <span class="nav-text">关于使用xarray来截取时间的操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#numpy-interp"><span class="nav-number">2.1.</span> <span class="nav-text">numpy.interp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#numpy-interp-%E4%BD%BF%E7%94%A8%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">2.2.</span> <span class="nav-text">numpy.interp 使用中的注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#numpy%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98"><span class="nav-number">2.3.</span> <span class="nav-text">numpy中的引用问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%B3%E7%82%B9%E5%8F%96%E5%80%BC"><span class="nav-number">2.4.</span> <span class="nav-text">跳点取值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%96%E6%B6%88%E7%A7%91%E5%AD%A6%E8%AE%B0%E6%95%B0%E6%B3%95"><span class="nav-number">2.5.</span> <span class="nav-text">取消科学记数法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E5%86%85%E5%8F%AA%E5%AF%B9%E7%AC%A6%E5%90%88%E6%9D%A1%E4%BB%B6%E7%9A%84%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E8%BF%90%E7%AE%97"><span class="nav-number">2.6.</span> <span class="nav-text">矩阵内只对符合条件的数据进行运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%BC%8F%E5%90%8E%E5%A4%84%E7%90%86%E7%9A%84%E6%8F%92%E5%80%BC%E5%87%BD%E6%95%B0"><span class="nav-number">2.7.</span> <span class="nav-text">模式后处理的插值函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python%E6%BB%A4%E6%B3%A2%E5%B9%B3%E6%BB%91%E6%95%99%E7%A8%8B"><span class="nav-number">2.8.</span> <span class="nav-text">python滤波平滑教程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python%E4%B8%AD%E5%AF%B9%E5%8C%85%E5%90%ABnan%E5%80%BC%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-number">2.9.</span> <span class="nav-text">python中对包含nan值的函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E6%95%B0numpy%E4%B8%AD%E7%AC%A6%E5%90%88%E6%9D%A1%E4%BB%B6%E5%85%83%E7%B4%A0%E7%9A%84%E4%B8%AA%E6%95%B0"><span class="nav-number">2.10.</span> <span class="nav-text">计数numpy中符合条件元素的个数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isel%E7%9A%84%E7%94%A8%E6%B3%95"><span class="nav-number">2.11.</span> <span class="nav-text">isel的用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0"><span class="nav-number">2.12.</span> <span class="nav-text">并行计算学习</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#matplotlib"><span class="nav-number">3.</span> <span class="nav-text">matplotlib</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#plot%E7%BB%98%E5%88%B62d%E5%9B%BE%E6%A0%B7%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">plot绘制2d图样式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%BA%BF%E6%AE%B5%E6%A0%B7%E5%BC%8F"><span class="nav-number">3.2.</span> <span class="nav-text">设置线段样式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%A4%9A%E4%B8%AAfigure%E5%92%8Csubpolt"><span class="nav-number">3.3.</span> <span class="nav-text">生成多个figure和subpolt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BB%E6%84%8F%E8%AE%BE%E7%BD%AE%E5%AD%90%E5%9B%BE%E5%9C%A8%E6%8C%87%E5%AE%9A%E4%BD%8D%E7%BD%AE"><span class="nav-number">3.4.</span> <span class="nav-text">任意设置子图在指定位置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B4%E6%96%B9%E5%9B%BE"><span class="nav-number">3.5.</span> <span class="nav-text">直方图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8python%E9%87%8C%E9%9D%A2%E6%89%93%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F"><span class="nav-number">3.6.</span> <span class="nav-text">在python里面打数学公式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E6%95%B4%E5%AD%90%E5%9B%BE%E7%9A%84%E6%95%99%E7%A8%8B"><span class="nav-number">3.7.</span> <span class="nav-text">调整子图的教程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Constrained-Layout-%E7%9A%84%E7%94%A8%E6%B3%95"><span class="nav-number">3.8.</span> <span class="nav-text">Constrained Layout 的用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#contour%E7%AD%89%E5%80%BC%E7%BA%BF%E5%90%88%E9%9B%86"><span class="nav-number">3.9.</span> <span class="nav-text">contour等值线合集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%98%E6%96%B9contour%E6%95%99%E7%A8%8B"><span class="nav-number">3.9.1.</span> <span class="nav-text">官方contour教程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#contour%E8%AE%BE%E7%BD%AE"><span class="nav-number">3.9.2.</span> <span class="nav-text">contour设置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tick%E8%AE%BE%E7%BD%AE"><span class="nav-number">3.10.</span> <span class="nav-text">Tick设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E6%95%B4%E5%9D%90%E6%A0%87%E8%BD%B4%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%BB%E5%BA%A6%E4%B9%8B%E9%97%B4%E7%9A%84%E8%B7%9D%E7%A6%BB"><span class="nav-number">3.10.1.</span> <span class="nav-text">调整坐标轴标签和刻度之间的距离</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E9%A2%84%E5%AE%9A%E4%B9%89%E7%9A%84%E5%88%BB%E5%BA%A6%E8%AE%BE%E7%BD%AE"><span class="nav-number">3.10.2.</span> <span class="nav-text">使用预定义的刻度设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%8F%E7%BA%AC%E5%BA%A6%E7%9A%84ticklabel%E5%BD%A2%E5%BC%8F"><span class="nav-number">3.10.3.</span> <span class="nav-text">经纬度的ticklabel形式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%BB%98%E5%9B%BE%E7%9A%84%E8%8C%83%E5%9B%B4"><span class="nav-number">3.11.</span> <span class="nav-text">设置绘图的范围</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AEx%E8%BD%B4y%E8%BD%B4%E6%A0%87%E9%A2%98"><span class="nav-number">3.12.</span> <span class="nav-text">设置x轴y轴标题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%88%BB%E5%BA%A6"><span class="nav-number">3.13.</span> <span class="nav-text">关于刻度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AEcoutour%E7%AD%89%E5%80%BC%E7%BA%BF%E7%9A%84label%E6%9C%89%E4%B8%80%E4%B8%AA%E5%8D%95%E7%8B%AC%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-number">3.14.</span> <span class="nav-text">设置coutour等值线的label有一个单独的函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8Cy%E8%BD%B4"><span class="nav-number">3.15.</span> <span class="nav-text">双y轴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%80%92%E8%BD%ACy%E8%BD%B4"><span class="nav-number">3.16.</span> <span class="nav-text">倒转y轴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E7%BB%99NAN%E5%80%BC%E8%B5%8B%E9%A2%9C%E8%89%B2"><span class="nav-number">3.17.</span> <span class="nav-text">怎么给NAN值赋颜色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#histgram-%E6%95%99%E7%A8%8B"><span class="nav-number">3.18.</span> <span class="nav-text">histgram 教程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%98%E5%88%B6bar%E5%9B%BE"><span class="nav-number">3.19.</span> <span class="nav-text">绘制bar图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#matplotlib-%E9%A2%9C%E8%89%B2%E5%88%97%E8%A1%A8"><span class="nav-number">3.20.</span> <span class="nav-text">matplotlib 颜色列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#colormap%E5%8F%82%E8%80%83%E5%88%97%E8%A1%A8"><span class="nav-number">3.21.</span> <span class="nav-text">colormap参考列表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E7%AC%AC%E4%B8%89%E6%96%B9colormap"><span class="nav-number">3.21.1.</span> <span class="nav-text">一个第三方colormap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E6%95%B4%E8%A7%86%E5%9B%BE%E7%9A%84%E9%95%BF%E5%AE%BD%E6%AF%94"><span class="nav-number">3.22.</span> <span class="nav-text">调整视图的长宽比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%83%8F%E7%B4%A0%E5%9B%BE"><span class="nav-number">3.23.</span> <span class="nav-text">像素图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#colormap%E7%9A%84%E8%AE%BE%E7%BD%AE%E6%95%99%E7%A8%8B"><span class="nav-number">3.24.</span> <span class="nav-text">colormap的设置教程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E8%BE%B9%E6%A1%86%EF%BC%88xy%E8%BD%B4%EF%BC%89%E7%9A%84%E8%AE%BE%E7%BD%AE%EF%BC%88%E7%B2%97%E7%BB%86%E3%80%81%E9%A2%9C%E8%89%B2%EF%BC%89"><span class="nav-number">3.25.</span> <span class="nav-text">关于边框（xy轴）的设置（粗细、颜色）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMAP%E6%95%99%E7%A8%8B"><span class="nav-number">3.26.</span> <span class="nav-text">CMAP教程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cmap%E5%90%8D%E5%AD%97%E5%90%8E%E9%9D%A2%E5%8A%A0r%E7%AD%89%E4%BA%8E%E5%8F%8D%E8%BF%87%E6%9D%A5"><span class="nav-number">3.26.1.</span> <span class="nav-text">cmap名字后面加r等于反过来</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%96%B9cmap%E5%BA%93"><span class="nav-number">3.26.2.</span> <span class="nav-text">第三方cmap库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E7%BA%BF%E4%B8%AD%E7%9A%84%E7%AE%AD%E5%A4%B4%E6%A0%B7%E5%BC%8F%E8%AE%BE%E7%BD%AE"><span class="nav-number">3.27.</span> <span class="nav-text">流线中的箭头样式设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%98%E5%88%B6streamplot%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="nav-number">3.28.</span> <span class="nav-text">绘制streamplot的例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%96%87%E6%9C%AC"><span class="nav-number">3.29.</span> <span class="nav-text">添加文本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Unidata%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E4%BE%8B%E5%AD%90"><span class="nav-number">3.30.</span> <span class="nav-text">Unidata中的各种例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E6%A1%86%E7%9A%84%E6%A0%B7%E5%BC%8F%E5%AE%9E%E4%BE%8B"><span class="nav-number">3.31.</span> <span class="nav-text">文本框的样式实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#matplotlib%E9%87%8C%E9%9D%A2%E6%9C%89%E4%B8%80%E4%B8%AA%E5%BE%88%E5%A4%9A%E6%95%99%E7%A8%8B%E7%9A%84%E9%9B%86%E5%90%88%E7%BD%91%E7%AB%99"><span class="nav-number">3.32.</span> <span class="nav-text">matplotlib里面有一个很多教程的集合网站</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%96%B9colorbar%E5%BA%93"><span class="nav-number">3.33.</span> <span class="nav-text">第三方colorbar库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%99%E7%AD%89%E5%80%BC%E7%BA%BF%E6%B7%BB%E5%8A%A0%E5%9B%BE%E4%BE%8B"><span class="nav-number">3.34.</span> <span class="nav-text">给等值线添加图例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%88%BB%E5%BA%A6label%E7%9A%84%E5%A4%A7%E5%B0%8F%E8%AE%BE%E7%BD%AE"><span class="nav-number">3.35.</span> <span class="nav-text">关于刻度label的大小设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%99%E5%88%BB%E5%BA%A6%E7%BA%BF%E5%8A%A0%E4%B8%8Alabel"><span class="nav-number">3.36.</span> <span class="nav-text">给刻度线加上label</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tick-params-%E5%AF%B9%E5%9D%90%E6%A0%87%E8%BD%B4%E5%88%BB%E5%BA%A6%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="nav-number">3.37.</span> <span class="nav-text">tick_params 对坐标轴刻度的设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#subplots%E4%B8%8Eadd-subplot%E4%B9%8B%E9%97%B4%E7%9A%84subplot-kw"><span class="nav-number">3.38.</span> <span class="nav-text">subplots与add_subplot之间的subplot_kw</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Ecolorbar%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="nav-number">3.39.</span> <span class="nav-text">关于colorbar的设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#legend"><span class="nav-number">3.40.</span> <span class="nav-text">legend</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%98%E6%96%B9%E6%95%99%E7%A8%8B"><span class="nav-number">3.40.1.</span> <span class="nav-text">官方教程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E5%9B%BE%E7%9A%84legend%E6%8E%A7%E5%88%B6label%E7%9A%84%E9%A2%9C%E8%89%B2%E8%B7%9F%E7%BA%BF%E7%9A%84%E9%A2%9C%E8%89%B2%E4%B8%80%E8%87%B4"><span class="nav-number">3.40.2.</span> <span class="nav-text">线图的legend控制label的颜色跟线的颜色一致</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E7%94%BB%E5%9B%BE%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%AD%97%E5%85%B8%E5%BD%A2%E5%BC%8F%E7%9A%84%E4%BC%A0%E5%85%A5%E5%8F%82%E6%95%B0"><span class="nav-number">3.41.</span> <span class="nav-text">关于画图过程中字典形式的传入参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE-%E8%87%AA%E6%88%91%E6%80%BB%E7%BB%93"><span class="nav-number">3.42.</span> <span class="nav-text">设置-自我总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%93%E5%87%BA%C2%B0%E7%9A%84%E4%B8%8A%E6%A0%87"><span class="nav-number">3.42.1.</span> <span class="nav-text">打出°的上标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E6%A0%87%E4%B8%8B%E6%A0%87%E7%9A%84%E6%95%99%E7%A8%8B"><span class="nav-number">3.42.2.</span> <span class="nav-text">上标下标的教程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pad%E5%8F%82%E6%95%B0%E8%B0%83%E6%95%B4%E5%AD%90%E5%9B%BE%E4%B9%8B%E9%97%B4%E7%9A%84%E8%B7%9D%E7%A6%BB"><span class="nav-number">3.42.3.</span> <span class="nav-text">pad参数调整子图之间的距离</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tips"><span class="nav-number">3.42.4.</span> <span class="nav-text">tips</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#contour%E4%B8%AD%E7%9A%84%E7%BA%BF%E6%AE%B5%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98"><span class="nav-number">3.42.5.</span> <span class="nav-text">contour中的线段设置问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E6%95%B4%E7%9F%A2%E9%87%8F%E5%9B%BE%E7%9A%84%E7%AE%AD%E5%A4%B4%E7%A8%80%E7%96%8F%E7%A8%8B%E5%BA%A6"><span class="nav-number">3.42.6.</span> <span class="nav-text">调整矢量图的箭头稀疏程度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%A5%E9%94%99%EF%BC%9A-tkinter-TclError-unknown-color-name-%E2%80%9Cwhite%E2%80%9D"><span class="nav-number">3.42.7.</span> <span class="nav-text">报错：_tkinter.TclError: unknown color name “white”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8streamplot%E7%94%BB%E5%9E%82%E7%9B%B4%E6%B5%81%E7%BA%BF%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="nav-number">3.42.8.</span> <span class="nav-text">使用streamplot画垂直流线的几个问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#matplotlib-axes-Axes-pcolormesh"><span class="nav-number">4.1.</span> <span class="nav-text">matplotlib.axes.Axes.pcolormesh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#matplotlib-pyplot-colorbar"><span class="nav-number">4.2.</span> <span class="nav-text">matplotlib.pyplot.colorbar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#numpy-average"><span class="nav-number">4.3.</span> <span class="nav-text">numpy.average</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#matplotlib-patches-Circle"><span class="nav-number">4.4.</span> <span class="nav-text">matplotlib.patches.Circle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isinstance%E5%87%BD%E6%95%B0"><span class="nav-number">4.5.</span> <span class="nav-text">isinstance函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#matplotlib%E4%B8%AD%E7%9A%84%E6%B5%81%E7%BA%BF%E5%87%BD%E6%95%B0"><span class="nav-number">4.6.</span> <span class="nav-text">matplotlib中的流线函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strip%E5%87%BD%E6%95%B0"><span class="nav-number">4.7.</span> <span class="nav-text">strip函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#main%E5%87%BD%E6%95%B0"><span class="nav-number">4.8.</span> <span class="nav-text">main函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8pycharm%E4%B8%AD%E8%AE%BE%E7%BD%AE%E8%BF%90%E8%A1%8C%E6%96%AD%E7%82%B9"><span class="nav-number">4.9.</span> <span class="nav-text">在pycharm中设置运行断点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E4%B8%AD%E7%9A%84%E5%8F%82%E6%95%B0%E9%97%AE%E9%A2%98"><span class="nav-number">4.10.</span> <span class="nav-text">函数中的参数问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#xarray%E8%AF%BB%E5%8F%96era%E6%95%B0%E6%8D%AE%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">4.10.1.</span> <span class="nav-text">xarray读取era数据存在的问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#debug"><span class="nav-number">5.</span> <span class="nav-text">debug</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cartopy%E8%AE%BE%E7%BD%AE%E4%B8%8E%E6%B7%BB%E5%8A%A0%E6%B0%B4%E5%B9%B3%E7%BA%BF"><span class="nav-number">5.1.</span> <span class="nav-text">cartopy设置与添加水平线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jupyterlab%E4%B8%AD%E7%9A%84%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81%E9%97%AE%E9%A2%98"><span class="nav-number">5.2.</span> <span class="nav-text">jupyterlab中的设置密码问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cartopy%E5%8A%A0%E8%BD%BD%E5%9C%B0%E5%9B%BE%E4%BF%A1%E6%81%AF%E6%98%BE%E7%A4%BA%E4%B8%8B%E8%BD%BD%E5%A4%B1%E8%B4%A5"><span class="nav-number">5.3.</span> <span class="nav-text">cartopy加载地图信息显示下载失败</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cartopy%E5%9C%B0%E5%9B%BE%E5%8F%AA%E7%94%BB%E5%87%BA%E6%9D%A5%E4%B8%80%E5%8D%8A"><span class="nav-number">5.4.</span> <span class="nav-text">cartopy地图只画出来一半</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cartopy-%E4%B8%AD%E7%9A%84set-extent"><span class="nav-number">5.5.</span> <span class="nav-text">cartopy 中的set_extent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%BB%E5%9B%BE%E6%8A%A5%E9%94%99-tkinter-TclError-unknown-color-name-%E2%80%9Cwhite%E2%80%9D"><span class="nav-number">5.6.</span> <span class="nav-text">画图报错 _tkinter.TclError: unknown color name “white”</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cartopy"><span class="nav-number">6.</span> <span class="nav-text">cartopy</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E8%BE%B9%E7%95%8C%E7%BA%BF%E7%9A%84%E7%B2%97%E7%BB%86"><span class="nav-number">6.1.</span> <span class="nav-text">设置边界线的粗细</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#matplotlib%E7%94%BB%E5%9B%BE%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">matplotlib画图总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2021-x2F-11-x2F-15-%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97"><span class="nav-number">7.1.</span> <span class="nav-text">2021&#x2F;11&#x2F;15 时间序列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A2%E9%87%8F%E5%9B%BE%E7%BB%98%E5%88%B6"><span class="nav-number">7.2.</span> <span class="nav-text">矢量图绘制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E5%BC%A0%E5%AD%90%E5%9B%BE%E5%85%B1%E7%94%A8%E4%B8%80%E4%B8%AAcolorbar"><span class="nav-number">7.3.</span> <span class="nav-text">多张子图共用一个colorbar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2021-x2F-12-x2F-28-%E5%9E%82%E7%9B%B4%E6%B5%81%E5%9C%BA%E3%80%81%E7%AD%89%E5%80%BC%E7%BA%BF%E3%80%81%E7%AD%89%E5%80%BC%E5%A1%AB%E8%89%B2"><span class="nav-number">7.4.</span> <span class="nav-text">2021&#x2F;12&#x2F;28 垂直流场、等值线、等值填色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E8%87%AA%E5%88%B6colormap%E4%B8%8E%E9%85%8D%E5%90%88uigradient"><span class="nav-number">7.5.</span> <span class="nav-text">关于自制colormap与配合uigradient</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8python%E7%BB%98%E5%88%B6%E5%9E%82%E7%9B%B4%E7%9A%84%E6%B5%81%E7%BA%BF"><span class="nav-number">7.6.</span> <span class="nav-text">使用python绘制垂直的流线</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#numpy%E8%AE%A1%E7%AE%97%E6%80%BB%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text">numpy计算总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC%E9%97%AE%E9%A2%98"><span class="nav-number">8.0.1.</span> <span class="nav-text">函数返回值问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xarray%E4%B8%AD%E7%9A%84slice%E9%97%AE%E9%A2%98"><span class="nav-number">8.1.</span> <span class="nav-text">xarray中的slice问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E9%9A%90%E5%BE%AA%E7%8E%AF%E8%AE%A1%E7%AE%97pentad%E5%B9%B3%E5%9D%87"><span class="nav-number">8.2.</span> <span class="nav-text">利用隐循环计算pentad平均</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E6%8D%A2%E8%B1%A1%E9%99%90"><span class="nav-number">8.3.</span> <span class="nav-text">交换象限</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#xarray"><span class="nav-number">9.</span> <span class="nav-text">xarray</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E8%8E%B7%E5%8F%96dataarray-dataset%E4%B8%80%E4%BA%9B%E5%B1%9E%E6%80%A7%E7%9A%84%E7%9F%A5%E8%AF%86"><span class="nav-number">9.1.</span> <span class="nav-text">关于获取dataarray dataset一些属性的知识</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#python%E8%B5%84%E6%BA%90%E7%BD%91%E5%9D%80%E8%AE%B0%E5%BD%95"><span class="nav-number">10.</span> <span class="nav-text">python资源网址记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Iris-%E4%B8%80%E4%B8%AA%E5%A4%84%E7%90%86%E5%9C%B0%E7%90%83%E7%A7%91%E5%AD%A6%E6%95%B0%E6%8D%AE%E7%9A%84%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-number">10.1.</span> <span class="nav-text">Iris 一个处理地球科学数据的软件包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#matplotlib%E5%AE%98%E7%BD%91%E7%9A%84gallery%EF%BC%8C%E8%AE%B0%E8%BD%BD%E7%9D%80%E5%BE%88%E5%A4%9A%E7%A7%8D%E4%BE%8B%E5%AD%90%E5%8A%A0%E4%BB%A3%E7%A0%81"><span class="nav-number">10.2.</span> <span class="nav-text">matplotlib官网的gallery，记载着很多种例子加代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E6%95%99%E7%A8%8B%EF%BC%8C%E8%AF%B4%E7%9A%84%E6%98%AF%E5%85%B3%E4%BA%8Epython%E4%B8%ADmain%E5%87%BD%E6%95%B0%E7%9A%84"><span class="nav-number">10.3.</span> <span class="nav-text">一个教程，说的是关于python中main函数的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#real-python-%E4%B8%80%E4%B8%AApython%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99"><span class="nav-number">10.4.</span> <span class="nav-text">real python 一个python学习网站</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E7%9F%A5%E4%B9%8E%E4%B8%8A%E7%9C%8B%E5%88%B0%E7%9A%84%E5%87%A0%E4%B8%AA%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99"><span class="nav-number">10.5.</span> <span class="nav-text">从知乎上看到的几个学习网站</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
