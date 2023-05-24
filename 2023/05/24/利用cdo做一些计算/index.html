@@ -5,19 +5,19 @@
   
 
   
-  <title>python绘制全球图在180度出现白线 | Hexo</title>
+  <title>利用cdo做一些计算 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在使用python绘制大范围的图的时候，在180度那里经常会出现白线，这里记录一下怎么解决的。 1234567891011121314151617181920212223242526j &#x3D; 0    for col in range(4):        for row in range(3):            ax &#x3D; fig1.add_subplot(spec1[row,col],pro">
+  <meta name="description" content="最近在处理一些下载的数据，想计算成气候态的结果，发现CDO挺好用的，在这里记录一下。  下载的数据是按日存放的，可以使用cdo cat整合到一个文件里面。  利用逐日的文件计算月平均 1cdo monmean in.nc out.nc  计算候平均，用的方法类似滑动平均，选定timestep 1cdo timselmean,5 ifile ofile  上述计算完了如果想计算气候态的变量，这里可以">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python绘制全球图在180度出现白线">
-<meta property="og:url" content="http://example.com/2023/03/29/python%E7%BB%98%E5%88%B6%E5%85%A8%E7%90%83%E5%9B%BE%E5%9C%A8180%E5%BA%A6%E5%87%BA%E7%8E%B0%E7%99%BD%E7%BA%BF/index.html">
+<meta property="og:title" content="利用cdo做一些计算">
+<meta property="og:url" content="http://example.com/2023/05/24/%E5%88%A9%E7%94%A8cdo%E5%81%9A%E4%B8%80%E4%BA%9B%E8%AE%A1%E7%AE%97/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="在使用python绘制大范围的图的时候，在180度那里经常会出现白线，这里记录一下怎么解决的。 1234567891011121314151617181920212223242526j &#x3D; 0    for col in range(4):        for row in range(3):            ax &#x3D; fig1.add_subplot(spec1[row,col],pro">
+<meta property="og:description" content="最近在处理一些下载的数据，想计算成气候态的结果，发现CDO挺好用的，在这里记录一下。  下载的数据是按日存放的，可以使用cdo cat整合到一个文件里面。  利用逐日的文件计算月平均 1cdo monmean in.nc out.nc  计算候平均，用的方法类似滑动平均，选定timestep 1cdo timselmean,5 ifile ofile  上述计算完了如果想计算气候态的变量，这里可以">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-03-29T08:01:22.000Z">
-<meta property="article:modified_time" content="2023-03-29T08:12:02.000Z">
+<meta property="article:published_time" content="2023-05-24T01:41:05.000Z">
+<meta property="article:modified_time" content="2023-05-24T01:55:20.996Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="python">
+<meta property="article:tag" content="气象">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -67,10 +67,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-python绘制全球图在180度出现白线" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-利用cdo做一些计算" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2023/03/29/python%E7%BB%98%E5%88%B6%E5%85%A8%E7%90%83%E5%9B%BE%E5%9C%A8180%E5%BA%A6%E5%87%BA%E7%8E%B0%E7%99%BD%E7%BA%BF/" class="article-date">
-  <time datetime="2023-03-29T08:01:22.000Z" itemprop="datePublished">2023-03-29</time>
+    <a href="/2023/05/24/%E5%88%A9%E7%94%A8cdo%E5%81%9A%E4%B8%80%E4%BA%9B%E8%AE%A1%E7%AE%97/" class="article-date">
+  <time datetime="2023-05-24T01:41:05.000Z" itemprop="datePublished">2023-05-24</time>
 </a>
     
   </div>
@@ -81,7 +81,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      python绘制全球图在180度出现白线
+      利用cdo做一些计算
     </h1>
   
 
@@ -89,31 +89,27 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><font color=red>在使用python绘制大范围的图的时候，在180度那里经常会出现白线，这里记录一下怎么解决的。</font></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">j = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">        <span class="keyword">for</span> row <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">            ax = fig1.add_subplot(spec1[row,col],projection=proj)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Set the tick and tick-label</span></span><br><span class="line">            set_cartopy_tick(ax=ax,extent=extent,xticks=np.linspace(<span class="number">30</span>,<span class="number">330</span>,<span class="number">6</span>,dtype=<span class="built_in">int</span>),yticks=np.linspace(<span class="number">60</span>,-<span class="number">60</span>,<span class="number">13</span>,dtype=<span class="built_in">int</span>),nx=<span class="number">1</span>,ny=<span class="number">1</span>,labelsize=<span class="number">17</span>)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># contourf</span></span><br><span class="line">            <span class="comment">#im = ax.contourf(lon, lat, correlation[j], [0, 0.24, 1], hatches=[None, &#x27;.&#x27;])</span></span><br><span class="line">            <span class="comment">#print(np.nanmax(correlation[j]))</span></span><br><span class="line">            data = correlation[j]</span><br><span class="line">            data, lons = add_cyclic_point(correlation[j], coord=lon)</span><br><span class="line">            im = ax.contourf(lons, lat, data, np.linspace(-<span class="number">0.8</span>, <span class="number">0.8</span>, <span class="number">9</span>), cmap=cmap, transform = ccrs.PlateCarree(), extend=<span class="string">&#x27;both&#x27;</span>)</span><br><span class="line">            <span class="comment">#im = ax.contourf(lon, lat, data, np.linspace(-0.8, 0.8, 9), cmap=cmap,)</span></span><br><span class="line">            im2 = ax.contourf(lons, lat, data, [-<span class="number">1</span>, -<span class="number">0.248</span>, <span class="number">0</span>, <span class="number">0.248</span>, <span class="number">1</span>], hatches=[<span class="string">&#x27;.&#x27;</span>, <span class="literal">None</span>, <span class="literal">None</span>, <span class="string">&#x27;.&#x27;</span>], colors=<span class="string">&quot;none&quot;</span>, transform=ccrs.PlateCarree())</span><br><span class="line">            ax.coastlines()</span><br><span class="line"></span><br><span class="line">            ax.plot([<span class="number">30</span>,<span class="number">330</span>],[<span class="number">0</span>,<span class="number">0</span>],<span class="string">&#x27;k--&#x27;</span>,transform = ccrs.PlateCarree())</span><br><span class="line">            ax.plot([<span class="number">30</span>,<span class="number">330</span>],[<span class="number">10</span>,<span class="number">10</span>],<span class="string">&#x27;r--&#x27;</span>,transform = ccrs.PlateCarree())</span><br><span class="line"></span><br><span class="line">            ax.set_title(<span class="string">&#x27;Month &#x27;</span>+<span class="built_in">str</span>(j+<span class="number">1</span>), loc=<span class="string">&#x27;left&#x27;</span>, fontsize=<span class="number">27.5</span>)</span><br><span class="line">            ax.set_title(title, loc=<span class="string">&#x27;right&#x27;</span>, fontsize=<span class="number">27.5</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            j+=<span class="number">1</span></span><br></pre></td></tr></table></figure>
-
+        <p>最近在处理一些下载的数据，想计算成气候态的结果，发现CDO挺好用的，在这里记录一下。</p>
 <ol>
-<li>在这里对data, lons进行处理</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data, lons = add_cyclic_point(correlation[j], coord=lon)</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>绘图的时候加上 transform &#x3D; ccrs.PlateCarree()</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">im = ax.contourf(lons, lat, data, np.linspace(-<span class="number">0.8</span>, <span class="number">0.8</span>, <span class="number">9</span>), cmap=cmap, transform = ccrs.PlateCarree(), extend=<span class="string">&#x27;both&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li><p>每一句画图的都要</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ax.plot([<span class="number">30</span>,<span class="number">330</span>],[<span class="number">0</span>,<span class="number">0</span>],<span class="string">&#x27;k--&#x27;</span>,transform = ccrs.PlateCarree())</span><br></pre></td></tr></table></figure></li>
+<li><p>下载的数据是按日存放的，可以使用cdo cat整合到一个文件里面。</p>
+</li>
+<li><p>利用逐日的文件计算月平均</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cdo monmean in.nc out.nc</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>计算候平均，用的方法类似滑动平均，选定timestep</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cdo timselmean,5 ifile ofile</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>上述计算完了如果想计算气候态的变量，这里可以利用daily的原始数据计算气候态的daily pentad monthly</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cdo ymonmean in.nc out.nc</span><br><span class="line">cdo ydrunmean,5 in.nc out.nc # 5 means pentad</span><br><span class="line">cdo ydaymean in.nc out.nc</span><br></pre></td></tr></table></figure></li>
 </ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/03/29/python%E7%BB%98%E5%88%B6%E5%85%A8%E7%90%83%E5%9B%BE%E5%9C%A8180%E5%BA%A6%E5%87%BA%E7%8E%B0%E7%99%BD%E7%BA%BF/" data-id="cli09rpts002y5ov387151vac" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/24/%E5%88%A9%E7%94%A8cdo%E5%81%9A%E4%B8%80%E4%BA%9B%E8%AE%A1%E7%AE%97/" data-id="cli11zf6o0000jcv323078ux8" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B0%94%E8%B1%A1/" rel="tag">气象</a></li></ul>
 
     </footer>
   </div>
@@ -121,19 +117,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2023/03/29/%E9%85%8D%E7%BD%AE%E5%8D%95%E7%89%87%E6%9C%BA%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E8%AE%B0%E5%BD%95/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          配置单片机开发环境记录
-        
-      </div>
-    </a>
   
-  
-    <a href="/2023/03/23/%E7%9B%B8%E5%85%B3%E5%88%86%E6%9E%90%E7%9A%84%E5%AD%A6%E4%B9%A0/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2023/05/23/README/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">相关分析的学习</div>
+      <div class="article-nav-title"></div>
     </a>
   
 </nav>
