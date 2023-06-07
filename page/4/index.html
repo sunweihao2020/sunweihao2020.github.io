@@ -64,6 +64,207 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ERA5资料更新经验" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/02/08/ERA5%E8%B5%84%E6%96%99%E6%9B%B4%E6%96%B0%E7%BB%8F%E9%AA%8C/" class="article-date">
+  <time datetime="2023-02-08T08:15:24.000Z" itemprop="datePublished">2023-02-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/08/ERA5%E8%B5%84%E6%96%99%E6%9B%B4%E6%96%B0%E7%BB%8F%E9%AA%8C/">ERA5资料更新经验</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="在更新服务器上ERA5的数据的时候遇到了一些问题，总结了一些经验："><a href="#在更新服务器上ERA5的数据的时候遇到了一些问题，总结了一些经验：" class="headerlink" title="在更新服务器上ERA5的数据的时候遇到了一些问题，总结了一些经验："></a>在更新服务器上ERA5的数据的时候遇到了一些问题，总结了一些经验：</h1><ul>
+<li><p>下载的数据是残缺的，即虽然看似下下来了，但其实是坏数据，读不出来。</p>
+<p><font color=red>解决方法：</font> 后续处理的时候我写了一个循环通过cdo将hourly的都处理成daily，遇到残缺的数据是无法转成功的。事后对比hourly跟daily的数据数量，如果一样的话那么说明没有残缺的数据，但是如果数据不一样，则可以编程找出来daily路径下没有的文件文件名，如此就可以确定哪些数据是残缺的了。</p>
+</li>
+<li><p><strong>下载的数据出现了文件名跟变量名不一致的情况。</strong> 我在读取temperature文件的时候，报错被告知没有’t’这个变量，一看才知道文件里面的变量是’u’，不知道这种情况是怎么来的。</p>
+<p><font color=red>解决方法：</font> 我是在计算变量的气候态daily数据的过程中发现的，因为在循环中我分别指定了文件名(temperature)跟变量名(t)，因此当出现不一致的时候我可以发现这个问题。</p>
+</li>
+<li><p>某些年份某些时间出现了缺失的问题。</p>
+<p><font color=red>解决方法：</font>  在计算变量的气候态daily数据的过程中发现的。因为到了那一天并没有对应的文件存在。后续在检查有哪些确实文件的时候我是写了循环指定了年份、月份、日来查看是否存在于全部的文件列表中，这样可以发现哪些文件缺失了。</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/02/08/ERA5%E8%B5%84%E6%96%99%E6%9B%B4%E6%96%B0%E7%BB%8F%E9%AA%8C/" data-id="cli09rpt1000t5ov3geps6b9g" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data/" rel="tag">data</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CESM关闭大气模块输出" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/11/15/CESM%E5%85%B3%E9%97%AD%E5%A4%A7%E6%B0%94%E6%A8%A1%E5%9D%97%E8%BE%93%E5%87%BA/" class="article-date">
+  <time datetime="2022-11-15T13:35:44.000Z" itemprop="datePublished">2022-11-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/15/CESM%E5%85%B3%E9%97%AD%E5%A4%A7%E6%B0%94%E6%A8%A1%E5%9D%97%E8%BE%93%E5%87%BA/">CESM关闭大气模块输出</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关闭大气模块的输出，在user_nl_cam中加一条：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">empty_htapes = .true.</span><br></pre></td></tr></table></figure>
+
+<p>这之后默认的输出就莫得了，如果按照之前设置按照天数输出的话，那么输出的output就是h0</p>
+<p>在查阅资料的时候一些收获，先码在这里:</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38607066/article/details/109445839">https://blog.csdn.net/qq_38607066/article/details/109445839</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cesm.ucar.edu/models/cesm1.2/cesm/doc/modelnl/nl_cam.html">https://www.cesm.ucar.edu/models/cesm1.2/cesm/doc/modelnl/nl_cam.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cesm.ucar.edu/models/cesm1.2/cesm/doc/usersguide/x2172.html">https://www.cesm.ucar.edu/models/cesm1.2/cesm/doc/usersguide/x2172.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cesm.ucar.edu/projects/community-projects/LENS/">https://www.cesm.ucar.edu/projects/community-projects/LENS/</a></p>
+<p><a target="_blank" rel="noopener" href="https://cesm-wf-documentation.readthedocs.io/en/latest/extra_cmip_instructions.html">https://cesm-wf-documentation.readthedocs.io/en/latest/extra_cmip_instructions.html</a>  这个是讲CESM做CMIP6实验的</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/NOAA-GFDL/CM4/tree/cm4">https://github.com/NOAA-GFDL/CM4/tree/cm4</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.projects.science.uu.nl/iceclimate/models/racmo-model.php">https://www.projects.science.uu.nl/iceclimate/models/racmo-model.php</a> 做动力降尺度的模式</p>
+<p><a target="_blank" rel="noopener" href="https://kpegion.github.io/AOES-CLIM-NCAR-CESM-Atm-Exps/04-mods/index.html">https://kpegion.github.io/AOES-CLIM-NCAR-CESM-Atm-Exps/04-mods/index.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://mom6.readthedocs.io/en/dev-gfdl/index.html">https://mom6.readthedocs.io/en/dev-gfdl/index.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/15/CESM%E5%85%B3%E9%97%AD%E5%A4%A7%E6%B0%94%E6%A8%A1%E5%9D%97%E8%BE%93%E5%87%BA/" data-id="cli09rpsy000l5ov394916bgd" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CESM/" rel="tag">CESM</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-ssh连接docker镜像" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/11/01/ssh%E8%BF%9E%E6%8E%A5docker%E9%95%9C%E5%83%8F/" class="article-date">
+  <time datetime="2022-11-01T02:16:01.000Z" itemprop="datePublished">2022-11-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/01/ssh%E8%BF%9E%E6%8E%A5docker%E9%95%9C%E5%83%8F/">ssh连接docker镜像</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>记录一下在另一台主机打开docker镜像后在本机ssh连接的记录。</p>
+<p>内容包括：</p>
+<ol>
+<li>新建镜像并开启ssh服务</li>
+<li>转移docker虚拟硬盘挂载位置</li>
+</ol>
+<h1 id="新建镜像并开启ssh服务"><a href="#新建镜像并开启ssh服务" class="headerlink" title="新建镜像并开启ssh服务"></a>新建镜像并开启ssh服务</h1><p>宿主机：系统windows </p>
+<p>使用软件：docker desktop</p>
+<ol>
+<li>在powershell中输入命令拉取镜像：</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull ubuntu:20.04	</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>启动镜像并将本机端口2333映射到容器的22端口</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -itd -p 2333:22 镜像id</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>进入容器安装openssh-server</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it 容器id /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>在容器内的终端输入：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd root</span><br></pre></td></tr></table></figure>
+
+<p>设置root密码，然后安装openssh-server</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br><span class="line">apt install openssh-server	</span><br></pre></td></tr></table></figure>
+
+<p>在安装完成后会出现 &#x2F;etc&#x2F;ssh&#x2F;sshd_config 这个文件</p>
+<p>通过vim进行修改上面文件，将 PermitRootLogin 取消注释并将后面选项更改为yes</p>
+<p>保存退出后重启ssh服务：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service ssh restart </span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="4">
+<li>透过ssh连接容器</li>
+</ol>
+<p>如果是本机的话那就</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@127.0.0.1 -p 2333</span><br></pre></td></tr></table></figure>
+
+<p>局域网内其他机器的话，要先查到宿主机的ip，然后连接方法类似</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@宿主机ip -p 2333</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="更改docker虚拟硬盘存放位置"><a href="#更改docker虚拟硬盘存放位置" class="headerlink" title="更改docker虚拟硬盘存放位置"></a>更改docker虚拟硬盘存放位置</h1><p>由于windows docker-desktop更新后是基于WSL2的虚拟机，更改虚拟硬盘存放位置跟之前不一样了。默认是存放在C盘中的，但我可怜的C盘只剩10几个G容量，未来数据一多这不直接完犊子了，下面介绍将docker中容器数据备份转移至E盘的方法。</p>
+<ol>
+<li><p>第一步，确认docker-desktop已经停止运行并退出</p>
+<p>可以打开powershell输入 wsl –list -v 查看，状态应为stopped</p>
+</li>
+<li><p>将docker-desktop-data导出备份</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl --export docker-desktop-data &quot;D:\\docker-desktop-data.tar&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>wsl取消注册docker-desktop-data，这一步后原本位于C盘中的ext4.vhdx会被删除</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl --unregister docker-desktop-data</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将前面导出的备份再导入回wsl并设置路径</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl --import docker-desktop-data &quot;F:\Docker-wsl\wsl&quot; &quot;D:\\docker-desktop-data.tar&quot; --version 2</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>到这里就已经操作完成了，重新打开docker-desktop并且pull一个镜像查看是否正常运行即可</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/01/ssh%E8%BF%9E%E6%8E%A5docker%E9%95%9C%E5%83%8F/" data-id="cli09rptu00325ov3gc1y9sjn" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag">计算机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-使用docker登录easyconnect服务" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2022/10/28/%E4%BD%BF%E7%94%A8docker%E7%99%BB%E5%BD%95easyconnect%E6%9C%8D%E5%8A%A1/" class="article-date">
@@ -449,162 +650,6 @@
 
 
   
-    <article id="post-CESM2的崩溃与重启" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/09/28/CESM2%E7%9A%84%E5%B4%A9%E6%BA%83%E4%B8%8E%E9%87%8D%E5%90%AF/" class="article-date">
-  <time datetime="2022-09-28T06:24:01.000Z" itemprop="datePublished">2022-09-28</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/model/">model</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/09/28/CESM2%E7%9A%84%E5%B4%A9%E6%BA%83%E4%B8%8E%E9%87%8D%E5%90%AF/">CESM2的崩溃与重启</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="2022-9-28"><a href="#2022-9-28" class="headerlink" title="2022-9-28"></a>2022-9-28</h1><p>问题描述：在CESM2的MOM模块由于是新增的，有些时候会出现表面值不稳定的情况。过去我才去的办法是hybrid重启的方法，但是我在一个实验中途又branch重启了一个实验，按理说他们应该在同一时间出现问题，结果是并没有。因此本文通过一个崩溃的案例来探讨一下这个问题。</p>
-<p>选取案例：lym服务器上的 b1850_tx_maritime_spinup_new0_220922</p>
-<p>断点日期：0041-01-25</p>
-<h2 id="实验1-重新提交"><a href="#实验1-重新提交" class="headerlink" title="实验1. 重新提交"></a>实验1. 重新提交</h2><p>结果：同样的时间断掉</p>
-<h2 id="实验2-新建case，-branch-run"><a href="#实验2-新建case，-branch-run" class="headerlink" title="实验2. 新建case， branch run"></a>实验2. 新建case， branch run</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_tx_maritime_spinup_new1_220928 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_tx_maritime_spinup_new1_220928</span><br><span class="line">./xmlchange NTASKS_ATM=-21</span><br><span class="line">./xmlchange NTASKS_CPL=-21</span><br><span class="line">./xmlchange NTASKS_LND=-21</span><br><span class="line">./xmlchange NTASKS_ICE=-21</span><br><span class="line">./xmlchange NTASKS_ROF=-21</span><br><span class="line">./xmlchange NTASKS_GLC=-1</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_LND=0</span><br><span class="line">./xmlchange ROOTPE_CPL=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange ROOTPE_GLC=588</span><br><span class="line">./xmlchange ROOTPE_ROF=0</span><br><span class="line">./xmlchange NTASKS_OCN=-8</span><br><span class="line">./xmlchange ROOTPE_OCN=616</span><br><span class="line">./xmlchange RUN_REFCASE=b1850_tx_maritime_spinup_new0_220922</span><br><span class="line">./xmlchange RUN_REFDATE=0041-01-01</span><br><span class="line">./xmlchange RUN_TYPE=branch</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=1</span><br><span class="line">./xmlchange RESUBMIT=1</span><br><span class="line">./xmlchange REST_N=1</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/lym/swh/cesm/cime/scripts/b1850_tx_maritime_spinup_new0_220922/user_nl_cam .</span><br><span class="line">cp /public1/home/lym/swh/cesm/cime/scripts/b1850_tx_maritime_spinup_new0_220922/sbatch1.sh .</span><br><span class="line">cp /public1/home/lym/swh/cesm/cime/scripts/b1850_tx_maritime_spinup_new0_220922/user_nl_mom .</span><br><span class="line">cp /public1/home/lym/swh/cesm/cime/scripts/b1850_tx_maritime_spinup_new0_220922/user_nl_cice .</span><br><span class="line">./xmlchange ATM_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange LND_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange ICE_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange OCN_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_FMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_aave.220624.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_SMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_blin.220624.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_VMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_patc.220624.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_FMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_maritime3_TO_fv09_125_aave.220624.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_SMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_maritime3_TO_fv09_125_aave.220624.nc&#x27;</span><br><span class="line">./case.build --skip-provenance-check</span><br><span class="line"></span><br><span class="line">cp b1850_tx_maritime_spinup_new0_220922/run/*.r.*41* b1850_tx_maritime_spinup_new1_220928/run/</span><br><span class="line">cp b1850_tx_maritime_spinup_new0_220922/run/*.rs.*41* b1850_tx_maritime_spinup_new1_220928/run/</span><br><span class="line">cp b1850_tx_maritime_spinup_new0_220922/run/*rpo* b1850_tx_maritime_spinup_new1_220928/run/</span><br><span class="line">cp b1850_tx_maritime_spinup_new0_220922/run/*.i.*41* b1850_tx_maritime_spinup_new1_220928/run/</span><br></pre></td></tr></table></figure>
-
-<p>结果：同样的时间断掉了</p>
-<h2 id="实验3-Branch-run-修改-pertlim"><a href="#实验3-Branch-run-修改-pertlim" class="headerlink" title="实验3. Branch run  修改 pertlim"></a>实验3. Branch run  修改 pertlim</h2><p>结果：同样的时间断掉了</p>
-<h2 id="实验4-branch-run-修改核数"><a href="#实验4-branch-run-修改核数" class="headerlink" title="实验4. branch run 修改核数"></a>实验4. branch run 修改核数</h2><p>第一次随便改了海洋的核数，居然多跑了两天？这次我修改为40个核再试试</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850_tx_maritime_spinup_new1_220928 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850_tx_maritime_spinup_new1_220928</span><br><span class="line">./xmlchange NTASKS_ATM=-30</span><br><span class="line">./xmlchange NTASKS_CPL=-30</span><br><span class="line">./xmlchange NTASKS_LND=-30</span><br><span class="line">./xmlchange NTASKS_ICE=-30</span><br><span class="line">./xmlchange NTASKS_ROF=-30</span><br><span class="line">./xmlchange NTASKS_GLC=-1</span><br><span class="line">./xmlchange ROOTPE_ATM=0</span><br><span class="line">./xmlchange ROOTPE_LND=0</span><br><span class="line">./xmlchange ROOTPE_CPL=0</span><br><span class="line">./xmlchange ROOTPE_ICE=0</span><br><span class="line">./xmlchange ROOTPE_GLC=840</span><br><span class="line">./xmlchange ROOTPE_ROF=0</span><br><span class="line">./xmlchange NTASKS_OCN=-9</span><br><span class="line">./xmlchange ROOTPE_OCN=868</span><br><span class="line">./xmlchange RUN_REFCASE=b1850_tx_maritime_spinup_new0_220922</span><br><span class="line">./xmlchange RUN_REFDATE=0041-01-01</span><br><span class="line">./xmlchange RUN_TYPE=branch</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=1</span><br><span class="line">./xmlchange RESUBMIT=60</span><br><span class="line">./xmlchange REST_N=1</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/lym/swh/cesm/cime/scripts/b1850_tx_maritime_spinup_new0_220922/user_nl_cam .</span><br><span class="line">cp /public1/home/lym/swh/cesm/cime/scripts/b1850_tx_maritime_spinup_new0_220922/sbatch1.sh .</span><br><span class="line">cp /public1/home/lym/swh/cesm/cime/scripts/b1850_tx_maritime_spinup_new0_220922/user_nl_mom .</span><br><span class="line">cp /public1/home/lym/swh/cesm/cime/scripts/b1850_tx_maritime_spinup_new0_220922/user_nl_cice .</span><br><span class="line">./xmlchange ATM_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange LND_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.lnd.fv09_125_t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange ICE_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange OCN_DOMAIN_FILE=&#x27;/public1/home/wgx/swh/cesm2.1.3/inputdata/share/domains/domain.ocn.t66_maritime3.220624.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_FMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_aave.220624.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_SMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_blin.220624.nc&#x27;</span><br><span class="line">./xmlchange ATM2OCN_VMAPNAME=&#x27;cpl/gridmaps/fv0.9x1.25/map_fv09_125_TO_t66_maritime3_patc.220624.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_FMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_maritime3_TO_fv09_125_aave.220624.nc&#x27;</span><br><span class="line">./xmlchange OCN2ATM_SMAPNAME=&#x27;cpl/gridmaps/tx0.66v1/map_t66_maritime3_TO_fv09_125_aave.220624.nc&#x27;</span><br><span class="line">./case.build --skip-provenance-check</span><br><span class="line"></span><br><span class="line">cp b1850_tx_maritime_spinup_new0_220922/run/*.r.*41* b1850_tx_maritime_spinup_new1_220928/run/</span><br><span class="line">cp b1850_tx_maritime_spinup_new0_220922/run/*.rs.*41* b1850_tx_maritime_spinup_new1_220928/run/</span><br><span class="line">cp b1850_tx_maritime_spinup_new0_220922/run/*rpo* b1850_tx_maritime_spinup_new1_220928/run/</span><br><span class="line">cp b1850_tx_maritime_spinup_new0_220922/run/*.i.*41* b1850_tx_maritime_spinup_new1_220928/run/</span><br></pre></td></tr></table></figure>
-
-<p>结局：最后还是断了</p>
-<p>所以，更改核数有影响，能不能继续跑下去，看模式心情</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/09/28/CESM2%E7%9A%84%E5%B4%A9%E6%BA%83%E4%B8%8E%E9%87%8D%E5%90%AF/" data-id="cli09rpsu000e5ov3aab2ako5" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CESM2/" rel="tag">CESM2</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-关于numpy中reshape顺序的探究" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/09/22/%E5%85%B3%E4%BA%8Enumpy%E4%B8%ADreshape%E9%A1%BA%E5%BA%8F%E7%9A%84%E6%8E%A2%E7%A9%B6/" class="article-date">
-  <time datetime="2022-09-22T07:31:33.000Z" itemprop="datePublished">2022-09-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/09/22/%E5%85%B3%E4%BA%8Enumpy%E4%B8%ADreshape%E9%A1%BA%E5%BA%8F%E7%9A%84%E6%8E%A2%E7%A9%B6/">关于numpy中reshape顺序的探究</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>起因是我声明了一个空数组然后往里面添加数据之后，输出结果发现是一维的，借这个机会正好探究一些使用numpy.reshape的顺序问题。</p>
-<p>代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">result = np.array([])</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> file_name:</span><br><span class="line">    base_array   =  np.zeros((<span class="number">3</span>,<span class="number">365</span>))</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(lat_range)):</span><br><span class="line">        base_array[j]  =  cal_average_select_region(i,lat_range=lat_range[j])</span><br><span class="line"></span><br><span class="line">    result  =  np.append(result,base_array)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>按照循环的顺序，i&#x3D;4,j&#x3D;3,循环出来的数据是(365,)</p>
-<p>那么做reshape是应该从内往外还是从外往内呢？</p>
-<p><font color=red>答案是从外往内！</font></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result  =  result.reshape((<span class="number">4</span>,<span class="number">3</span>,<span class="number">365</span>))</span><br></pre></td></tr></table></figure>
-
-<p>按照循环的顺序即可</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/09/22/%E5%85%B3%E4%BA%8Enumpy%E4%B8%ADreshape%E9%A1%BA%E5%BA%8F%E7%9A%84%E6%8E%A2%E7%A9%B6/" data-id="cli09rpu2003w5ov327tggnqx" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-julia-learning" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/09/17/julia-learning/" class="article-date">
-  <time datetime="2022-09-17T13:48:26.000Z" itemprop="datePublished">2022-09-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/09/17/julia-learning/">julia-learning</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>TIPS:</p>
-<h1 id="string"><a href="#string" class="headerlink" title="string"></a>string</h1><ol>
-<li><p>多字符用””,单字符用’c’</p>
-</li>
-<li><p>关于”” and “”””””: “””””” can include quotation marks with string</p>
-<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h6alezzb3cj20gs045wem.jpg"></p>
-</li>
-</ol>
-<h1 id="function"><a href="#function" class="headerlink" title="function"></a>function</h1><ol>
-<li><p>Julia里面有个broadcast的功能，比如：</p>
-<p>f2(x) &#x3D; x^2</p>
-<p>如果给一个矩阵那结果就是矩阵相乘</p>
-<p>但是如果f2.(x) 那结果就是里面每个值求个平方</p>
-</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/09/17/julia-learning/" data-id="cli09rptg00245ov36etr6yxw" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Julia/" rel="tag">Julia</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -630,7 +675,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CESM/" rel="tag">CESM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CESM2/" rel="tag">CESM2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Julia/" rel="tag">Julia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML/" rel="tag">ML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PS/" rel="tag">PS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reading/" rel="tag">Reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer/" rel="tag">computer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data/" rel="tag">data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/esp32/" rel="tag">esp32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/knowledge-base/" rel="tag">knowledge base</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-command/" rel="tag">linux command</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macOS/" rel="tag">macOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/other/" rel="tag">other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/" rel="tag">read</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading-record/" rel="tag">reading record</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/settings/" rel="tag">settings</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/statistics/" rel="tag">statistics</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/website/" rel="tag">website</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/writing/" rel="tag">writing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%84%E5%BD%B1/" rel="tag">摄影</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E9%9A%9C/" rel="tag">故障</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E5%AD%A6/" rel="tag">文学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E8%AE%B0/" rel="tag">日记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%AE%B0/" rel="tag">杂记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B0%94%E8%B1%A1/" rel="tag">气象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%81/" rel="tag">码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E6%99%AE%E7%9F%A5%E8%AF%86/" rel="tag">科普知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/" rel="tag">科研记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag">计算机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E6%96%87%E7%8C%AE/" rel="tag">读文献</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%85%E6%80%9D/" rel="tag">雅思</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CESM/" rel="tag">CESM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CESM2/" rel="tag">CESM2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Julia/" rel="tag">Julia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML/" rel="tag">ML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PS/" rel="tag">PS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reading/" rel="tag">Reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer/" rel="tag">computer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data/" rel="tag">data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/esp32/" rel="tag">esp32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/history/" rel="tag">history</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/knowledge-base/" rel="tag">knowledge base</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-command/" rel="tag">linux command</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macOS/" rel="tag">macOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/other/" rel="tag">other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/" rel="tag">read</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading-record/" rel="tag">reading record</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/settings/" rel="tag">settings</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/statistics/" rel="tag">statistics</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/website/" rel="tag">website</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/writing/" rel="tag">writing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%84%E5%BD%B1/" rel="tag">摄影</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E9%9A%9C/" rel="tag">故障</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E5%AD%A6/" rel="tag">文学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E8%AE%B0/" rel="tag">日记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%AE%B0/" rel="tag">杂记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B0%94%E8%B1%A1/" rel="tag">气象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%81/" rel="tag">码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E6%99%AE%E7%9F%A5%E8%AF%86/" rel="tag">科普知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/" rel="tag">科研记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag">计算机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E6%96%87%E7%8C%AE/" rel="tag">读文献</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%85%E6%80%9D/" rel="tag">雅思</a></li></ul>
     </div>
   </div>
 
@@ -640,7 +685,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CESM/" style="font-size: 18px;">CESM</a> <a href="/tags/CESM2/" style="font-size: 14px;">CESM2</a> <a href="/tags/English/" style="font-size: 12px;">English</a> <a href="/tags/Julia/" style="font-size: 10px;">Julia</a> <a href="/tags/ML/" style="font-size: 10px;">ML</a> <a href="/tags/PS/" style="font-size: 10px;">PS</a> <a href="/tags/Reading/" style="font-size: 10px;">Reading</a> <a href="/tags/computer/" style="font-size: 16px;">computer</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/esp32/" style="font-size: 10px;">esp32</a> <a href="/tags/git/" style="font-size: 14px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/knowledge-base/" style="font-size: 10px;">knowledge base</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/linux-command/" style="font-size: 10px;">linux command</a> <a href="/tags/mac/" style="font-size: 14px;">mac</a> <a href="/tags/macOS/" style="font-size: 10px;">macOS</a> <a href="/tags/other/" style="font-size: 10px;">other</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/read/" style="font-size: 10px;">read</a> <a href="/tags/reading-record/" style="font-size: 10px;">reading record</a> <a href="/tags/settings/" style="font-size: 10px;">settings</a> <a href="/tags/statistics/" style="font-size: 12px;">statistics</a> <a href="/tags/website/" style="font-size: 10px;">website</a> <a href="/tags/writing/" style="font-size: 10px;">writing</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">学习笔记</a> <a href="/tags/%E6%91%84%E5%BD%B1/" style="font-size: 14px;">摄影</a> <a href="/tags/%E6%95%85%E9%9A%9C/" style="font-size: 10px;">故障</a> <a href="/tags/%E6%96%87%E5%AD%A6/" style="font-size: 10px;">文学</a> <a href="/tags/%E6%97%A5%E8%AE%B0/" style="font-size: 10px;">日记</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%B0%94%E8%B1%A1/" style="font-size: 10px;">气象</a> <a href="/tags/%E7%A0%81/" style="font-size: 10px;">码</a> <a href="/tags/%E7%A7%91%E6%99%AE%E7%9F%A5%E8%AF%86/" style="font-size: 10px;">科普知识</a> <a href="/tags/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/" style="font-size: 10px;">科研记录</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" style="font-size: 12px;">计算机</a> <a href="/tags/%E8%AE%B0%E5%BD%95/" style="font-size: 12px;">记录</a> <a href="/tags/%E8%AF%BB%E6%96%87%E7%8C%AE/" style="font-size: 10px;">读文献</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%85%E6%80%9D/" style="font-size: 10px;">雅思</a>
+      <a href="/tags/CESM/" style="font-size: 18px;">CESM</a> <a href="/tags/CESM2/" style="font-size: 14px;">CESM2</a> <a href="/tags/English/" style="font-size: 12px;">English</a> <a href="/tags/Julia/" style="font-size: 10px;">Julia</a> <a href="/tags/ML/" style="font-size: 10px;">ML</a> <a href="/tags/PS/" style="font-size: 10px;">PS</a> <a href="/tags/Reading/" style="font-size: 10px;">Reading</a> <a href="/tags/computer/" style="font-size: 16px;">computer</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/esp32/" style="font-size: 10px;">esp32</a> <a href="/tags/git/" style="font-size: 14px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/history/" style="font-size: 10px;">history</a> <a href="/tags/knowledge-base/" style="font-size: 10px;">knowledge base</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/linux-command/" style="font-size: 10px;">linux command</a> <a href="/tags/mac/" style="font-size: 14px;">mac</a> <a href="/tags/macOS/" style="font-size: 10px;">macOS</a> <a href="/tags/other/" style="font-size: 12px;">other</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/read/" style="font-size: 10px;">read</a> <a href="/tags/reading-record/" style="font-size: 10px;">reading record</a> <a href="/tags/settings/" style="font-size: 10px;">settings</a> <a href="/tags/statistics/" style="font-size: 12px;">statistics</a> <a href="/tags/website/" style="font-size: 10px;">website</a> <a href="/tags/writing/" style="font-size: 10px;">writing</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">学习笔记</a> <a href="/tags/%E6%91%84%E5%BD%B1/" style="font-size: 14px;">摄影</a> <a href="/tags/%E6%95%85%E9%9A%9C/" style="font-size: 10px;">故障</a> <a href="/tags/%E6%96%87%E5%AD%A6/" style="font-size: 10px;">文学</a> <a href="/tags/%E6%97%A5%E8%AE%B0/" style="font-size: 10px;">日记</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%B0%94%E8%B1%A1/" style="font-size: 10px;">气象</a> <a href="/tags/%E7%A0%81/" style="font-size: 10px;">码</a> <a href="/tags/%E7%A7%91%E6%99%AE%E7%9F%A5%E8%AF%86/" style="font-size: 10px;">科普知识</a> <a href="/tags/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/" style="font-size: 10px;">科研记录</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" style="font-size: 12px;">计算机</a> <a href="/tags/%E8%AE%B0%E5%BD%95/" style="font-size: 12px;">记录</a> <a href="/tags/%E8%AF%BB%E6%96%87%E7%8C%AE/" style="font-size: 10px;">读文献</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%85%E6%80%9D/" style="font-size: 10px;">雅思</a>
     </div>
   </div>
 
@@ -649,7 +694,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">四月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">七月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">四月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">七月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li></ul>
     </div>
   </div>
 
@@ -662,23 +707,23 @@
       <ul>
         
           <li>
+            <a href="/2023/06/07/%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BDERA5%E6%95%B0%E6%8D%AE%E5%90%8E%E6%8C%91%E5%87%BA%E5%BC%82%E5%B8%B8%E6%96%87%E4%BB%B6/">批量下载ERA5数据后挑出异常文件</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/25/%E4%BD%BF%E7%94%A8foobar2000%E5%AF%B9DSD%E8%BF%9B%E8%A1%8C%E8%A7%A3%E7%A0%81/">使用foobar2000对DSD进行解码</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/24/%E6%AC%A7%E6%B4%B2%E5%8F%B2/">欧洲史</a>
+          </li>
+        
+          <li>
             <a href="/2023/05/24/%E5%88%A9%E7%94%A8cdo%E5%81%9A%E4%B8%80%E4%BA%9B%E8%AE%A1%E7%AE%97/">利用cdo做一些计算</a>
           </li>
         
           <li>
             <a href="/2023/05/23/README/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2023/05/23/C%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2023/05/06/VPS%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">VPS折腾记录</a>
-          </li>
-        
-          <li>
-            <a href="/2023/05/06/vps%E8%AE%B0%E5%BD%95/">vps记录</a>
           </li>
         
       </ul>

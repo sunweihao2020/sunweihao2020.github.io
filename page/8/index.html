@@ -64,6 +64,145 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-科学杂记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/06/16/%E7%A7%91%E5%AD%A6%E6%9D%82%E8%AE%B0/" class="article-date">
+  <time datetime="2022-06-16T07:46:37.000Z" itemprop="datePublished">2022-06-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/06/16/%E7%A7%91%E5%AD%A6%E6%9D%82%E8%AE%B0/">科学杂记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://z4a.net/image/2nuJaI"><img src="https://z4a.net/images/2022/06/16/-2022-06-16-154704.md.png" alt="-2022-06-16-154704.md.png"></a></p>
+<p>西高止山脉</p>
+<h1 id="2022-9-7"><a href="#2022-9-7" class="headerlink" title="2022-9-7"></a>2022-9-7</h1><p>看文献，里面人做实验即便是耦合的也是做了10个集合的，或许我也应该放心上，问问老师</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/06/16/%E7%A7%91%E5%AD%A6%E6%9D%82%E8%AE%B0/" data-id="cli09rpuj00575ov30e7z63d1" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9D%82%E8%AE%B0/" rel="tag">杂记</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-cesm2-2-0使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/06/06/cesm2-2-0%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time datetime="2022-06-06T06:31:40.000Z" itemprop="datePublished">2022-06-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/06/06/cesm2-2-0%E4%BD%BF%E7%94%A8/">cesm2.2.0使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>c</p>
+<p>测试cesm2.2</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case control1 --res f09_g17 --compset FHIST --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd control1</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case control_30 --res f09_g17 --compset FHIST --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd control_30</span><br><span class="line">./xmlchange NTASKS=-16</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=10</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="220608测试-FHIST"><a href="#220608测试-FHIST" class="headerlink" title="220608测试 FHIST"></a>220608测试 FHIST</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case test2_2_1 --res f09_g17 --compset FHIST --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd test2_2_1</span><br><span class="line">./xmlchange NTASKS=-16</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=10</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="220608测试-b1850m"><a href="#220608测试-b1850m" class="headerlink" title="220608测试 b1850m"></a>220608测试 b1850m</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850m2 --res f09_g17 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd test2_2_1</span><br><span class="line">./xmlchange NTASKS=-16</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=10</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+<h1 id="20220610测试-b1850m-已经下载完文件，看下能不能跑控制实验"><a href="#20220610测试-b1850m-已经下载完文件，看下能不能跑控制实验" class="headerlink" title="20220610测试 b1850m 已经下载完文件，看下能不能跑控制实验"></a>20220610测试 b1850m 已经下载完文件，看下能不能跑控制实验</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case b1850m2 --res f09_g16 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd b1850m2</span><br><span class="line">./xmlchange NTASKS=-16</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=10</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.1.3/cime/scripts/b1850_control_220608_2/user_nl_cam .</span><br><span class="line">cp /public1/home/wgx/swh/cesm2.1.3/cime/scripts/b1850_control_220608_2/sbatch1.sh .</span><br><span class="line">./case.build --skip-provenance-check</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/06/06/cesm2-2-0%E4%BD%BF%E7%94%A8/" data-id="cli09rpt9001g5ov34xklgeg2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CESM/" rel="tag">CESM</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-wsl-clash翻墙" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/06/06/wsl-clash%E7%BF%BB%E5%A2%99/" class="article-date">
+  <time datetime="2022-06-06T05:44:54.000Z" itemprop="datePublished">2022-06-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/06/06/wsl-clash%E7%BF%BB%E5%A2%99/">wsl-clash翻墙</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/451198301">解决WSL下使用Clash for Windows的记录 - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://z4a.net/image/2Eb9zJ"><img src="https://z4a.net/images/2022/06/06/-2022-06-06-134621.md.png" alt="-2022-06-06-134621.md.png"></a></p>
+<p>注意这里要使用第二个</p>
+<p>export all_proxy&#x3D;”sock5:&#x2F;&#x2F;192.168.3.13:7890”</p>
+<p>然后四个export就好了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy=&#x27;http://192.168.3.13:7890&#x27;</span><br><span class="line">export https_proxy=&#x27;http://192.168.3.13:7890&#x27;</span><br><span class="line">export all_proxy=&#x27;sock5://192.168.3.13:7890&#x27;</span><br><span class="line">export ALL_PROXY= &#x27;sock5://192.168.3.13:7890&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/06/06/wsl-clash%E7%BF%BB%E5%A2%99/" data-id="cli09rptx003f5ov3eziq6c6x" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-CESM2-branch" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2022/06/03/CESM2-branch/" class="article-date">
@@ -831,407 +970,6 @@
 
 
   
-    <article id="post-一些设置记录" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/04/30/%E4%B8%80%E4%BA%9B%E8%AE%BE%E7%BD%AE%E8%AE%B0%E5%BD%95/" class="article-date">
-  <time datetime="2022-04-30T02:37:21.000Z" itemprop="datePublished">2022-04-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/04/30/%E4%B8%80%E4%BA%9B%E8%AE%BE%E7%BD%AE%E8%AE%B0%E5%BD%95/">一些设置记录</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="挂bywave"><a href="#挂bywave" class="headerlink" title="挂bywave"></a>挂bywave</h1><p>要先登录上官网，在自己套餐下面导入clash才能用</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/04/30/%E4%B8%80%E4%BA%9B%E8%AE%BE%E7%BD%AE%E8%AE%B0%E5%BD%95/" data-id="cli09rptz003k5ov37cgp6lw6" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/settings/" rel="tag">settings</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-daily-record" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/04/23/daily-record/" class="article-date">
-  <time datetime="2022-04-23T08:21:37.000Z" itemprop="datePublished">2022-04-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/04/23/daily-record/">daily-record</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="2022-4-23"><a href="#2022-4-23" class="headerlink" title="2022-4-23"></a>2022-4-23</h1><ol>
-<li>今天想看一下季风爆发年份和越赤道气流对不上的时候环流是什么样子的</li>
-</ol>
-<h1 id="2022-4-24"><a href="#2022-4-24" class="headerlink" title="2022-4-24"></a>2022-4-24</h1><ol>
-<li>绘制特殊季风爆发年份的环流</li>
-<li>学习python中main函数的文章，文章记录在python学习的那个里面了</li>
-<li>查找文章中的海温问题</li>
-<li>调图</li>
-</ol>
-<h1 id="2022-4-25"><a href="#2022-4-25" class="headerlink" title="2022-4-25"></a>2022-4-25</h1><p>昨日回顾：</p>
-<p>1、2、4都没有完成，今天继续</p>
-<p>海温的问题是没问题的，不用再管了</p>
-<p>读完了关于python中main函数的讲解，接下来调论文的图</p>
-<h1 id="2022-4-26"><a href="#2022-4-26" class="headerlink" title="2022-4-26"></a>2022-4-26</h1><p>昨天尝试了使用main函数对python脚本进行修改，还不错</p>
-<p>今天的任务有：</p>
-<ul>
-<li><input disabled="" type="checkbox"> 听听applemusic推的新歌</li>
-<li><input disabled="" type="checkbox"> 修图</li>
-<li><input disabled="" type="checkbox"> 学习python画图里面图例教程</li>
-<li><input disabled="" type="checkbox"> 整理关于画布的知识 plt.subpolt()</li>
-</ul>
-<h1 id="2022-5-3"><a href="#2022-5-3" class="headerlink" title="2022-5-3"></a>2022-5-3</h1><ul>
-<li><input disabled="" type="checkbox"> 修图</li>
-<li><input disabled="" type="checkbox"> 买的预设</li>
-<li><input disabled="" type="checkbox"> 看下今年的季风爆发</li>
-</ul>
-<h1 id="2022-5-4"><a href="#2022-5-4" class="headerlink" title="2022-5-4"></a>2022-5-4</h1><ul>
-<li><input disabled="" type="checkbox"> 论文图8关于观测资料的越赤道气流，我想不应该进行滤波，本来已经是候平均了，再check</li>
-</ul>
-<h1 id="2022-5-10"><a href="#2022-5-10" class="headerlink" title="2022-5-10"></a>2022-5-10</h1><p>今天做的事：</p>
-<ol>
-<li>把博士生答辩的PPT完成了</li>
-<li>1000跳绳+1公里</li>
-<li>正在看的<meteorology today> 进度：45&#x2F;678</li>
-</ol>
-<p>明天的打算：</p>
-<ol>
-<li>改文章</li>
-</ol>
-<p>码：</p>
-<ol>
-<li>《How does sea surface temperature drive the Intertropical Convergence Zone in the southern Indian Ocean?》这篇文章还挺有意思的，有时间可以看看</li>
-</ol>
-<p>小记：</p>
-<ol>
-<li>他妈的又打游戏了</li>
-</ol>
-<h1 id="2022-5-11"><a href="#2022-5-11" class="headerlink" title="2022-5-11"></a>2022-5-11</h1><p>今天做的事：</p>
-<ol>
-<li>修改了文章</li>
-<li>开题相关事宜</li>
-<li>学了一节ps</li>
-<li>正在看的<meteorology today> 进度：48&#x2F;678</li>
-</ol>
-<p>明天的打算：</p>
-<ol>
-<li>改文章</li>
-</ol>
-<p>码：</p>
-<ol>
-<li>知乎上收藏的修改五官的</li>
-</ol>
-<h1 id="2022-5-12"><a href="#2022-5-12" class="headerlink" title="2022-5-12"></a>2022-5-12</h1><p>今天想做的事：</p>
-<ul>
-<li><p><input checked="" disabled="" type="checkbox"> 
-写一会oneapi的科普文章</p>
-</li>
-<li><p><input checked="" disabled="" type="checkbox"> 
-修改降水的hov图，在上面添加上风场</p>
-</li>
-</ul>
-<p>今天做的事</p>
-<ol>
-<li><p>正在看的<meteorology today> 进度：54&#x2F;678</p>
-</li>
-<li><p>正在看的&lt;持续焦虑&gt; 进度：92&#x2F;334</p>
-</li>
-<li><p>cam5 文档 进度：18&#x2F;289</p>
-</li>
-</ol>
-<p>明天的打算：</p>
-<p>上午改PPT，发邮件选主席</p>
-<p>最近要做的事：</p>
-<p>记得那个无印度大陆和海洋性大陆的实验</p>
-<p>用气候态的模式重新跑实验，F2000，和FHIST对比</p>
-<h1 id="2022-5-13"><a href="#2022-5-13" class="headerlink" title="2022-5-13"></a>2022-5-13</h1><p>今天要做的事：</p>
-<ul>
-<li><input disabled="" type="checkbox"> 提交气候态的实验</li>
-<li><input disabled="" type="checkbox"> 写一会开题报告</li>
-<li><input disabled="" type="checkbox"> 处理开题方面的杂事</li>
-</ul>
-<p>今天做的事：</p>
-<ol>
-<li>写了一会开题报告 进度：10%</li>
-<li>提交了控制实验（F2000)</li>
-</ol>
-<p>想做的事：</p>
-<ol>
-<li>如何查看现成的python包里面某个函数的代码呢？</li>
-<li>每天学学fortran？</li>
-<li>学习一下grep函数</li>
-<li>今天我下了本气候统计的书</li>
-</ol>
-<h1 id="2022-5-14"><a href="#2022-5-14" class="headerlink" title="2022-5-14"></a>2022-5-14</h1><p>今天做的事：</p>
-<ol>
-<li>持续焦虑阅读， 进度：112</li>
-<li>写开题稿子</li>
-</ol>
-<p>今天想做的事：</p>
-<p>提交一个敏感性实验</p>
-<p>最近想做的事：</p>
-<p>用树莓派下载era5，搭建一个小站</p>
-<p>学习notion，据说是个很厉害的笔记软件</p>
-<h1 id="2022-5-15"><a href="#2022-5-15" class="headerlink" title="2022-5-15"></a>2022-5-15</h1><p>最近想做的事： </p>
-<p>阅读一下吴老师的全型涡度方程的推导，看下为什么是βv？</p>
-<p>今天做的事：</p>
-<ol>
-<li>写完了发言稿</li>
-<li>提交了f2000的五印度大陆实验</li>
-<li>跳了1000绳</li>
-</ol>
-<h1 id="2022-5-16"><a href="#2022-5-16" class="headerlink" title="2022-5-16"></a>2022-5-16</h1><p>今天要做的事：</p>
-<ol>
-<li>看完第一个cesm tuorial的视频</li>
-</ol>
-<p>最近想做的事：</p>
-<p>我发现ncar还提供fortran教程，真牛逼。有时间去学了</p>
-<h1 id="2022-5-17"><a href="#2022-5-17" class="headerlink" title="2022-5-17"></a>2022-5-17</h1><p>今天要做的事：</p>
-<p>开题PPT</p>
-<p>下午栾师姐答辩</p>
-<h1 id="2022-5-19"><a href="#2022-5-19" class="headerlink" title="2022-5-19"></a>2022-5-19</h1><p>今天做的事：</p>
-<ol>
-<li>把考核表填了 √</li>
-<li>把开题报告全文写了 50%</li>
-<li>整理实验 √</li>
-<li>清理C盘 √</li>
-<li>给gitbash安装上了rsync</li>
-</ol>
-<h1 id="2022-5-20"><a href="#2022-5-20" class="headerlink" title="2022-5-20"></a>2022-5-20</h1><p>今天要做的事：</p>
-<ol>
-<li>设置一下内网穿透</li>
-<li>把开题报告全文写了</li>
-<li>学了一会fortran</li>
-</ol>
-<h1 id="2022-5-21"><a href="#2022-5-21" class="headerlink" title="2022-5-21"></a>2022-5-21</h1><ol>
-<li>对于f2000已完成的两组实验进行后处理</li>
-<li>一个小时fortran</li>
-<li>提交一组实验(无印度大陆and中南半岛) √</li>
-<li>改文章</li>
-</ol>
-<h1 id="2022-5-22"><a href="#2022-5-22" class="headerlink" title="2022-5-22"></a>2022-5-22</h1><ol>
-<li>文章图改完了</li>
-<li>文章改完了</li>
-</ol>
-<h1 id="2022-5-23"><a href="#2022-5-23" class="headerlink" title="2022-5-23"></a>2022-5-23</h1><p>今天要做的事：</p>
-<ol>
-<li>审完文章 √</li>
-<li>开题杂事 √</li>
-</ol>
-<p>今天读书进度：</p>
-<p>meteorology today  进度：59&#x2F;678</p>
-<h1 id="2022-5-24"><a href="#2022-5-24" class="headerlink" title="2022-5-24"></a>2022-5-24</h1><p>今天要做的事：</p>
-<ol>
-<li>测试B1850实验</li>
-</ol>
-<h1 id="2022-5-25"><a href="#2022-5-25" class="headerlink" title="2022-5-25"></a>2022-5-25</h1><p>今天做的事：</p>
-<ol>
-<li>处理数据的下载</li>
-<li>阅读文献 海洋性大陆的综述</li>
-<li>阅读《meteorology today》一个小时 √</li>
-<li>看看cesm的guide，主要是解决branch实验的操作</li>
-<li>绘制f2000的结果看看 √</li>
-</ol>
-<h1 id="2022-5-27"><a href="#2022-5-27" class="headerlink" title="2022-5-27"></a>2022-5-27</h1><ol>
-<li>阅读 meteorology today</li>
-<li>修改文章</li>
-</ol>
-<h1 id="2022-5-31"><a href="#2022-5-31" class="headerlink" title="2022-5-31"></a>2022-5-31</h1><ol>
-<li>使用模式数据看下纬向反差</li>
-</ol>
-<h1 id="2022-6-2"><a href="#2022-6-2" class="headerlink" title="2022-6-2"></a>2022-6-2</h1><ol>
-<li>把文章格式弄完</li>
-</ol>
-<h1 id="2022-6-6"><a href="#2022-6-6" class="headerlink" title="2022-6-6"></a>2022-6-6</h1><ol>
-<li>尝试修改ic文件，无果</li>
-<li>学习使用wsl代理连接clash翻墙</li>
-<li>试一试cesm2.2+mom6</li>
-</ol>
-<h1 id="2022-6-9"><a href="#2022-6-9" class="headerlink" title="2022-6-9"></a>2022-6-9</h1><ol>
-<li>在lym服务器上配置耦合模式</li>
-</ol>
-<h1 id="2022-6-10"><a href="#2022-6-10" class="headerlink" title="2022-6-10"></a>2022-6-10</h1><ol>
-<li>使用gx1v6格式再做一遍</li>
-</ol>
-<h1 id="2022-6-14"><a href="#2022-6-14" class="headerlink" title="2022-6-14"></a>2022-6-14</h1><p>今天要做的事：</p>
-<ol>
-<li>更换格点的海陆分布，注意河流的map文件</li>
-<li>测试B1850MOM的continue run √</li>
-<li>阅读海洋性大陆的文章</li>
-<li>修图 √</li>
-<li>新格点的地形实验 √ </li>
-<li>制作后处理文件的脚本 √</li>
-</ol>
-<h1 id="2022-6-15"><a href="#2022-6-15" class="headerlink" title="2022-6-15"></a>2022-6-15</h1><p>今天要做的事：</p>
-<ol>
-<li>新格点的海陆分布实验</li>
-</ol>
-<h1 id="2022-6-21"><a href="#2022-6-21" class="headerlink" title="2022-6-21"></a>2022-6-21</h1><p>今天要做的事：</p>
-<ol>
-<li>画一下环流图看看</li>
-</ol>
-<h1 id="2022-6-24"><a href="#2022-6-24" class="headerlink" title="2022-6-24"></a>2022-6-24</h1><ol>
-<li>把海洋性大陆实验给做了</li>
-</ol>
-<h1 id="2022-6-25"><a href="#2022-6-25" class="headerlink" title="2022-6-25"></a>2022-6-25</h1><ol>
-<li>学一个半小时MPAS</li>
-</ol>
-<h1 id="2022-6-26"><a href="#2022-6-26" class="headerlink" title="2022-6-26"></a>2022-6-26</h1><ol>
-<li>模式又断了。。。试试hybrid重启吧</li>
-</ol>
-<p>日记：</p>
-<p>今天活得迷迷糊糊的，又沉溺于模式的困境中，从而忽视了去把自己的生活好好安排。我想自己所欠缺的就是“心的力量”，不仅是我控制不住去打游戏，或者做别的，还包括我控制不住自己不能安排好工作和休息的时间，这是我缺乏新的力量的一体两面。静下来，去感悟生命。</p>
-<h1 id="2022-6-27"><a href="#2022-6-27" class="headerlink" title="2022-6-27"></a>2022-6-27</h1><ol>
-<li>审文章</li>
-<li>新提交的hybrid实验没有去除地形，这里需要把地形给去了</li>
-<li>研究一下暖池实验</li>
-</ol>
-<h1 id="2022-6-28"><a href="#2022-6-28" class="headerlink" title="2022-6-28"></a>2022-6-28</h1><ol>
-<li>看一下各个实验的spin up情况</li>
-</ol>
-<h1 id="2022-6-29"><a href="#2022-6-29" class="headerlink" title="2022-6-29"></a>2022-6-29</h1><ol>
-<li>各个实验的spin up情况 脚本未完成</li>
-<li>学习GitHub <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=RGOj5yH7evk">(130) Git and GitHub for Beginners - Crash Course - YouTube</a></li>
-</ol>
-<h1 id="2022-6-30"><a href="#2022-6-30" class="headerlink" title="2022-6-30"></a>2022-6-30</h1><ol>
-<li>完成sinup脚本</li>
-<li>学习GitHub</li>
-</ol>
-<h1 id="2022-7-2"><a href="#2022-7-2" class="headerlink" title="2022-7-2"></a>2022-7-2</h1><ol>
-<li>学习github</li>
-<li>吴老师录音</li>
-</ol>
-<p>summary:</p>
-<p>github 还没完全弄明白，需要接着弄</p>
-<h1 id="2022-7-3"><a href="#2022-7-3" class="headerlink" title="2022-7-3"></a>2022-7-3</h1><ol>
-<li><p>control实验跑了一百年了，现在开始正式实验</p>
-</li>
-<li><p>查看spinup情况</p>
-</li>
-<li><p>绘图：经向垂直剖面的——纬向风叠加海温</p>
-</li>
-</ol>
-<h1 id="2022-7-6"><a href="#2022-7-6" class="headerlink" title="2022-7-6"></a>2022-7-6</h1><ol>
-<li>整理一下实验现状</li>
-</ol>
-<h1 id="2022-7-10"><a href="#2022-7-10" class="headerlink" title="2022-7-10"></a>2022-7-10</h1><ol>
-<li>整理实验</li>
-<li>今日学习wrf</li>
-</ol>
-<h1 id="2022-7-11"><a href="#2022-7-11" class="headerlink" title="2022-7-11"></a>2022-7-11</h1><ol>
-<li>整理实验</li>
-<li>给lxl翻墙</li>
-<li>结婚致辞</li>
-<li>comment</li>
-</ol>
-<h1 id="2022-7-13"><a href="#2022-7-13" class="headerlink" title="2022-7-13"></a>2022-7-13</h1><ol>
-<li>绘制吴老师要求的图</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/04/23/daily-record/" data-id="cli09rpta001l5ov3bwtka9m8" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-日常记录" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/04/22/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/" class="article-date">
-  <time datetime="2022-04-22T13:42:59.000Z" itemprop="datePublished">2022-04-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/04/22/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="2022-x2F-4-x2F-22"><a href="#2022-x2F-4-x2F-22" class="headerlink" title="2022&#x2F;4&#x2F;22"></a>2022&#x2F;4&#x2F;22</h1><p>处理了一些数据，还差同时去除印度大陆和中南半岛的实验数据没有跑出来。我打开服务器一看，好家伙两个都停掉了，估计是服务器重启了吧？不过这倒是给了我重新开始实验的实践机会，我注意到如果是一次跑两年的，在第二年的时候断了的话，continue run还是从第一年开始跑，即便已经生成了第二年的initial文件。</p>
-<p>下午读了一篇文献，关于CESM2来做季节内预测的，我感觉很有意思，目前还没有读完，不过里面的设置确实是很繁琐，如果我能移过来做季风爆发的预测，那确实是一个了不起的工作。</p>
-<blockquote>
-<p> Richter J H, Glanville A A, Edwards J, et al. Subseasonal Earth system prediction with CESM2[J]. Weather and Forecasting, 2022.</p>
-</blockquote>
-<p>最近几天不知道为什么好累，我需要好好休息。</p>
-<h1 id="2022-x2F-8-x2F-21"><a href="#2022-x2F-8-x2F-21" class="headerlink" title="2022&#x2F;8&#x2F;21"></a>2022&#x2F;8&#x2F;21</h1><ol>
-<li>把暑期关于海温的形成及后续影响的工作整理一下</li>
-</ol>
-<h1 id="2022-x2F-8-x2F-22"><a href="#2022-x2F-8-x2F-22" class="headerlink" title="2022&#x2F;8&#x2F;22"></a>2022&#x2F;8&#x2F;22</h1><ol>
-<li>处理一下indian实验的模式输出文件</li>
-</ol>
-<h1 id="2022-x2F-8-x2F-30"><a href="#2022-x2F-8-x2F-30" class="headerlink" title="2022&#x2F;8&#x2F;30"></a>2022&#x2F;8&#x2F;30</h1><ol>
-<li><p>提交了第二次中南半岛替换实验，实验名为b1850_tx_inch_o2_220830</p>
-</li>
-<li><p>把sun里面的fhist替换实验给压缩了转移出去</p>
-</li>
-<li><p>提交重新跑的海洋性大陆实验</p>
-</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/04/22/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/" data-id="cli09rpu8004m5ov3fzl4eozm" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%97%A5%E8%AE%B0/" rel="tag">日记</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -1257,7 +995,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CESM/" rel="tag">CESM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CESM2/" rel="tag">CESM2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Julia/" rel="tag">Julia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML/" rel="tag">ML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PS/" rel="tag">PS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reading/" rel="tag">Reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer/" rel="tag">computer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data/" rel="tag">data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/esp32/" rel="tag">esp32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/knowledge-base/" rel="tag">knowledge base</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-command/" rel="tag">linux command</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macOS/" rel="tag">macOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/other/" rel="tag">other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/" rel="tag">read</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading-record/" rel="tag">reading record</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/settings/" rel="tag">settings</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/statistics/" rel="tag">statistics</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/website/" rel="tag">website</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/writing/" rel="tag">writing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%84%E5%BD%B1/" rel="tag">摄影</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E9%9A%9C/" rel="tag">故障</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E5%AD%A6/" rel="tag">文学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E8%AE%B0/" rel="tag">日记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%AE%B0/" rel="tag">杂记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B0%94%E8%B1%A1/" rel="tag">气象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%81/" rel="tag">码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E6%99%AE%E7%9F%A5%E8%AF%86/" rel="tag">科普知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/" rel="tag">科研记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag">计算机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E6%96%87%E7%8C%AE/" rel="tag">读文献</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%85%E6%80%9D/" rel="tag">雅思</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CESM/" rel="tag">CESM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CESM2/" rel="tag">CESM2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Julia/" rel="tag">Julia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML/" rel="tag">ML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PS/" rel="tag">PS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reading/" rel="tag">Reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer/" rel="tag">computer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data/" rel="tag">data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/esp32/" rel="tag">esp32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/history/" rel="tag">history</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/knowledge-base/" rel="tag">knowledge base</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-command/" rel="tag">linux command</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macOS/" rel="tag">macOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/other/" rel="tag">other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/" rel="tag">read</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading-record/" rel="tag">reading record</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/settings/" rel="tag">settings</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/statistics/" rel="tag">statistics</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/website/" rel="tag">website</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/writing/" rel="tag">writing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%84%E5%BD%B1/" rel="tag">摄影</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E9%9A%9C/" rel="tag">故障</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E5%AD%A6/" rel="tag">文学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E8%AE%B0/" rel="tag">日记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%AE%B0/" rel="tag">杂记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B0%94%E8%B1%A1/" rel="tag">气象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%81/" rel="tag">码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E6%99%AE%E7%9F%A5%E8%AF%86/" rel="tag">科普知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/" rel="tag">科研记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag">计算机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E6%96%87%E7%8C%AE/" rel="tag">读文献</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%85%E6%80%9D/" rel="tag">雅思</a></li></ul>
     </div>
   </div>
 
@@ -1267,7 +1005,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CESM/" style="font-size: 18px;">CESM</a> <a href="/tags/CESM2/" style="font-size: 14px;">CESM2</a> <a href="/tags/English/" style="font-size: 12px;">English</a> <a href="/tags/Julia/" style="font-size: 10px;">Julia</a> <a href="/tags/ML/" style="font-size: 10px;">ML</a> <a href="/tags/PS/" style="font-size: 10px;">PS</a> <a href="/tags/Reading/" style="font-size: 10px;">Reading</a> <a href="/tags/computer/" style="font-size: 16px;">computer</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/esp32/" style="font-size: 10px;">esp32</a> <a href="/tags/git/" style="font-size: 14px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/knowledge-base/" style="font-size: 10px;">knowledge base</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/linux-command/" style="font-size: 10px;">linux command</a> <a href="/tags/mac/" style="font-size: 14px;">mac</a> <a href="/tags/macOS/" style="font-size: 10px;">macOS</a> <a href="/tags/other/" style="font-size: 10px;">other</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/read/" style="font-size: 10px;">read</a> <a href="/tags/reading-record/" style="font-size: 10px;">reading record</a> <a href="/tags/settings/" style="font-size: 10px;">settings</a> <a href="/tags/statistics/" style="font-size: 12px;">statistics</a> <a href="/tags/website/" style="font-size: 10px;">website</a> <a href="/tags/writing/" style="font-size: 10px;">writing</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">学习笔记</a> <a href="/tags/%E6%91%84%E5%BD%B1/" style="font-size: 14px;">摄影</a> <a href="/tags/%E6%95%85%E9%9A%9C/" style="font-size: 10px;">故障</a> <a href="/tags/%E6%96%87%E5%AD%A6/" style="font-size: 10px;">文学</a> <a href="/tags/%E6%97%A5%E8%AE%B0/" style="font-size: 10px;">日记</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%B0%94%E8%B1%A1/" style="font-size: 10px;">气象</a> <a href="/tags/%E7%A0%81/" style="font-size: 10px;">码</a> <a href="/tags/%E7%A7%91%E6%99%AE%E7%9F%A5%E8%AF%86/" style="font-size: 10px;">科普知识</a> <a href="/tags/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/" style="font-size: 10px;">科研记录</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" style="font-size: 12px;">计算机</a> <a href="/tags/%E8%AE%B0%E5%BD%95/" style="font-size: 12px;">记录</a> <a href="/tags/%E8%AF%BB%E6%96%87%E7%8C%AE/" style="font-size: 10px;">读文献</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%85%E6%80%9D/" style="font-size: 10px;">雅思</a>
+      <a href="/tags/CESM/" style="font-size: 18px;">CESM</a> <a href="/tags/CESM2/" style="font-size: 14px;">CESM2</a> <a href="/tags/English/" style="font-size: 12px;">English</a> <a href="/tags/Julia/" style="font-size: 10px;">Julia</a> <a href="/tags/ML/" style="font-size: 10px;">ML</a> <a href="/tags/PS/" style="font-size: 10px;">PS</a> <a href="/tags/Reading/" style="font-size: 10px;">Reading</a> <a href="/tags/computer/" style="font-size: 16px;">computer</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/esp32/" style="font-size: 10px;">esp32</a> <a href="/tags/git/" style="font-size: 14px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/history/" style="font-size: 10px;">history</a> <a href="/tags/knowledge-base/" style="font-size: 10px;">knowledge base</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/linux-command/" style="font-size: 10px;">linux command</a> <a href="/tags/mac/" style="font-size: 14px;">mac</a> <a href="/tags/macOS/" style="font-size: 10px;">macOS</a> <a href="/tags/other/" style="font-size: 12px;">other</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/read/" style="font-size: 10px;">read</a> <a href="/tags/reading-record/" style="font-size: 10px;">reading record</a> <a href="/tags/settings/" style="font-size: 10px;">settings</a> <a href="/tags/statistics/" style="font-size: 12px;">statistics</a> <a href="/tags/website/" style="font-size: 10px;">website</a> <a href="/tags/writing/" style="font-size: 10px;">writing</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">学习笔记</a> <a href="/tags/%E6%91%84%E5%BD%B1/" style="font-size: 14px;">摄影</a> <a href="/tags/%E6%95%85%E9%9A%9C/" style="font-size: 10px;">故障</a> <a href="/tags/%E6%96%87%E5%AD%A6/" style="font-size: 10px;">文学</a> <a href="/tags/%E6%97%A5%E8%AE%B0/" style="font-size: 10px;">日记</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%B0%94%E8%B1%A1/" style="font-size: 10px;">气象</a> <a href="/tags/%E7%A0%81/" style="font-size: 10px;">码</a> <a href="/tags/%E7%A7%91%E6%99%AE%E7%9F%A5%E8%AF%86/" style="font-size: 10px;">科普知识</a> <a href="/tags/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/" style="font-size: 10px;">科研记录</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" style="font-size: 12px;">计算机</a> <a href="/tags/%E8%AE%B0%E5%BD%95/" style="font-size: 12px;">记录</a> <a href="/tags/%E8%AF%BB%E6%96%87%E7%8C%AE/" style="font-size: 10px;">读文献</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%85%E6%80%9D/" style="font-size: 10px;">雅思</a>
     </div>
   </div>
 
@@ -1276,7 +1014,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">四月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">七月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">四月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">七月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li></ul>
     </div>
   </div>
 
@@ -1289,23 +1027,23 @@
       <ul>
         
           <li>
+            <a href="/2023/06/07/%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BDERA5%E6%95%B0%E6%8D%AE%E5%90%8E%E6%8C%91%E5%87%BA%E5%BC%82%E5%B8%B8%E6%96%87%E4%BB%B6/">批量下载ERA5数据后挑出异常文件</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/25/%E4%BD%BF%E7%94%A8foobar2000%E5%AF%B9DSD%E8%BF%9B%E8%A1%8C%E8%A7%A3%E7%A0%81/">使用foobar2000对DSD进行解码</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/24/%E6%AC%A7%E6%B4%B2%E5%8F%B2/">欧洲史</a>
+          </li>
+        
+          <li>
             <a href="/2023/05/24/%E5%88%A9%E7%94%A8cdo%E5%81%9A%E4%B8%80%E4%BA%9B%E8%AE%A1%E7%AE%97/">利用cdo做一些计算</a>
           </li>
         
           <li>
             <a href="/2023/05/23/README/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2023/05/23/C%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2023/05/06/VPS%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">VPS折腾记录</a>
-          </li>
-        
-          <li>
-            <a href="/2023/05/06/vps%E8%AE%B0%E5%BD%95/">vps记录</a>
           </li>
         
       </ul>

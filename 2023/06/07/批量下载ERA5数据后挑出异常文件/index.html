@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>批量下载ERA5数据后挑出异常文件 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="批量下载ERA5数据后挑出异常文件ERA5是气象科研中常用的一套再分析数据集，官网上提供了很多下载方法，其中使用python下载是较为简单方便的一种。但是出于对下载单个文件大小的限制，我们常常需要多次下载不同时次，不同变量的文件。如果下载的时间尺度很长，那么难免在下载中遇到一些奇怪的问题，譬如网络波动下载中断、下一半突然停止了…等等问题。这些下载失败的文件依然是保留在了当前路径，这样就难以从外表看">
+<meta property="og:type" content="article">
+<meta property="og:title" content="批量下载ERA5数据后挑出异常文件">
+<meta property="og:url" content="http://example.com/2023/06/07/%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BDERA5%E6%95%B0%E6%8D%AE%E5%90%8E%E6%8C%91%E5%87%BA%E5%BC%82%E5%B8%B8%E6%96%87%E4%BB%B6/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="批量下载ERA5数据后挑出异常文件ERA5是气象科研中常用的一套再分析数据集，官网上提供了很多下载方法，其中使用python下载是较为简单方便的一种。但是出于对下载单个文件大小的限制，我们常常需要多次下载不同时次，不同变量的文件。如果下载的时间尺度很长，那么难免在下载中遇到一些奇怪的问题，譬如网络波动下载中断、下一半突然停止了…等等问题。这些下载失败的文件依然是保留在了当前路径，这样就难以从外表看">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.z4a.net/images/2023/06/07/image.png">
+<meta property="og:image" content="https://www.z4a.net/images/2023/06/07/imagec399f1a4d067b22b.png">
+<meta property="article:published_time" content="2023-06-07T01:22:19.000Z">
+<meta property="article:modified_time" content="2023-06-07T01:35:11.891Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.z4a.net/images/2023/06/07/image.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-批量下载ERA5数据后挑出异常文件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/06/07/%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BDERA5%E6%95%B0%E6%8D%AE%E5%90%8E%E6%8C%91%E5%87%BA%E5%BC%82%E5%B8%B8%E6%96%87%E4%BB%B6/" class="article-date">
+  <time datetime="2023-06-07T01:22:19.000Z" itemprop="datePublished">2023-06-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      批量下载ERA5数据后挑出异常文件
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="批量下载ERA5数据后挑出异常文件"><a href="#批量下载ERA5数据后挑出异常文件" class="headerlink" title="批量下载ERA5数据后挑出异常文件"></a>批量下载ERA5数据后挑出异常文件</h1><p>ERA5是气象科研中常用的一套再分析数据集，官网上提供了很多下载方法，其中使用python下载是较为简单方便的一种。但是出于对下载单个文件大小的限制，我们常常需要多次下载不同时次，不同变量的文件。如果下载的时间尺度很长，那么难免在下载中遇到一些奇怪的问题，譬如网络波动下载中断、下一半突然停止了…等等问题。这些下载失败的文件依然是保留在了当前路径，这样就难以从外表看出谁是下载正常的文件，谁是下载失败的文件。本文介绍一个我琢磨出来的方法，可以挑出下载有问题的文件。</p>
+<h2 id="方法介绍"><a href="#方法介绍" class="headerlink" title="方法介绍"></a>方法介绍</h2><p>方法其实很简单，主要是利用了ncdump命令跟python的一些模块。</p>
+<p>首先，对于下载失败的文件，ncdump是无法获取其信息的，这里以一个下载有问题的文件举例：</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/VIcucn"><img src="https://www.z4a.net/images/2023/06/07/image.png" alt="image.png"></a></p>
+<p>ncdump无法识别文件格式。</p>
+<p>于是我想，如果我调用python里面和shell交互的模块，获取每个文件ncdump的信息，然后对于出现错误信息的文件名挑出来，不就好了吗？</p>
+<p>这里调用了python下的subprocess模块，示例代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"></span><br><span class="line">error_file = []</span><br><span class="line"><span class="keyword">for</span> ffff <span class="keyword">in</span> all_file:</span><br><span class="line">    cmd = <span class="string">&#x27;ncdump -h /home/sun/wd_disk/down_era5_multiple_3hour/&#x27;</span>+ffff</span><br><span class="line">    a, b = subprocess.getstatusoutput(cmd) <span class="comment"># a获取命令执行状态， b获取命令执行后输出</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;Unknown&#x27;</span> <span class="keyword">in</span> b:</span><br><span class="line">        error_file.append(ffff)</span><br><span class="line">        <span class="built_in">print</span>(ffff)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment">#print(&#x27;True&#x27;)</span></span><br><span class="line">        <span class="keyword">continue</span></span><br></pre></td></tr></table></figure>
+
+<p>这样，我们通过subprocess.getstatusoutput()得到ncdump后的结果，就可以根据错误信息把错误文件挑出来了，下边为代码执行结果，成功揪出所有bug文件~</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/VIcP69"><img src="https://www.z4a.net/images/2023/06/07/imagec399f1a4d067b22b.png" alt="imagec399f1a4d067b22b.png"></a></p>
+<p>我想这对于大批量下载ERA5数据的维护还是很有用的，分享给大家。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/06/07/%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BDERA5%E6%95%B0%E6%8D%AE%E5%90%8E%E6%8C%91%E5%87%BA%E5%BC%82%E5%B8%B8%E6%96%87%E4%BB%B6/" data-id="clil1fg8t0001lov38u9q6g3b" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2023/05/25/%E4%BD%BF%E7%94%A8foobar2000%E5%AF%B9DSD%E8%BF%9B%E8%A1%8C%E8%A7%A3%E7%A0%81/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用foobar2000对DSD进行解码</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/computer/">computer</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/model/">model</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%85%E9%9A%9C/">故障</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CESM/" rel="tag">CESM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CESM2/" rel="tag">CESM2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Julia/" rel="tag">Julia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML/" rel="tag">ML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PS/" rel="tag">PS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reading/" rel="tag">Reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer/" rel="tag">computer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data/" rel="tag">data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/esp32/" rel="tag">esp32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/history/" rel="tag">history</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/knowledge-base/" rel="tag">knowledge base</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-command/" rel="tag">linux command</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macOS/" rel="tag">macOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/other/" rel="tag">other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/" rel="tag">read</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading-record/" rel="tag">reading record</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/settings/" rel="tag">settings</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/statistics/" rel="tag">statistics</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/website/" rel="tag">website</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/writing/" rel="tag">writing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%84%E5%BD%B1/" rel="tag">摄影</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E9%9A%9C/" rel="tag">故障</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E5%AD%A6/" rel="tag">文学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E8%AE%B0/" rel="tag">日记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%AE%B0/" rel="tag">杂记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B0%94%E8%B1%A1/" rel="tag">气象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%81/" rel="tag">码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E6%99%AE%E7%9F%A5%E8%AF%86/" rel="tag">科普知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/" rel="tag">科研记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag">计算机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E6%96%87%E7%8C%AE/" rel="tag">读文献</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%85%E6%80%9D/" rel="tag">雅思</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CESM/" style="font-size: 18px;">CESM</a> <a href="/tags/CESM2/" style="font-size: 14px;">CESM2</a> <a href="/tags/English/" style="font-size: 12px;">English</a> <a href="/tags/Julia/" style="font-size: 10px;">Julia</a> <a href="/tags/ML/" style="font-size: 10px;">ML</a> <a href="/tags/PS/" style="font-size: 10px;">PS</a> <a href="/tags/Reading/" style="font-size: 10px;">Reading</a> <a href="/tags/computer/" style="font-size: 16px;">computer</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/esp32/" style="font-size: 10px;">esp32</a> <a href="/tags/git/" style="font-size: 14px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/history/" style="font-size: 10px;">history</a> <a href="/tags/knowledge-base/" style="font-size: 10px;">knowledge base</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/linux-command/" style="font-size: 10px;">linux command</a> <a href="/tags/mac/" style="font-size: 14px;">mac</a> <a href="/tags/macOS/" style="font-size: 10px;">macOS</a> <a href="/tags/other/" style="font-size: 12px;">other</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/read/" style="font-size: 10px;">read</a> <a href="/tags/reading-record/" style="font-size: 10px;">reading record</a> <a href="/tags/settings/" style="font-size: 10px;">settings</a> <a href="/tags/statistics/" style="font-size: 12px;">statistics</a> <a href="/tags/website/" style="font-size: 10px;">website</a> <a href="/tags/writing/" style="font-size: 10px;">writing</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">学习笔记</a> <a href="/tags/%E6%91%84%E5%BD%B1/" style="font-size: 14px;">摄影</a> <a href="/tags/%E6%95%85%E9%9A%9C/" style="font-size: 10px;">故障</a> <a href="/tags/%E6%96%87%E5%AD%A6/" style="font-size: 10px;">文学</a> <a href="/tags/%E6%97%A5%E8%AE%B0/" style="font-size: 10px;">日记</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%B0%94%E8%B1%A1/" style="font-size: 10px;">气象</a> <a href="/tags/%E7%A0%81/" style="font-size: 10px;">码</a> <a href="/tags/%E7%A7%91%E6%99%AE%E7%9F%A5%E8%AF%86/" style="font-size: 10px;">科普知识</a> <a href="/tags/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/" style="font-size: 10px;">科研记录</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" style="font-size: 12px;">计算机</a> <a href="/tags/%E8%AE%B0%E5%BD%95/" style="font-size: 12px;">记录</a> <a href="/tags/%E8%AF%BB%E6%96%87%E7%8C%AE/" style="font-size: 10px;">读文献</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%85%E6%80%9D/" style="font-size: 10px;">雅思</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">四月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">七月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/07/%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BDERA5%E6%95%B0%E6%8D%AE%E5%90%8E%E6%8C%91%E5%87%BA%E5%BC%82%E5%B8%B8%E6%96%87%E4%BB%B6/">批量下载ERA5数据后挑出异常文件</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/25/%E4%BD%BF%E7%94%A8foobar2000%E5%AF%B9DSD%E8%BF%9B%E8%A1%8C%E8%A7%A3%E7%A0%81/">使用foobar2000对DSD进行解码</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/24/%E6%AC%A7%E6%B4%B2%E5%8F%B2/">欧洲史</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/24/%E5%88%A9%E7%94%A8cdo%E5%81%9A%E4%B8%80%E4%BA%9B%E8%AE%A1%E7%AE%97/">利用cdo做一些计算</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/23/README/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>使用foobar2000对DSD进行解码 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="使用foobar2000实现对dsd文件的解码作为业余的hufi发烧友，偶尔也折腾音源文件。最近弄到了些dsd文件，但是苦于无法在电脑端播放，播放出来的码率也很低。因此萌生用软件解码dsd文件的想法，查了一些资料后设置成功。把设置过程记录在下面。  使用软件：foorbar2000 （优点：免费，可玩性自由度高，该有的功能都有； 缺点：自由度高带来的反面影响就是小白刚拿到手一脸茫然，比如我）  f">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用foobar2000对DSD进行解码">
+<meta property="og:url" content="http://example.com/2023/05/25/%E4%BD%BF%E7%94%A8foobar2000%E5%AF%B9DSD%E8%BF%9B%E8%A1%8C%E8%A7%A3%E7%A0%81/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="使用foobar2000实现对dsd文件的解码作为业余的hufi发烧友，偶尔也折腾音源文件。最近弄到了些dsd文件，但是苦于无法在电脑端播放，播放出来的码率也很低。因此萌生用软件解码dsd文件的想法，查了一些资料后设置成功。把设置过程记录在下面。  使用软件：foorbar2000 （优点：免费，可玩性自由度高，该有的功能都有； 缺点：自由度高带来的反面影响就是小白刚拿到手一脸茫然，比如我）  f">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.z4a.net/images/2023/05/25/image99383df5355da890.png">
+<meta property="og:image" content="https://www.z4a.net/images/2023/05/25/image16587186b160dde1.md.png">
+<meta property="og:image" content="https://www.z4a.net/images/2023/05/25/imageb73aeb8a36ee8483.md.png">
+<meta property="og:image" content="https://www.z4a.net/images/2023/05/25/image3c287fe3be9e1498.png">
+<meta property="og:image" content="https://www.z4a.net/images/2023/05/25/image4c40c59a8bc37814.png">
+<meta property="og:image" content="https://www.z4a.net/images/2023/05/25/image5192bb25e7ea9cf1.png">
+<meta property="og:image" content="https://www.z4a.net/images/2023/05/25/image04363da597313658.png">
+<meta property="og:image" content="https://www.z4a.net/images/2023/05/25/cea795bdfabcb516c32d2a0806aa9cf.jpg">
+<meta property="article:published_time" content="2023-05-25T02:38:46.000Z">
+<meta property="article:modified_time" content="2023-05-25T03:26:01.170Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="other">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.z4a.net/images/2023/05/25/image99383df5355da890.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-使用foobar2000对DSD进行解码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2023/05/25/%E4%BD%BF%E7%94%A8foobar2000%E5%AF%B9DSD%E8%BF%9B%E8%A1%8C%E8%A7%A3%E7%A0%81/" class="article-date">
+  <time datetime="2023-05-25T02:38:46.000Z" itemprop="datePublished">2023-05-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用foobar2000对DSD进行解码
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="使用foobar2000实现对dsd文件的解码"><a href="#使用foobar2000实现对dsd文件的解码" class="headerlink" title="使用foobar2000实现对dsd文件的解码"></a>使用foobar2000实现对dsd文件的解码</h1><p>作为业余的hufi发烧友，偶尔也折腾音源文件。最近弄到了些dsd文件，但是苦于无法在电脑端播放，播放出来的码率也很低。因此萌生用软件解码dsd文件的想法，查了一些资料后设置成功。把设置过程记录在下面。</p>
+<ul>
+<li><p>使用软件：foorbar2000 （优点：免费，可玩性自由度高，该有的功能都有； 缺点：自由度高带来的反面影响就是小白刚拿到手一脸茫然，比如我）</p>
+</li>
+<li><p>foobar2000 下载官网，官方版是英文的，国内很多发烧友搞了汉化版或者第三方定制有需求可以去搜搜。<a target="_blank" rel="noopener" href="https://www.foobar2000.org/">https://www.foobar2000.org/</a> </p>
+</li>
+<li><p>使用的DAC: Chord Hugo 2</p>
+<h2 id="hugo2-下载驱动"><a href="#hugo2-下载驱动" class="headerlink" title="hugo2 下载驱动"></a>hugo2 下载驱动</h2><p>hugo2直接连PC是需要下载驱动才可以使用的，windows的驱动下载地址：<a target="_blank" rel="noopener" href="https://chordelectronics.co.uk/wp-content/uploads/2017/01/Windows-10-768KHz-driver.zip">https://chordelectronics.co.uk/wp-content/uploads/2017/01/Windows-10-768KHz-driver.zip</a></p>
+</li>
+</ul>
+<h2 id="foobar2000的设置教程"><a href="#foobar2000的设置教程" class="headerlink" title="foobar2000的设置教程"></a>foobar2000的设置教程</h2><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ol>
+<li>在官网下载foobar2000安装好后，打开：File -&gt; Preference, 在component里面可以安装插件，解码dsd需要我们额外安装一些插件</li>
+</ol>
+<p>​		<a target="_blank" rel="noopener" href="https://www.z4a.net/image/VdFW7G"><img src="https://www.z4a.net/images/2023/05/25/image99383df5355da890.png" alt="image99383df5355da890.png"></a></p>
+<ol start="2">
+<li><p>我们需要安装一些额外的插件，插件下载地址：</p>
+<p><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/sacddecoder/">https://sourceforge.net/projects/sacddecoder/</a></p>
+<p>下载完解压后，在图1中点击Install，把下图的两个component加载进去</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/VdFQ8U"><img src="https://www.z4a.net/images/2023/05/25/image16587186b160dde1.md.png" alt="image16587186b160dde1.md.png"></a></p>
+</li>
+</ol>
+<p>​	加载成功后，点击apply提示重启软件，重启后插件会显示在里面：</p>
+<p>​	<a target="_blank" rel="noopener" href="https://www.z4a.net/image/VdFAkE"><img src="https://www.z4a.net/images/2023/05/25/imageb73aeb8a36ee8483.md.png" alt="imageb73aeb8a36ee8483.md.png"></a></p>
+<ol start="3">
+<li><p>安装asioproxyinstall</p>
+<p>链接：<a target="_blank" rel="noopener" href="https://sourceforge.net/projects/sacddecoder/files/foo_dsd_asio/">https://sourceforge.net/projects/sacddecoder/files/foo_dsd_asio/</a></p>
+<p>点击ASIOPrixyInstall-0.9.4 解压后是.exe文件，点击安装即可</p>
+</li>
+<li><p>安装foobar的插件<strong>foo_out_asio.fb2k-component</strong></p>
+</li>
+</ol>
+<p>​	<a target="_blank" rel="noopener" href="http://www.foobar2000.org/components">Download Link</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/VdF0BP"><img src="https://www.z4a.net/images/2023/05/25/image3c287fe3be9e1498.png" alt="image3c287fe3be9e1498.png"></a></p>
+<p>​	安装插件方法如步骤2</p>
+<h3 id="软件设置"><a href="#软件设置" class="headerlink" title="软件设置"></a>软件设置</h3><ol>
+<li><p>在设置中打开 Output -&gt; Device -&gt; 选择ASIO：foo_dsd_asio</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/VdF4KT"><img src="https://www.z4a.net/images/2023/05/25/image4c40c59a8bc37814.png" alt="image4c40c59a8bc37814.png"></a></p>
+</li>
+<li><p>点击output下方的ASIO，双击右边的foo_dsd_asio后在跳出来的界面选择asio driver，这里我选择的是Chord的驱动</p>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/VdFBjv"><img src="https://www.z4a.net/images/2023/05/25/image5192bb25e7ea9cf1.png" alt="image5192bb25e7ea9cf1.png"></a></p>
+<ol start="3">
+<li>点击SACD 选择DSD + PCM</li>
+</ol>
+<p>​		<a target="_blank" rel="noopener" href="https://www.z4a.net/image/VdFfuk"><img src="https://www.z4a.net/images/2023/05/25/image04363da597313658.png" alt="image04363da597313658.png"></a></p>
+<p>到此就设置完成了，播放一首dsd音乐，hugo2显示尊贵的白光，表明现在是解码的dsd。享受hufi吧少年~</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/VdFGyH"><img src="https://www.z4a.net/images/2023/05/25/cea795bdfabcb516c32d2a0806aa9cf.jpg" alt="cea795bdfabcb516c32d2a0806aa9cf.jpg"></a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/25/%E4%BD%BF%E7%94%A8foobar2000%E5%AF%B9DSD%E8%BF%9B%E8%A1%8C%E8%A7%A3%E7%A0%81/" data-id="clil1fg8o0000lov3a9sg17rv" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/other/" rel="tag">other</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/06/07/%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BDERA5%E6%95%B0%E6%8D%AE%E5%90%8E%E6%8C%91%E5%87%BA%E5%BC%82%E5%B8%B8%E6%96%87%E4%BB%B6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          批量下载ERA5数据后挑出异常文件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/05/24/%E6%AC%A7%E6%B4%B2%E5%8F%B2/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">欧洲史</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/computer/">computer</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/model/">model</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%85%E9%9A%9C/">故障</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CESM/" rel="tag">CESM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CESM2/" rel="tag">CESM2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Julia/" rel="tag">Julia</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ML/" rel="tag">ML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PS/" rel="tag">PS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reading/" rel="tag">Reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer/" rel="tag">computer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data/" rel="tag">data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/esp32/" rel="tag">esp32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/history/" rel="tag">history</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/knowledge-base/" rel="tag">knowledge base</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-command/" rel="tag">linux command</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macOS/" rel="tag">macOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/other/" rel="tag">other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/" rel="tag">read</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading-record/" rel="tag">reading record</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/settings/" rel="tag">settings</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/statistics/" rel="tag">statistics</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/website/" rel="tag">website</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/writing/" rel="tag">writing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag">学习笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%91%84%E5%BD%B1/" rel="tag">摄影</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E9%9A%9C/" rel="tag">故障</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E5%AD%A6/" rel="tag">文学</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%A5%E8%AE%B0/" rel="tag">日记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%AE%B0/" rel="tag">杂记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B0%94%E8%B1%A1/" rel="tag">气象</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%81/" rel="tag">码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E6%99%AE%E7%9F%A5%E8%AF%86/" rel="tag">科普知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/" rel="tag">科研记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag">计算机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%B0%E5%BD%95/" rel="tag">记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E6%96%87%E7%8C%AE/" rel="tag">读文献</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%85%E6%80%9D/" rel="tag">雅思</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CESM/" style="font-size: 18px;">CESM</a> <a href="/tags/CESM2/" style="font-size: 14px;">CESM2</a> <a href="/tags/English/" style="font-size: 12px;">English</a> <a href="/tags/Julia/" style="font-size: 10px;">Julia</a> <a href="/tags/ML/" style="font-size: 10px;">ML</a> <a href="/tags/PS/" style="font-size: 10px;">PS</a> <a href="/tags/Reading/" style="font-size: 10px;">Reading</a> <a href="/tags/computer/" style="font-size: 16px;">computer</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/esp32/" style="font-size: 10px;">esp32</a> <a href="/tags/git/" style="font-size: 14px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/history/" style="font-size: 10px;">history</a> <a href="/tags/knowledge-base/" style="font-size: 10px;">knowledge base</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/linux-command/" style="font-size: 10px;">linux command</a> <a href="/tags/mac/" style="font-size: 14px;">mac</a> <a href="/tags/macOS/" style="font-size: 10px;">macOS</a> <a href="/tags/other/" style="font-size: 12px;">other</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/read/" style="font-size: 10px;">read</a> <a href="/tags/reading-record/" style="font-size: 10px;">reading record</a> <a href="/tags/settings/" style="font-size: 10px;">settings</a> <a href="/tags/statistics/" style="font-size: 12px;">statistics</a> <a href="/tags/website/" style="font-size: 10px;">website</a> <a href="/tags/writing/" style="font-size: 10px;">writing</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">学习笔记</a> <a href="/tags/%E6%91%84%E5%BD%B1/" style="font-size: 14px;">摄影</a> <a href="/tags/%E6%95%85%E9%9A%9C/" style="font-size: 10px;">故障</a> <a href="/tags/%E6%96%87%E5%AD%A6/" style="font-size: 10px;">文学</a> <a href="/tags/%E6%97%A5%E8%AE%B0/" style="font-size: 10px;">日记</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%B0%94%E8%B1%A1/" style="font-size: 10px;">气象</a> <a href="/tags/%E7%A0%81/" style="font-size: 10px;">码</a> <a href="/tags/%E7%A7%91%E6%99%AE%E7%9F%A5%E8%AF%86/" style="font-size: 10px;">科普知识</a> <a href="/tags/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/" style="font-size: 10px;">科研记录</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" style="font-size: 12px;">计算机</a> <a href="/tags/%E8%AE%B0%E5%BD%95/" style="font-size: 12px;">记录</a> <a href="/tags/%E8%AF%BB%E6%96%87%E7%8C%AE/" style="font-size: 10px;">读文献</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%85%E6%80%9D/" style="font-size: 10px;">雅思</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">六月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">四月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">十月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">七月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/06/07/%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BDERA5%E6%95%B0%E6%8D%AE%E5%90%8E%E6%8C%91%E5%87%BA%E5%BC%82%E5%B8%B8%E6%96%87%E4%BB%B6/">批量下载ERA5数据后挑出异常文件</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/25/%E4%BD%BF%E7%94%A8foobar2000%E5%AF%B9DSD%E8%BF%9B%E8%A1%8C%E8%A7%A3%E7%A0%81/">使用foobar2000对DSD进行解码</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/24/%E6%AC%A7%E6%B4%B2%E5%8F%B2/">欧洲史</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/24/%E5%88%A9%E7%94%A8cdo%E5%81%9A%E4%B8%80%E4%BA%9B%E8%AE%A1%E7%AE%97/">利用cdo做一些计算</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/23/README/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
