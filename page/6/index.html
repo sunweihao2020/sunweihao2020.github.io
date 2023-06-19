@@ -64,6 +64,48 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-config配置ssh登录" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/08/30/config%E9%85%8D%E7%BD%AEssh%E7%99%BB%E5%BD%95/" class="article-date">
+  <time datetime="2022-08-30T06:29:34.000Z" itemprop="datePublished">2022-08-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/08/30/config%E9%85%8D%E7%BD%AEssh%E7%99%BB%E5%BD%95/">config配置ssh登录</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>记录一下在mac命令行里配置ssh config文件的经验，顺便也是学习一下网络知识。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://www.tecmint.com/configure-custom-ssh-connection-in-linux/">https://www.tecmint.com/configure-custom-ssh-connection-in-linux/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.techrepublic.com/article/how-to-use-an-ssh-config-file-on-macos-for-easier-connections-to-your-data-center-servers/">https://www.techrepublic.com/article/how-to-use-an-ssh-config-file-on-macos-for-easier-connections-to-your-data-center-servers/</a></p>
+<p><img src="https://tva1.sinaimg.cn/large/e6c9d24egy1h5ospc450uj20nw04p3z5.jpg"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/08/30/config%E9%85%8D%E7%BD%AEssh%E7%99%BB%E5%BD%95/" data-id="cli09rptb001p5ov3gifc8zoz" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mac/" rel="tag">mac</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-mac设置免密登陆" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2022/08/29/mac%E8%AE%BE%E7%BD%AE%E5%85%8D%E5%AF%86%E7%99%BB%E9%99%86/" class="article-date">
@@ -540,51 +582,6 @@
 
 
   
-    <article id="post-使用CESM进行孟加拉湾的海温敏感性实验" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/08/18/%E4%BD%BF%E7%94%A8CESM%E8%BF%9B%E8%A1%8C%E5%AD%9F%E5%8A%A0%E6%8B%89%E6%B9%BE%E7%9A%84%E6%B5%B7%E6%B8%A9%E6%95%8F%E6%84%9F%E6%80%A7%E5%AE%9E%E9%AA%8C/" class="article-date">
-  <time datetime="2022-08-18T09:10:47.000Z" itemprop="datePublished">2022-08-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/08/18/%E4%BD%BF%E7%94%A8CESM%E8%BF%9B%E8%A1%8C%E5%AD%9F%E5%8A%A0%E6%8B%89%E6%B9%BE%E7%9A%84%E6%B5%B7%E6%B8%A9%E6%95%8F%E6%84%9F%E6%80%A7%E5%AE%9E%E9%AA%8C/">使用CESM进行孟加拉湾的海温敏感性实验</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这篇笔记想记录一下修改下垫面的海温来看看对季风爆发的影响，我觉得局部的海温暖轴对季风爆发的影响并不是决定的，因此在这个实验中我将对孟加拉湾区域的海温替换为区域平均值，看看季风爆发的日期是否会有变化。</p>
-<h1 id="控制实验"><a href="#控制实验" class="headerlink" title="控制实验"></a>控制实验</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case fhist_control_220818 --res f09_g17 --compset FHIST --run-unsupported --compiler intel --mach oneapi</span><br><span class="line">cd fhist_control_220818</span><br><span class="line">./xmlchange NTASKS=-20 </span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=10</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br><span class="line">./case.setup </span><br></pre></td></tr></table></figure>
-
-<p>查询到海温的文件为：</p>
-<p>&#x2F;public1&#x2F;home&#x2F;wgx&#x2F;swh&#x2F;cesm2.1.3&#x2F;inputdata&#x2F;atm&#x2F;cam&#x2F;sst&#x2F;sst_HadOIBl_bc_1x1_1850_2017_c180507.nc</p>
-<p>总共是2016个时间段，是1850-2017年的</p>
-<p>咨询阿汤说是修改文件中的 SST_cpl</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/08/18/%E4%BD%BF%E7%94%A8CESM%E8%BF%9B%E8%A1%8C%E5%AD%9F%E5%8A%A0%E6%8B%89%E6%B9%BE%E7%9A%84%E6%B5%B7%E6%B8%A9%E6%95%8F%E6%84%9F%E6%80%A7%E5%AE%9E%E9%AA%8C/" data-id="cli09rpu0003o5ov374wj2ymg" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CESM/" rel="tag">CESM</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -620,7 +617,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CESM/" style="font-size: 18px;">CESM</a> <a href="/tags/CESM2/" style="font-size: 14px;">CESM2</a> <a href="/tags/English/" style="font-size: 12px;">English</a> <a href="/tags/Julia/" style="font-size: 10px;">Julia</a> <a href="/tags/ML/" style="font-size: 10px;">ML</a> <a href="/tags/PS/" style="font-size: 10px;">PS</a> <a href="/tags/Reading/" style="font-size: 10px;">Reading</a> <a href="/tags/computer/" style="font-size: 16px;">computer</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/esp32/" style="font-size: 10px;">esp32</a> <a href="/tags/git/" style="font-size: 14px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/history/" style="font-size: 10px;">history</a> <a href="/tags/knowledge-base/" style="font-size: 10px;">knowledge base</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/linux-command/" style="font-size: 10px;">linux command</a> <a href="/tags/mac/" style="font-size: 14px;">mac</a> <a href="/tags/macOS/" style="font-size: 10px;">macOS</a> <a href="/tags/other/" style="font-size: 12px;">other</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/read/" style="font-size: 10px;">read</a> <a href="/tags/reading-record/" style="font-size: 10px;">reading record</a> <a href="/tags/settings/" style="font-size: 10px;">settings</a> <a href="/tags/statistics/" style="font-size: 12px;">statistics</a> <a href="/tags/website/" style="font-size: 10px;">website</a> <a href="/tags/writing/" style="font-size: 10px;">writing</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">学习笔记</a> <a href="/tags/%E6%91%84%E5%BD%B1/" style="font-size: 14px;">摄影</a> <a href="/tags/%E6%95%85%E9%9A%9C/" style="font-size: 10px;">故障</a> <a href="/tags/%E6%96%87%E5%AD%A6/" style="font-size: 10px;">文学</a> <a href="/tags/%E6%97%A5%E8%AE%B0/" style="font-size: 10px;">日记</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%B0%94%E8%B1%A1/" style="font-size: 10px;">气象</a> <a href="/tags/%E7%A0%81/" style="font-size: 10px;">码</a> <a href="/tags/%E7%A7%91%E6%99%AE%E7%9F%A5%E8%AF%86/" style="font-size: 10px;">科普知识</a> <a href="/tags/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/" style="font-size: 10px;">科研记录</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" style="font-size: 12px;">计算机</a> <a href="/tags/%E8%AE%B0%E5%BD%95/" style="font-size: 12px;">记录</a> <a href="/tags/%E8%AF%BB%E6%96%87%E7%8C%AE/" style="font-size: 10px;">读文献</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%85%E6%80%9D/" style="font-size: 10px;">雅思</a>
+      <a href="/tags/CESM/" style="font-size: 18.33px;">CESM</a> <a href="/tags/CESM2/" style="font-size: 13.33px;">CESM2</a> <a href="/tags/English/" style="font-size: 11.67px;">English</a> <a href="/tags/Julia/" style="font-size: 10px;">Julia</a> <a href="/tags/ML/" style="font-size: 10px;">ML</a> <a href="/tags/PS/" style="font-size: 10px;">PS</a> <a href="/tags/Reading/" style="font-size: 10px;">Reading</a> <a href="/tags/computer/" style="font-size: 16.67px;">computer</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/esp32/" style="font-size: 10px;">esp32</a> <a href="/tags/git/" style="font-size: 13.33px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/history/" style="font-size: 10px;">history</a> <a href="/tags/knowledge-base/" style="font-size: 10px;">knowledge base</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/linux-command/" style="font-size: 10px;">linux command</a> <a href="/tags/mac/" style="font-size: 13.33px;">mac</a> <a href="/tags/macOS/" style="font-size: 10px;">macOS</a> <a href="/tags/other/" style="font-size: 11.67px;">other</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/read/" style="font-size: 10px;">read</a> <a href="/tags/reading-record/" style="font-size: 10px;">reading record</a> <a href="/tags/settings/" style="font-size: 10px;">settings</a> <a href="/tags/statistics/" style="font-size: 11.67px;">statistics</a> <a href="/tags/website/" style="font-size: 10px;">website</a> <a href="/tags/writing/" style="font-size: 10px;">writing</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">学习笔记</a> <a href="/tags/%E6%91%84%E5%BD%B1/" style="font-size: 13.33px;">摄影</a> <a href="/tags/%E6%95%85%E9%9A%9C/" style="font-size: 10px;">故障</a> <a href="/tags/%E6%96%87%E5%AD%A6/" style="font-size: 10px;">文学</a> <a href="/tags/%E6%97%A5%E8%AE%B0/" style="font-size: 10px;">日记</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%B0%94%E8%B1%A1/" style="font-size: 10px;">气象</a> <a href="/tags/%E7%A0%81/" style="font-size: 10px;">码</a> <a href="/tags/%E7%A7%91%E6%99%AE%E7%9F%A5%E8%AF%86/" style="font-size: 10px;">科普知识</a> <a href="/tags/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/" style="font-size: 10px;">科研记录</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" style="font-size: 11.67px;">计算机</a> <a href="/tags/%E8%AE%B0%E5%BD%95/" style="font-size: 11.67px;">记录</a> <a href="/tags/%E8%AF%BB%E6%96%87%E7%8C%AE/" style="font-size: 10px;">读文献</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%85%E6%80%9D/" style="font-size: 10px;">雅思</a>
     </div>
   </div>
 
@@ -642,6 +639,10 @@
       <ul>
         
           <li>
+            <a href="/2023/06/19/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8C%82%E8%BD%BD%E7%A7%BB%E5%8A%A8%E7%A1%AC%E7%9B%98/">树莓派挂载移动硬盘</a>
+          </li>
+        
+          <li>
             <a href="/2023/06/07/%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BDERA5%E6%95%B0%E6%8D%AE%E5%90%8E%E6%8C%91%E5%87%BA%E5%BC%82%E5%B8%B8%E6%96%87%E4%BB%B6/">批量下载ERA5数据后挑出异常文件</a>
           </li>
         
@@ -655,10 +656,6 @@
         
           <li>
             <a href="/2023/05/24/%E5%88%A9%E7%94%A8cdo%E5%81%9A%E4%B8%80%E4%BA%9B%E8%AE%A1%E7%AE%97/">利用cdo做一些计算</a>
-          </li>
-        
-          <li>
-            <a href="/2023/05/23/README/">(no title)</a>
           </li>
         
       </ul>

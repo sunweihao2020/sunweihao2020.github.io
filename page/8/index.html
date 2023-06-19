@@ -64,6 +64,107 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-CESM2运行简明教程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/06/18/CESM2%E8%BF%90%E8%A1%8C%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/" class="article-date">
+  <time datetime="2022-06-18T06:13:44.000Z" itemprop="datePublished">2022-06-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/06/18/CESM2%E8%BF%90%E8%A1%8C%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/">CESM2运行简明教程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文以CESM2.2.0为例，结合自己平时使用的案例简单介绍一下CESM2运行的基本流程，因为本人也不算是模式方面的专家，如有遗漏请多包涵（抱拳）。</p>
+<h1 id="一般来说CESM2运行分为以下几个步骤："><a href="#一般来说CESM2运行分为以下几个步骤：" class="headerlink" title="一般来说CESM2运行分为以下几个步骤："></a>一般来说CESM2运行分为以下几个步骤：</h1><ol>
+<li>新建case</li>
+<li>设置使用核数、跑多少年、重新提交多少次、reset文件输出频次等设置</li>
+<li>修改各个分量的namelist（可选项）</li>
+<li>修改源代码（可选项）</li>
+<li>编译与提交</li>
+</ol>
+<p>下面我将分别对以上几步进行介绍</p>
+<h2 id="1-新建case"><a href="#1-新建case" class="headerlink" title="1.新建case"></a>1.新建case</h2><p>这里假定CESM2已经成功的安装到了电脑上，且config等文件都已经在$HOME&#x2F;.cime&#x2F;路径下面配置好了，那么新建case的脚本在</p>
+<p>{CESM_HOME}&#x2F;cime&#x2F;scripts 路径下 其中{CESM_HOME}是cesm2软件根目录所在的位置，该路径下的create_newcase即为运行创建case的脚本，关于此脚本详细的使用说明可以输入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --help</span><br></pre></td></tr></table></figure>
+
+<p>来进行查看。</p>
+<p>这里举一个示例来说明用法</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./create_newcase --case test_1 --res f09_t061 --compset B1850MOM --run-unsupported --compiler intel --mach oneapi</span><br></pre></td></tr></table></figure>
+
+<p>–case  后面跟的是你给这个case所取的名字，这里我取名为test1</p>
+<p>–res     告诉脚本你想给这个case使用什么样的分辨率，CESM2里面提供了各种各样的分辨率配置，所有的分辨率及详细介绍可见<a target="_blank" rel="noopener" href="https://www.cesm.ucar.edu/models/cesm2/config/grids.html">CESM2.2.0 Grid Resolution Definitions (ucar.edu)</a>常见情况是下划线前面是大气与陆面（这俩常用同一个）的格点，下划线后面是海洋的格点，这里我选用的是f09_t061，在前面的网页中搜索，结果如下，嗯大气与陆面大约是1°的分辨率，海洋分辨率大约是0.66°</p>
+<p><a target="_blank" rel="noopener" href="https://z4a.net/image/2n9VeP"><img src="https://z4a.net/images/2022/06/18/-2022-06-18-143543.md.png" alt="-2022-06-18-143543.md.png"></a></p>
+<p>–compset  命令是设置使用什么样的模式组合，CESM2软件本身给我们提供了多种多样的模式配置，很多时候我们进行试验只需要其中几个分量模式运转，亦或者想让所有分量模式都参与运转。比如有时候我们希望只跑陆气耦合实验，海洋模式让它不运转，或者我们想跑全耦合实验，等等配置通过设置compset的值我们可以达到目的，正如它的全称所示：compset &#x3D; component set。详细的compset介绍可见<a target="_blank" rel="noopener" href="https://www.cesm.ucar.edu/models/cesm2/config/compsets.html">CESM2.2.0 Component Sets Definitions (ucar.edu)</a>。通过缩略名的首字母我们可以判断在这个compset中有哪些模式参与了工作，这里引一张官方示意图</p>
+<p><a target="_blank" rel="noopener" href="https://z4a.net/image/2n9HYn"><img src="https://z4a.net/images/2022/06/18/-2022-06-18-144701.md.png" alt="-2022-06-18-144701.md.png"></a></p>
+<p>根据这张图，回到我们的示例，这里我们用的是B1850MOM，可知用的是全耦合的实验。如果开头是F的话，那么海洋海冰模式是不参与运转的，需要海表面的物理量了模式就会去读取现成的SST文件。</p>
+<p>–run-unsupported  的作用是：因为cesm2会给某些compsets设置“官方的”分辨率，表示这个分辨率是经过他们验证，充分可靠的，譬如FHIST的官方支持分辨率为f09_f09_mg17，但假如你就是想用f09_g17这个分辨率呢，也是可以跑。在创建case的时候不加–run-unsupported后面是会报错的。因此这个设置我理解的意思就是官方说“你小子用这个分辨率跑出来奇怪的结果可别找我，谁让你不用官方的分辨率”，哈哈开个玩笑。</p>
+<p>后面两个–compiler 与 –mach 是与你在一直模式过程中设置的config文件有关的，以–mach为例，指定了值后模式会进入~&#x2F;.cime&#x2F;config_machines.xml文件中读取与这个值相匹配的设置，并用到case的创建中，–compiler与之同理。这些应归于移植模式的设置，这里就不做讨论了。</p>
+<p><font size=6>以上是关于第一步创建case的介绍</font></p>
+<p>输入上述命令后如果不报错，成功出现以case名的文件夹，就说明成功了。</p>
+<h2 id="2-核数、年份等设置"><a href="#2-核数、年份等设置" class="headerlink" title="2.核数、年份等设置"></a>2.核数、年份等设置</h2><p>新建完case，那么就要开始对模式进行设置，此时模式的状态如下：</p>
+<p><a target="_blank" rel="noopener" href="https://z4a.net/image/2n9dn9"><img src="https://z4a.net/images/2022/06/18/ceeb653ely8gzmw4b464pj20c408gq38.jpg" alt="ceeb653ely8gzmw4b464pj20c408gq38.jpg"></a></p>
+<p>因此我们要告诉模式都要让他干什么，进入新创建的case文件夹后，对变量的修改推荐使用文件夹下的.&#x2F;xmlchange与.&#x2F;xmlquery脚本</p>
+<p>这里列举几个常用到的设置示例</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">./xmlchange NTASKS=-10</span><br><span class="line">./xmlchange STOP_OPTION=nyears</span><br><span class="line">./xmlchange STOP_N=2</span><br><span class="line">./xmlchange RESUBMIT=6</span><br><span class="line">./xmlchange REST_N=2</span><br><span class="line">./xmlchange REST_OPTION=nyears</span><br></pre></td></tr></table></figure>
+
+<p>下面分点对上述的命令进行讲解：</p>
+<ol>
+<li><p>关于核数的设置，一般cesm2在超算上跑，需要对模式使用的核数进行设置，这里我给NTASKS的值为-10，复数表示节点数，假如一个节点有28个核，那么最后我调用的总核数就是28*10&#x3D;280核。如果仅设置NTASKS的话，那么所有的分量都使用这个配置，若想对不同的分量模式给予不同的设置，可以分别设置NTASKS_ATM NTASKS_OCN等等。直接对NTASKS进行设置固然省事，但合理地对不同分量模式设置核数可以提高运算速度+节约计算时间（钱），这里推荐一篇文章里面比较详细地介绍了核数的设置，因本文旨在介绍运行的一般流程，故不做展开<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38607066/article/details/109445839"> CESM2 实验笔记_一株草的世界的博客-CSDN博客</a></p>
+</li>
+<li><p>STOP_OPTION应该跟STOP_N配合着来看，STOP_N+STOP_OPTION告诉模式运转 X（单位），这里我给STOP_N &#x3D; 2, STOP_OPTION&#x3D;nyears，因此模式就运转两年，但如果STOP_OPTION&#x3D;nmonths，那么就是模式运行2个月，ndays就是2天。</p>
+</li>
+<li><p>关于RESUBMIT，一般在超算上单次任务是有时间限制的，比如12个小时，超过这个值了就给你kill掉，因此我们要结合模式模拟的时间对任务进行分割并多次提交。这里我设置RESUBMIT为6，那么在模式跑完第一个2年后，模式会自动提交，接着跑两年，结束后再次自动提交，那么最终我们的模式跑了2+（6*2）&#x3D;14年。</p>
+</li>
+<li><p>REST_N和REST_OPTION这两个量也是配合起来看的，因为模式再重新提交之后它需要读取restart文件，才可以继续往下跑。这两个设置就是设置restart文件的输出频率，这里我设置的含义即为每2年输出一次start文件。</p>
+</li>
+</ol>
+<p>以上是关于模式设置几个常用到的量，但是不能覆盖所有情况，所有的量以及介绍可以在<a target="_blank" rel="noopener" href="https://www.cesm.ucar.edu/models/cesm2/settings/current/drv_input.html">CESM2 Driver Caseroot Variable Definitions (ucar.edu)</a>中找到。</p>
+<p>上述变量设置完毕后就可以执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./case.setup</span><br></pre></td></tr></table></figure>
+
+<p>上述变量就被读入模式设置里了</p>
+<h2 id="3-namelist的设置"><a href="#3-namelist的设置" class="headerlink" title="3.namelist的设置"></a>3.namelist的设置</h2><p>执行上述命令以后，模式会在当前文件夹下生成下面几个文件，格式均为user_nl_ + 分量名</p>
+<p><a target="_blank" rel="noopener" href="https://z4a.net/image/2n981J"><img src="https://z4a.net/images/2022/06/18/-2022-06-18-153550.png" alt="-2022-06-18-153550.png"></a></p>
+<p>如果不去修改这些文件，那么在编译的过程中模式会读取默认的设置，但如果你想对某些设置进行修改，那么就在这个文件下进行替换。那样的话模式在编译的过程中就会将你新给的量替换掉默认的设置。这里改哪个分量模式就去修改哪个namelist文件，譬如我要对大气模式进行修改那么就去改user_nl_cam文件</p>
+<p>官方主页有关于所有设置的介绍，这里分享链接<a target="_blank" rel="noopener" href="https://www.cesm.ucar.edu/models/cesm2/settings/current/index.html">CESM2 Component Configuration Settings (ucar.edu)</a></p>
+<p>譬如你想增加输出的变量，那么就在user_nl_cam文件中的空白处加一行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fincl2         = &#x27;U:A&#x27;,&#x27;V:A&#x27;,&#x27;OMEGA:A&#x27;,&#x27;T:A&#x27;,&#x27;PRECT:A&#x27;,&#x27;SHFLX:A&#x27;,&#x27;LHFLX:A&#x27;,&#x27;Q:A&#x27;,&#x27;TS:A&#x27;</span><br><span class="line">nhtfrq         = 0,-24</span><br><span class="line">mfilt          = 12,1</span><br></pre></td></tr></table></figure>
+
+<p>那么模式在运行过程中输出变量就会有一组新的变量，等号右边的这些量。’:A’表示’平均的意思‘，nhtfrq意思为输出频率，负数代表“小时”，0表示“月平均”，mfilt表示一个文件里有几个时间样本。</p>
+<p>那么上述三行综合起来看就是，在我新增加的这些变量，每24小时输出一次（-24），得到的值为在这24小时内的平均值，每个文件包含1个时次。nhtfrq的0和mfilt的12是对大气模式默认的输出进行设置。后面的（-24，1）则是对应fincl2的设置。</p>
+<h2 id="4-源代码的修改"><a href="#4-源代码的修改" class="headerlink" title="4. 源代码的修改"></a>4. 源代码的修改</h2><p>有时候需要对模式进行深层次的修改，那么就需要修改源代码。模式源代码位置在{CESM_HOME}&#x2F;component下面，一般是不在这里进行模式代码的修改的。如果需要修改的话就找到相应的模式代码把它拷贝到case目录下面的SourceMods对应位置，在编译的时候就自动会将新的代码覆盖掉旧的代码了。</p>
+<h2 id="5-编译"><a href="#5-编译" class="headerlink" title="5. 编译"></a>5. 编译</h2><p>如果不需要进行源代码的修改，再进行完第三步就可以输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./case.build</span><br></pre></td></tr></table></figure>
+
+<p>进行编译了，编译成功后.&#x2F;case.submit脚本是提交运算的脚本，但如果在超算上面提交的话是需要写一个提交脚本再提交的，以上就是cesm2运行的一般流程。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/06/18/CESM2%E8%BF%90%E8%A1%8C%E7%AE%80%E6%98%8E%E6%95%99%E7%A8%8B/" data-id="cli09rpsv000g5ov39kwiamoj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CESM2/" rel="tag">CESM2</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-科学杂记" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2022/06/16/%E7%A7%91%E5%AD%A6%E6%9D%82%E8%AE%B0/" class="article-date">
@@ -924,52 +1025,6 @@
 
 
   
-    <article id="post-码知识" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/04/30/%E7%A0%81%E7%9F%A5%E8%AF%86/" class="article-date">
-  <time datetime="2022-04-30T03:21:57.000Z" itemprop="datePublished">2022-04-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/04/30/%E7%A0%81%E7%9F%A5%E8%AF%86/">码知识</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="记录一下日常看到的干货，不然就都忘了"><a href="#记录一下日常看到的干货，不然就都忘了" class="headerlink" title="记录一下日常看到的干货，不然就都忘了"></a>记录一下日常看到的干货，不然就都忘了</h1><p>张姆斯的PS教程，在知乎上收藏了</p>
-<p>史学书籍推荐，知乎上收藏了</p>
-<p>在twitter上看到的一个偏微分方程的python库，很牛逼，虽然我看不懂<a target="_blank" rel="noopener" href="https://dedalus-project.readthedocs.io/en/latest/index.html">Dedalus Project — Dedalus Project documentation (dedalus-project.readthedocs.io)</a></p>
-<p>论美国的民主 托克维尔  这本书好像写的很好</p>
-<p>复旦大学整理出来的优秀外国教材</p>
-<p><a target="_blank" rel="noopener" href="http://www.library.fudan.edu.cn/wjzx/2019njybgjskt/list.htm">http://www.library.fudan.edu.cn/wjzx/2019njybgjskt/list.htm</a></p>
-<p>github上关于CS的学习之路</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/spring2go/cs_study_plan">https://github.com/spring2go/cs_study_plan</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/04/30/%E7%A0%81%E7%9F%A5%E8%AF%86/" data-id="cli09rpui00535ov3aewh2rki" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A0%81/" rel="tag">码</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -1005,7 +1060,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CESM/" style="font-size: 18px;">CESM</a> <a href="/tags/CESM2/" style="font-size: 14px;">CESM2</a> <a href="/tags/English/" style="font-size: 12px;">English</a> <a href="/tags/Julia/" style="font-size: 10px;">Julia</a> <a href="/tags/ML/" style="font-size: 10px;">ML</a> <a href="/tags/PS/" style="font-size: 10px;">PS</a> <a href="/tags/Reading/" style="font-size: 10px;">Reading</a> <a href="/tags/computer/" style="font-size: 16px;">computer</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/esp32/" style="font-size: 10px;">esp32</a> <a href="/tags/git/" style="font-size: 14px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/history/" style="font-size: 10px;">history</a> <a href="/tags/knowledge-base/" style="font-size: 10px;">knowledge base</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/linux-command/" style="font-size: 10px;">linux command</a> <a href="/tags/mac/" style="font-size: 14px;">mac</a> <a href="/tags/macOS/" style="font-size: 10px;">macOS</a> <a href="/tags/other/" style="font-size: 12px;">other</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/read/" style="font-size: 10px;">read</a> <a href="/tags/reading-record/" style="font-size: 10px;">reading record</a> <a href="/tags/settings/" style="font-size: 10px;">settings</a> <a href="/tags/statistics/" style="font-size: 12px;">statistics</a> <a href="/tags/website/" style="font-size: 10px;">website</a> <a href="/tags/writing/" style="font-size: 10px;">writing</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">学习笔记</a> <a href="/tags/%E6%91%84%E5%BD%B1/" style="font-size: 14px;">摄影</a> <a href="/tags/%E6%95%85%E9%9A%9C/" style="font-size: 10px;">故障</a> <a href="/tags/%E6%96%87%E5%AD%A6/" style="font-size: 10px;">文学</a> <a href="/tags/%E6%97%A5%E8%AE%B0/" style="font-size: 10px;">日记</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%B0%94%E8%B1%A1/" style="font-size: 10px;">气象</a> <a href="/tags/%E7%A0%81/" style="font-size: 10px;">码</a> <a href="/tags/%E7%A7%91%E6%99%AE%E7%9F%A5%E8%AF%86/" style="font-size: 10px;">科普知识</a> <a href="/tags/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/" style="font-size: 10px;">科研记录</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" style="font-size: 12px;">计算机</a> <a href="/tags/%E8%AE%B0%E5%BD%95/" style="font-size: 12px;">记录</a> <a href="/tags/%E8%AF%BB%E6%96%87%E7%8C%AE/" style="font-size: 10px;">读文献</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%85%E6%80%9D/" style="font-size: 10px;">雅思</a>
+      <a href="/tags/CESM/" style="font-size: 18.33px;">CESM</a> <a href="/tags/CESM2/" style="font-size: 13.33px;">CESM2</a> <a href="/tags/English/" style="font-size: 11.67px;">English</a> <a href="/tags/Julia/" style="font-size: 10px;">Julia</a> <a href="/tags/ML/" style="font-size: 10px;">ML</a> <a href="/tags/PS/" style="font-size: 10px;">PS</a> <a href="/tags/Reading/" style="font-size: 10px;">Reading</a> <a href="/tags/computer/" style="font-size: 16.67px;">computer</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/esp32/" style="font-size: 10px;">esp32</a> <a href="/tags/git/" style="font-size: 13.33px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/history/" style="font-size: 10px;">history</a> <a href="/tags/knowledge-base/" style="font-size: 10px;">knowledge base</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/linux-command/" style="font-size: 10px;">linux command</a> <a href="/tags/mac/" style="font-size: 13.33px;">mac</a> <a href="/tags/macOS/" style="font-size: 10px;">macOS</a> <a href="/tags/other/" style="font-size: 11.67px;">other</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/read/" style="font-size: 10px;">read</a> <a href="/tags/reading-record/" style="font-size: 10px;">reading record</a> <a href="/tags/settings/" style="font-size: 10px;">settings</a> <a href="/tags/statistics/" style="font-size: 11.67px;">statistics</a> <a href="/tags/website/" style="font-size: 10px;">website</a> <a href="/tags/writing/" style="font-size: 10px;">writing</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">学习笔记</a> <a href="/tags/%E6%91%84%E5%BD%B1/" style="font-size: 13.33px;">摄影</a> <a href="/tags/%E6%95%85%E9%9A%9C/" style="font-size: 10px;">故障</a> <a href="/tags/%E6%96%87%E5%AD%A6/" style="font-size: 10px;">文学</a> <a href="/tags/%E6%97%A5%E8%AE%B0/" style="font-size: 10px;">日记</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%B0%94%E8%B1%A1/" style="font-size: 10px;">气象</a> <a href="/tags/%E7%A0%81/" style="font-size: 10px;">码</a> <a href="/tags/%E7%A7%91%E6%99%AE%E7%9F%A5%E8%AF%86/" style="font-size: 10px;">科普知识</a> <a href="/tags/%E7%A7%91%E7%A0%94%E8%AE%B0%E5%BD%95/" style="font-size: 10px;">科研记录</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" style="font-size: 11.67px;">计算机</a> <a href="/tags/%E8%AE%B0%E5%BD%95/" style="font-size: 11.67px;">记录</a> <a href="/tags/%E8%AF%BB%E6%96%87%E7%8C%AE/" style="font-size: 10px;">读文献</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a> <a href="/tags/%E9%9B%85%E6%80%9D/" style="font-size: 10px;">雅思</a>
     </div>
   </div>
 
@@ -1027,6 +1082,10 @@
       <ul>
         
           <li>
+            <a href="/2023/06/19/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8C%82%E8%BD%BD%E7%A7%BB%E5%8A%A8%E7%A1%AC%E7%9B%98/">树莓派挂载移动硬盘</a>
+          </li>
+        
+          <li>
             <a href="/2023/06/07/%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BDERA5%E6%95%B0%E6%8D%AE%E5%90%8E%E6%8C%91%E5%87%BA%E5%BC%82%E5%B8%B8%E6%96%87%E4%BB%B6/">批量下载ERA5数据后挑出异常文件</a>
           </li>
         
@@ -1040,10 +1099,6 @@
         
           <li>
             <a href="/2023/05/24/%E5%88%A9%E7%94%A8cdo%E5%81%9A%E4%B8%80%E4%BA%9B%E8%AE%A1%E7%AE%97/">利用cdo做一些计算</a>
-          </li>
-        
-          <li>
-            <a href="/2023/05/23/README/">(no title)</a>
           </li>
         
       </ul>
